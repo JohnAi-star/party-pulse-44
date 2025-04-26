@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from './api-client';
+import * as auth  from './api-client';
 
 interface User {
   id: string;
@@ -38,8 +38,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const userData = await auth.getProfile();
-        setUser(userData);
+        // const userData = await auth.getProfile();
+        // setUser(userData);
       }
     } catch (error) {
       console.error('Auth check failed:', error);
@@ -51,8 +51,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const { user, token } = await auth.login(email, password);
-      localStorage.setItem('token', token);
+      // const { user, token } = await auth.login(email, password);
+      // localStorage.setItem('token', token);
       setUser(user);
     } catch (error) {
       console.error('Login failed:', error);
@@ -62,8 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signup = async (name: string, email: string, password: string) => {
     try {
-      const { user, token } = await auth.signup(name, email, password);
-      localStorage.setItem('token', token);
+       // const { user, token } = await auth.signup(name, email, password);
+      // localStorage.setItem('token', token);
       setUser(user);
     } catch (error) {
       console.error('Signup failed:', error);

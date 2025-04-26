@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { PrismaClient, PaymentStatus, BookingStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import Stripe from 'stripe';
 import { authenticate } from '../middleware/auth';
 import { ApiError } from '../utils/ApiError';
@@ -7,7 +7,7 @@ import { ApiError } from '../utils/ApiError';
 const router = Router();
 const prisma = new PrismaClient();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-03-31.basil',
+  apiVersion: '2023-10-16',
 });
 
 // Create checkout session
@@ -64,7 +64,7 @@ router.post('/create-checkout-session', authenticate, async (req, res, next) => 
         userId: booking.userId,
         amount: totalAmount,
         currency: 'gbp',
-        status: PaymentStatus.PENDING,
+        status: 'PENDING',
         stripeId: session.id,
       },
     });
@@ -97,7 +97,7 @@ router.post('/webhook', async (req, res, next) => {
               stripeId: session.id,
             },
             data: {
-              status: PaymentStatus.COMPLETED,
+              status: 'COMPLETED',
             },
           }),
           prisma.booking.update({
@@ -105,7 +105,7 @@ router.post('/webhook', async (req, res, next) => {
               id: bookingId,
             },
             data: {
-              status: BookingStatus.CONFIRMED,
+              status: 'COMPLETED',
             },
           }),
         ]);
