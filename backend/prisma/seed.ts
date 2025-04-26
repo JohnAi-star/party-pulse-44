@@ -1,4 +1,9 @@
-import { PrismaClient, Role } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+
+enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
 import bcrypt from 'bcryptjs';
 import { MOCK_ACTIVITIES } from '../../lib/constants';
 
