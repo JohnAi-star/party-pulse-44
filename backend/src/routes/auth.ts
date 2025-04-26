@@ -2,12 +2,20 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { ApiError } from '../utils/ApiError';
 import { validate } from '../middleware/validate';
 
 const router = Router();
 const prisma = new PrismaClient();
+
+// Validate environment variables
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined in environment variables.');
+}
 
 // Signup
 router.post(
@@ -31,6 +39,7 @@ router.post(
       }
 
       const passwordHash = await bcrypt.hash(password, 12);
+
       const user = await prisma.user.create({
         data: {
           email,
@@ -45,10 +54,12 @@ router.post(
         },
       });
 
+      // const signOptions: SignOptions = { expiresIn: JWT_EXPIRES_IN };
+
       const token = jwt.sign(
         { userId: user.id, role: user.role },
-        process.env.JWT_SECRET!,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
+        JWT_SECRET,
+      //  signOptions
       );
 
       res.json({ user, token });
@@ -79,14 +90,17 @@ router.post(
       }
 
       const isValidPassword = await bcrypt.compare(password, user.passwordHash);
+
       if (!isValidPassword) {
         throw new ApiError(401, 'Invalid credentials');
       }
 
+      // const signOptions: SignOptions = { expiresIn: JWT_EXPIRES_IN };
+
       const token = jwt.sign(
         { userId: user.id, role: user.role },
-        process.env.JWT_SECRET!,
-        { expiresIn: process.env.JWT_EXPIRES_IN }
+        JWT_SECRET,
+      //  signOptions
       );
 
       res.json({
