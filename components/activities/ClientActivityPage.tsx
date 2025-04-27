@@ -17,7 +17,25 @@ import {
 import BookingForm from '@/components/activities/BookingForm';
 import RelatedActivities from '@/components/activities/RelatedActivities';
 
-export default function ClientActivityPage({ activity, images }: { activity: any; images: string[] }) {
+interface Activity {
+  id: string;
+  title: string;
+  description: string;
+  city: string;
+  priceFrom: number;
+  image: string;
+  category: string;
+  rating: number;
+  duration: string;
+  groupSize: string;
+}
+
+interface ClientActivityPageProps {
+  activity: Activity;
+  images: string[];
+}
+
+export default function ClientActivityPage({ activity, images }: ClientActivityPageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const nextImage = () => {
@@ -50,30 +68,34 @@ export default function ClientActivityPage({ activity, images }: { activity: any
               fill
               priority
             />
-            <Button 
-              variant="secondary" 
-              size="icon" 
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80"
-              onClick={prevImage}
-            >
-              <ChevronLeft />
-            </Button>
-            <Button 
-              variant="secondary" 
-              size="icon" 
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80"
-              onClick={nextImage}
-            >
-              <ChevronRight />
-            </Button>
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
-              {images.map((_, index) => (
-                <div 
-                  key={index} 
-                  className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
-                />
-              ))}
-            </div>
+            {images.length > 1 && (
+              <>
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80"
+                  onClick={prevImage}
+                >
+                  <ChevronLeft />
+                </Button>
+                <Button 
+                  variant="secondary" 
+                  size="icon" 
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80"
+                  onClick={nextImage}
+                >
+                  <ChevronRight />
+                </Button>
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+                  {images.map((_, index) => (
+                    <div 
+                      key={index} 
+                      className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Activity Info */}
@@ -96,12 +118,49 @@ export default function ClientActivityPage({ activity, images }: { activity: any
             </TabsList>
             <TabsContent value="description" className="mt-4">
               <p className="mb-4">{activity.description}</p>
-              <p className="mb-4">
-                Join us for an unforgettable experience...
-              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div className="flex items-center space-x-2">
+                  <Clock className="h-5 w-5 text-purple-600" />
+                  <div>
+                    <p className="font-medium">Duration</p>
+                    <p className="text-sm text-muted-foreground">{activity.duration}</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Users className="h-5 w-5 text-purple-600" />
+                  <div>
+                    <p className="font-medium">Group Size</p>
+                    <p className="text-sm text-muted-foreground">{activity.groupSize} people</p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <MapPin className="h-5 w-5 text-purple-600" />
+                  <div>
+                    <p className="font-medium">Location</p>
+                    <p className="text-sm text-muted-foreground">{activity.city}</p>
+                  </div>
+                </div>
+              </div>
             </TabsContent>
             <TabsContent value="details" className="mt-4">
-              {/* Same details cards */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold">What's Included</h3>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                  <li>Professional instructor</li>
+                  <li>All necessary equipment</li>
+                  <li>Welcome drink</li>
+                  <li>Photos of your experience</li>
+                  <li>Insurance coverage</li>
+                </ul>
+                
+                <h3 className="text-lg font-semibold mt-6">Important Information</h3>
+                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                  <li>Arrive 15 minutes before start time</li>
+                  <li>Comfortable clothing recommended</li>
+                  <li>No experience necessary</li>
+                  <li>Minimum age: 18 years</li>
+                </ul>
+              </div>
             </TabsContent>
             <TabsContent value="reviews" className="mt-4">
               <p className="text-center py-8 text-muted-foreground">
