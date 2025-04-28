@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
@@ -13,11 +11,11 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import { bookings, payments } from '@/lib/api-client';
-import { loadStripe } from '@stripe/stripe-js';
+// import { loadStripe } from '@stripe/stripe-js';
 import AuthModal from '@/components/auth/AuthModal';
 import { useToast } from '@/hooks/use-toast';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface BookingFormProps {
   activity: {
@@ -67,8 +65,8 @@ export default function BookingForm({ activity }: BookingFormProps) {
       const { sessionId } = await payments.createCheckoutSession(booking.id);
 
       // Redirect to Stripe Checkout
-      const stripe = await stripePromise;
-      await stripe?.redirectToCheckout({ sessionId });
+      // const stripe = await stripePromise;
+      // await stripe?.redirectToCheckout({ sessionId });
     } catch (error) {
       toast({
         variant: 'destructive',
