@@ -2,6 +2,8 @@ import { MOCK_ACTIVITIES } from '@/lib/constants';
 import ClientActivityPage from '@/components/activities/ClientActivityPage';
 import { notFound } from 'next/navigation';
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return MOCK_ACTIVITIES.map((activity) => ({
     id: activity.id,
