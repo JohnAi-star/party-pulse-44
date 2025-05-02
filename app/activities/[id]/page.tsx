@@ -16,8 +16,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
   const activity = MOCK_ACTIVITIES.find((a) => a.id === params.id);
 
   if (!activity) {
-    notFound();
-    return null;
+    return notFound();
   }
 
   return <ClientActivityPage activity={activity} images={[activity.image]} />;
