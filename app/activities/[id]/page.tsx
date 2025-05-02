@@ -4,14 +4,15 @@ import ClientActivityPage from '@/components/activities/ClientActivityPage';
 import { notFound } from 'next/navigation';
 import { Metadata, ResolvingMetadata } from 'next';
 
-// This ensures the page is always fresh
+// ✅ Ensure the page is always dynamically rendered
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
+export const dynamicParams = true;
 
 type Props = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 export async function generateMetadata(
   { params }: Props,
@@ -53,7 +54,6 @@ export async function generateMetadata(
 
 export default async function ActivityDetailPage({ params }: Props) {
   try {
-    // Validate params
     if (!params.id) {
       return notFound();
     }
@@ -64,13 +64,11 @@ export default async function ActivityDetailPage({ params }: Props) {
       return notFound();
     }
 
-    // Get similar activities for the related activities section
     const relatedActivities = MOCK_ACTIVITIES
-      .filter(a => a.id !== activity.id && a.category === activity.category)
+      .filter((a) => a.id !== activity.id && a.category === activity.category)
       .slice(0, 3)
-      .map(a => a.image);
+      .map((a) => a.image);
 
-    // Combine the main activity image with related activity images
     const allImages = [activity.image, ...relatedActivities];
 
     return <ClientActivityPage activity={activity} images={allImages} />;
@@ -78,11 +76,4 @@ export default async function ActivityDetailPage({ params }: Props) {
     console.error('Error in ActivityDetailPage:', error);
     throw new Error('Failed to load activity');
   }
-}
-
-// Generate static paths for all activities
-export async function generateStaticParams() {
-  return MOCK_ACTIVITIES.map((activity) => ({
-    id: activity.id,
-  }));
 }
