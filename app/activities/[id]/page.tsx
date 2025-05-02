@@ -1,8 +1,10 @@
+// app/activities/[id]/page.tsx
 import { MOCK_ACTIVITIES } from '@/lib/constants';
 import ClientActivityPage from '@/components/activities/ClientActivityPage';
 import { notFound } from 'next/navigation';
 
-export const dynamicParams = false;
+// This enables static generation for known paths
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   return MOCK_ACTIVITIES.map((activity) => ({
@@ -15,6 +17,7 @@ export default function ActivityDetailPage({ params }: { params: { id: string } 
 
   if (!activity) {
     notFound();
+    return null;
   }
 
   return <ClientActivityPage activity={activity} images={[activity.image]} />;
