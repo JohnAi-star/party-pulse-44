@@ -11,11 +11,11 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import { bookings, payments } from '@/lib/api-client';
-// import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import AuthModal from '@/components/auth/AuthModal';
 import { useToast } from '@/hooks/use-toast';
 
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 interface BookingFormProps {
   activity: {
@@ -65,8 +65,8 @@ export default function BookingForm({ activity }: BookingFormProps) {
       const { sessionId } = await payments.createCheckoutSession(booking.id);
 
       // Redirect to Stripe Checkout
-      // const stripe = await stripePromise;
-      // await stripe?.redirectToCheckout({ sessionId });
+      const stripe = await stripePromise;
+      await stripe?.redirectToCheckout({ sessionId });
     } catch (error) {
       toast({
         variant: 'destructive',
