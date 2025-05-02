@@ -2,10 +2,6 @@
   eslint: {
     ignoreDuringBuilds: true,
   },
-  reactStrictMode: true,
-  experimental: {
-    appDir: true,
-  },
   images: {
     unoptimized: true,
     domains: ['images.pexels.com'],
