@@ -9,7 +9,11 @@ interface ActivityGridProps {
     priceFrom: number;
     image: string;
     category: string;
+    subcategory: string;
+    region: string;
     rating: number;
+    duration: string;
+    groupSize: string;
   }[];
 }
 
