@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin } from 'lucide-react';
+import { Star, MapPin, Clock, Users } from 'lucide-react';
 
 interface ActivityCardProps {
   activity: {
@@ -11,10 +11,14 @@ interface ActivityCardProps {
     title: string;
     description: string;
     city: string;
+    region: string;
     priceFrom: number;
     image: string;
     category: string;
+    subcategory: string;
     rating: number;
+    duration: string;
+    groupSize: string;
   };
 }
 
@@ -29,30 +33,46 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             fill
             className="object-cover"
           />
-          <Badge className="absolute top-3 left-3 bg-gradient-to-r from-purple-600 to-pink-600">
-            {activity.category}
-          </Badge>
-        </div>
-        
-        <CardContent className="py-5 flex-grow">
-          <div className="flex items-center text-sm text-muted-foreground mb-2">
-            <MapPin className="h-4 w-4 mr-1" />
-            <span>{activity.city}</span>
-            <span className="mx-2">•</span>
-            <Star className="h-4 w-4 text-yellow-400 mr-1" />
-            <span>{activity.rating}</span>
+          <div className="absolute top-3 left-3 flex gap-2">
+            <Badge className="bg-gradient-to-r from-purple-600 to-pink-600">
+              {activity.category}
+            </Badge>
+            <Badge variant="outline" className="bg-white/80">
+              {activity.subcategory}
+            </Badge>
           </div>
-          
+        </div>
+
+        <CardContent className="py-5 flex-grow">
+          <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-2">
+            <div className="flex items-center">
+              <MapPin className="h-4 w-4 mr-1" />
+              <span>{activity.city}</span>
+            </div>
+            <div className="flex items-center">
+              <Star className="h-4 w-4 text-yellow-400 mr-1" />
+              <span>{activity.rating}</span>
+            </div>
+            <div className="flex items-center">
+              <Clock className="h-4 w-4 mr-1" />
+              <span>{activity.duration}</span>
+            </div>
+            <div className="flex items-center">
+              <Users className="h-4 w-4 mr-1" />
+              <span>{activity.groupSize}</span>
+            </div>
+          </div>
+
           <h3 className="font-bold text-xl mb-2 line-clamp-1">{activity.title}</h3>
           <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
             {activity.description}
           </p>
           <p className="font-semibold">From £{activity.priceFrom}pp</p>
         </CardContent>
-        
+
         <CardFooter className="pt-0">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="w-full group-hover:bg-gradient-to-r group-hover:from-purple-600 group-hover:to-pink-600 group-hover:text-white transition-colors"
           >
             View Details

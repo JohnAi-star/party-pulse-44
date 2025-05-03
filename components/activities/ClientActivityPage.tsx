@@ -12,22 +12,33 @@ import {
   Users,
   Star,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Check
 } from 'lucide-react';
 import BookingForm from '@/components/activities/BookingForm';
 import RelatedActivities from '@/components/activities/RelatedActivities';
+import { Badge } from '@/components/ui/badge';
 
 interface Activity {
   id: string;
   title: string;
   description: string;
   city: string;
+  region: string;
   priceFrom: number;
   image: string;
   category: string;
+  subcategory: string;
   rating: number;
   duration: string;
   groupSize: string;
+  features: string[];
+  availability: string[];
+  location: {
+    address: string;
+    postcode: string;
+    coordinates: { lat: number; lng: number };
+  };
 }
 
 interface ClientActivityPageProps {
@@ -99,14 +110,29 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
           </div>
 
           {/* Activity Info */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <Badge variant="secondary">{activity.category}</Badge>
+            <Badge variant="outline">{activity.subcategory}</Badge>
+          </div>
+          
           <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
-          <div className="flex items-center mb-4">
-            <MapPin className="h-4 w-4 text-muted-foreground mr-1" />
-            <span className="text-muted-foreground mr-4">{activity.city}</span>
-            <Star className="h-4 w-4 text-yellow-400 mr-1" />
-            <span className="mr-4">{activity.rating} (42 reviews)</span>
-            <Users className="h-4 w-4 text-muted-foreground mr-1" />
-            <span className="text-muted-foreground">{activity.groupSize}</span>
+          <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
+            <div className="flex items-center">
+              <MapPin className="h-4 w-4 text-muted-foreground mr-1" />
+              <span className="text-muted-foreground">{activity.city}, {activity.region}</span>
+            </div>
+            <div className="flex items-center">
+              <Star className="h-4 w-4 text-yellow-400 mr-1" />
+              <span>{activity.rating} (42 reviews)</span>
+            </div>
+            <div className="flex items-center">
+              <Users className="h-4 w-4 text-muted-foreground mr-1" />
+              <span className="text-muted-foreground">{activity.groupSize}</span>
+            </div>
+            <div className="flex items-center">
+              <Clock className="h-4 w-4 text-muted-foreground mr-1" />
+              <span className="text-muted-foreground">{activity.duration}</span>
+            </div>
           </div>
 
           {/* Tabs */}
@@ -114,11 +140,25 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
             <TabsList>
               <TabsTrigger value="description">Description</TabsTrigger>
               <TabsTrigger value="details">Details</TabsTrigger>
+              <TabsTrigger value="location">Location</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
+            
             <TabsContent value="description" className="mt-4">
-              <p className="mb-4">{activity.description}</p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+              <p className="mb-6">{activity.description}</p>
+              
+              <h3 className="text-lg font-semibold mb-4">Key Features</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+                {activity.features.map((feature, index) => (
+                  <div key={index} className="flex items-center">
+                    <Check className="h-5 w-5 text-green-500 mr-2" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <h3 className="text-lg font-semibold mb-4">Activity Details</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-2">
                   <Clock className="h-5 w-5 text-purple-600" />
                   <div>
@@ -134,38 +174,88 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <MapPin className="h-5 w-5 text-purple-600" />
+                  <Calendar className="h-5 w-5 text-purple-600" />
                   <div>
-                    <p className="font-medium">Location</p>
-                    <p className="text-sm text-muted-foreground">{activity.city}</p>
+                    <p className="font-medium">Available</p>
+                    <p className="text-sm text-muted-foreground">
+                      {activity.availability.slice(0, 3).join(', ')}
+                      {activity.availability.length > 3 && '...'}
+                    </p>
                   </div>
                 </div>
               </div>
             </TabsContent>
+
             <TabsContent value="details" className="mt-4">
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold">What's Included</h3>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>Professional instructor</li>
-                  <li>All necessary equipment</li>
-                  <li>Welcome drink</li>
-                  <li>Photos of your experience</li>
-                  <li>Insurance coverage</li>
-                </ul>
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">What's Included</h3>
+                  <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                    {activity.features.map((feature, index) => (
+                      <li key={index}>{feature}</li>
+                    ))}
+                  </ul>
+                </div>
                 
-                <h3 className="text-lg font-semibold mt-6">Important Information</h3>
-                <ul className="list-disc list-inside space-y-2 text-muted-foreground">
-                  <li>Arrive 15 minutes before start time</li>
-                  <li>Comfortable clothing recommended</li>
-                  <li>No experience necessary</li>
-                  <li>Minimum age: 18 years</li>
-                </ul>
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Important Information</h3>
+                  <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+                    <li>Arrive 15 minutes before start time</li>
+                    <li>Comfortable clothing recommended</li>
+                    <li>No experience necessary</li>
+                    <li>Minimum age: 18 years</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Cancellation Policy</h3>
+                  <p className="text-muted-foreground">
+                    Free cancellation up to 48 hours before the activity. 
+                    Cancellations made within 48 hours of the activity are non-refundable.
+                  </p>
+                </div>
               </div>
             </TabsContent>
+
+            <TabsContent value="location" className="mt-4">
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Address</h3>
+                  <p className="text-muted-foreground">{activity.location.address}</p>
+                  <p className="text-muted-foreground">{activity.city}</p>
+                  <p className="text-muted-foreground">{activity.location.postcode}</p>
+                </div>
+
+                <div className="aspect-video relative rounded-lg overflow-hidden">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${activity.location.coordinates.lat},${activity.location.coordinates.lng}`}
+                  ></iframe>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-semibold mb-3">Getting There</h3>
+                  <div className="space-y-2 text-muted-foreground">
+                    <p>Nearest public transport:</p>
+                    <ul className="list-disc list-inside">
+                      <li>Bus: Routes 12, 24, 88 (2 min walk)</li>
+                      <li>Train: Central Station (10 min walk)</li>
+                      <li>Parking available on site</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+
             <TabsContent value="reviews" className="mt-4">
-              <p className="text-center py-8 text-muted-foreground">
-                Reviews will be displayed here
-              </p>
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Reviews coming soon!</p>
+              </div>
             </TabsContent>
           </Tabs>
         </div>
@@ -187,7 +277,11 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
       {/* Related Activities */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
-        <RelatedActivities currentActivityId={activity.id} category={activity.category} />
+        <RelatedActivities 
+          currentActivityId={activity.id} 
+          category={activity.category}
+          city={activity.city}
+        />
       </div>
     </div>
   );
