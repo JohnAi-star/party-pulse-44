@@ -64,7 +64,13 @@ export default function ActivitiesPage() {
       filteredActivities = activitiesWithScores
         .filter(activity => activity.relevanceScore > 0)
         .sort((a, b) => b.relevanceScore - a.relevanceScore)
-        .map(({ relevanceScore, ...activity }) => activity);
+        .map(({ relevanceScore, ...activity }) => ({
+          ...activity,
+          region: activity.region || '',
+          subcategory: activity.subcategory || '',
+          duration: activity.duration || '',
+          groupSize: activity.groupSize || '',
+        }));
     }
 
     // Apply additional filters
