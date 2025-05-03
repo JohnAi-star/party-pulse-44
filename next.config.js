@@ -7,7 +7,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  output: 'export',
   trailingSlash: true,
   // Add static routes that don't need dynamic params
   exportPathMap: async function() {
