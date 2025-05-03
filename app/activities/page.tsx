@@ -43,7 +43,9 @@ export default function ActivitiesPage() {
   const [activities, setActivities] = useState(MOCK_ACTIVITIES);
   const [filters, setFilters] = useState({
     category: '',
+    subcategory: '',
     location: '',
+    region: '',
     priceRange: [0, 100],
     groupSize: '',
   });
