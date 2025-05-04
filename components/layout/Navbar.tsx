@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
-import { Menu, Search, X, PartyPopper, UserCircle2, Shield } from 'lucide-react';
+import { Menu, Search, X, PartyPopper, UserCircle2, Shield, MapPin } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,16 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 import { useUser, SignInButton, SignOutButton, useClerk } from "@clerk/nextjs";
+import { REGIONS, CITIES } from '@/lib/constants';
 
 const navLinks = [
   { href: '/activities', label: 'Activities' },
@@ -41,6 +50,10 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent side="left" className="w-[250px] sm:w-[300px]">
             <nav className="flex flex-col gap-4 mt-8">
+              <Link href="/activities" className="flex items-center text-lg font-medium">
+                <MapPin className="h-4 w-4 mr-2" />
+                Select a destination
+              </Link>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -66,6 +79,55 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <nav className="hidden lg:flex items-center space-x-6">
+          <NavigationMenu>
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="bg-transparent">
+                  <MapPin className="h-4 w-4 mr-2" />
+                  Select a destination
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <div className="grid grid-cols-2 gap-3 p-4 w-[600px] max-h-[400px] overflow-y-auto">
+                    <div>
+                      <h3 className="font-medium mb-2 px-2">Popular Destinations</h3>
+                      <div className="grid gap-1">
+                        {CITIES.slice(0, 31).map((city) => (
+                          <Link
+                            key={city.id}
+                            href={`/activities?location=${city.id}`}
+                            className="block px-2 py-1 hover:bg-muted rounded-md"
+                          >
+                            {city.name}
+                            <span className="text-sm text-muted-foreground ml-2">
+                              ({city.activities})
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-medium mb-2 px-2">Regions</h3>
+                      <div className="grid gap-1">
+                        {REGIONS.map((region) => (
+                          <Link
+                            key={region.id}
+                            href={`/activities?region=${region.id}`}
+                            className="block px-2 py-1 hover:bg-muted rounded-md"
+                          >
+                            {region.name}
+                            <span className="text-sm text-muted-foreground ml-2">
+                              ({region.activities})
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
+
           {navLinks.map((link) => (
             <Link
               key={link.href}

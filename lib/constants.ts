@@ -266,82 +266,142 @@ export const CITIES = [
   {
     id: 'london',
     name: 'London',
-    region: 'Greater London',
+    region: 'England',
     image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg',
-    description: 'Discover exciting group activities in the heart of the capital',
+    description: 'Experience the best group activities in the capital',
     activities: 150,
     coordinates: { lat: 51.5074, lng: -0.1278 },
-    popularCategories: ['Hen Do', 'Corporate', 'Birthday']
+    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday', 'Christmas']
   },
   {
     id: 'manchester',
     name: 'Manchester',
-    region: 'North West',
+    region: 'England',
     image: 'https://images.pexels.com/photos/1942321/pexels-photo-1942321.jpeg',
     description: 'From cocktail making to escape rooms, Manchester has it all',
-    activities: 89,
+    activities: 120,
     coordinates: { lat: 53.4808, lng: -2.2426 },
-    popularCategories: ['Stag Do', 'Team Building', 'Birthday']
+    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday', 'Christmas']
   },
   {
     id: 'birmingham',
     name: 'Birmingham',
-    region: 'West Midlands',
+    region: 'England',
     image: 'https://images.pexels.com/photos/6045083/pexels-photo-6045083.jpeg',
     description: 'The perfect destination for unforgettable group experiences',
-    activities: 76,
+    activities: 95,
     coordinates: { lat: 52.4862, lng: -1.8904 },
-    popularCategories: ['Corporate', 'Kids', 'Team Building']
+    popularCategories: ['Hen Do', 'Birthday', 'Christmas']
+  },
+  {
+    id: 'liverpool',
+    name: 'Liverpool',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/552766/pexels-photo-552766.jpeg',
+    description: 'Experience the best group activities in the cultural capital',
+    activities: 85,
+    coordinates: { lat: 53.4084, lng: -2.9916 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Group Activities', 'Christmas']
+  },
+  {
+    id: 'newcastle',
+    name: 'Newcastle',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/2662792/pexels-photo-2662792.jpeg',
+    description: 'The North East\'s top destination for celebrations',
+    activities: 80,
+    coordinates: { lat: 54.9783, lng: -1.6178 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday']
+  },
+  {
+    id: 'leeds',
+    name: 'Leeds',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/6488512/pexels-photo-6488512.jpeg',
+    description: 'Yorkshire\'s finest selection of group experiences',
+    activities: 75,
+    coordinates: { lat: 53.8008, lng: -1.5491 },
+    popularCategories: ['Hen Do', 'Birthday', 'Team Building']
+  },
+  {
+    id: 'bristol',
+    name: 'Bristol',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1058958/pexels-photo-1058958.jpeg',
+    description: 'Creative activities in the South West\'s most vibrant city',
+    activities: 70,
+    coordinates: { lat: 51.4545, lng: -2.5879 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Christmas']
+  },
+  {
+    id: 'brighton',
+    name: 'Brighton',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1705254/pexels-photo-1705254.jpeg',
+    description: 'Seaside fun and exciting group activities',
+    activities: 65,
+    coordinates: { lat: 50.8225, lng: -0.1372 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Christmas']
+  },
+  {
+    id: 'nottingham',
+    name: 'Nottingham',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1850619/pexels-photo-1850619.jpeg',
+    description: 'Historic city with modern entertainment',
+    activities: 60,
+    coordinates: { lat: 52.9548, lng: -1.1581 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Group Activities']
+  },
+  {
+    id: 'bournemouth',
+    name: 'Bournemouth',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1838640/pexels-photo-1838640.jpeg',
+    description: 'Coastal activities and beach celebrations',
+    activities: 55,
+    coordinates: { lat: 50.7192, lng: -1.8808 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Cocktail Making']
+  },
+  {
+    id: 'bath',
+    name: 'Bath',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1850615/pexels-photo-1850615.jpeg',
+    description: 'Elegant city with unique experiences',
+    activities: 50,
+    coordinates: { lat: 51.3811, lng: -2.3590 },
+    popularCategories: ['Hen Do', 'Group Activities', 'Cocktail Making']
+  },
+  {
+    id: 'york',
+    name: 'York',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1850617/pexels-photo-1850617.jpeg',
+    description: 'Historic charm meets modern entertainment',
+    activities: 45,
+    coordinates: { lat: 53.9591, lng: -1.0815 },
+    popularCategories: ['Hen Do', 'Cocktail Making']
+  },
+  {
+    id: 'chester',
+    name: 'Chester',
+    region: 'England',
+    image: 'https://images.pexels.com/photos/1850618/pexels-photo-1850618.jpeg',
+    description: 'Roman heritage and modern celebrations',
+    activities: 40,
+    coordinates: { lat: 53.1937, lng: -2.8932 },
+    popularCategories: ['Cocktail Making']
   },
   {
     id: 'edinburgh',
     name: 'Edinburgh',
     region: 'Scotland',
     image: 'https://images.pexels.com/photos/1144199/pexels-photo-1144199.jpeg',
-    description: 'Historic charm meets modern entertainment in Edinburgh',
-    activities: 64,
+    description: 'Historic charm meets modern entertainment',
+    activities: 90,
     coordinates: { lat: 55.9533, lng: -3.1883 },
-    popularCategories: ['Hen Do', 'Corporate', 'Birthday']
-  },
-  {
-    id: 'bristol',
-    name: 'Bristol',
-    region: 'South West',
-    image: 'https://images.pexels.com/photos/1058958/pexels-photo-1058958.jpeg',
-    description: 'Creative activities in the South West\'s most vibrant city',
-    activities: 55,
-    coordinates: { lat: 51.4545, lng: -2.5879 },
-    popularCategories: ['Team Building', 'Kids', 'Birthday']
-  },
-  {
-    id: 'liverpool',
-    name: 'Liverpool',
-    region: 'North West',
-    image: 'https://images.pexels.com/photos/552766/pexels-photo-552766.jpeg',
-    description: 'Experience the best group activities in the cultural capital',
-    activities: 72,
-    coordinates: { lat: 53.4084, lng: -2.9916 },
-    popularCategories: ['Stag Do', 'Hen Do', 'Corporate']
-  },
-  {
-    id: 'leeds',
-    name: 'Leeds',
-    region: 'Yorkshire',
-    image: 'https://images.pexels.com/photos/6488512/pexels-photo-6488512.jpeg',
-    description: 'Yorkshire\'s finest selection of group experiences',
-    activities: 48,
-    coordinates: { lat: 53.8008, lng: -1.5491 },
-    popularCategories: ['Team Building', 'Birthday', 'Corporate']
-  },
-  {
-    id: 'newcastle',
-    name: 'Newcastle',
-    region: 'North East',
-    image: 'https://images.pexels.com/photos/2662792/pexels-photo-2662792.jpeg',
-    description: 'The North East\'s top destination for celebrations',
-    activities: 52,
-    coordinates: { lat: 54.9783, lng: -1.6178 },
-    popularCategories: ['Stag Do', 'Hen Do', 'Birthday']
+    popularCategories: ['Hen Do', 'Group Activities', 'Team Building', 'Christmas']
   },
   {
     id: 'glasgow',
@@ -349,9 +409,9 @@ export const CITIES = [
     region: 'Scotland',
     image: 'https://images.pexels.com/photos/2549572/pexels-photo-2549572.jpeg',
     description: 'Scotland\'s largest city full of exciting activities',
-    activities: 58,
+    activities: 85,
     coordinates: { lat: 55.8642, lng: -4.2518 },
-    popularCategories: ['Team Building', 'Corporate', 'Kids']
+    popularCategories: ['Hen Do', 'Group Activities', 'Christmas']
   },
   {
     id: 'cardiff',
@@ -359,60 +419,234 @@ export const CITIES = [
     region: 'Wales',
     image: 'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg',
     description: 'The Welsh capital\'s best group experiences',
-    activities: 45,
+    activities: 70,
     coordinates: { lat: 51.4816, lng: -3.1791 },
-    popularCategories: ['Hen Do', 'Birthday', 'Kids']
+    popularCategories: ['Hen Do', 'Stag Do', 'Christmas']
+  },
+  {
+    id: 'belfast',
+    name: 'Belfast',
+    region: 'Northern Ireland',
+    image: 'https://images.pexels.com/photos/1850616/pexels-photo-1850616.jpeg',
+    description: 'Northern Ireland\'s premier party destination',
+    activities: 65,
+    coordinates: { lat: 54.5973, lng: -5.9301 },
+    popularCategories: ['Group Activities', 'Cocktail Making']
+  },
+  {
+    id: 'dublin',
+    name: 'Dublin',
+    region: 'Ireland',
+    image: 'https://images.pexels.com/photos/1850620/pexels-photo-1850620.jpeg',
+    description: 'Ireland\'s vibrant capital of entertainment',
+    activities: 95,
+    coordinates: { lat: 53.3498, lng: -6.2603 },
+    popularCategories: ['Hen Do', 'Stag Do']
+  },
+  {
+    id: 'amsterdam',
+    name: 'Amsterdam',
+    region: 'Netherlands',
+    image: 'https://images.pexels.com/photos/1850621/pexels-photo-1850621.jpeg',
+    description: 'Vibrant city life and unique experiences',
+    activities: 85,
+    coordinates: { lat: 52.3676, lng: 4.9041 },
+    popularCategories: ['Birthday']
+  },
+  {
+    id: 'barcelona',
+    name: 'Barcelona',
+    region: 'Spain',
+    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
+    description: 'Mediterranean charm and endless entertainment',
+    activities: 90,
+    coordinates: { lat: 41.3851, lng: 2.1734 },
+    popularCategories: ['Hen Do']
+  },
+  {
+    id: 'berlin',
+    name: 'Berlin',
+    region: 'Germany',
+    image: 'https://images.pexels.com/photos/1850622/pexels-photo-1850622.jpeg',
+    description: 'Europe\'s capital of cool',
+    activities: 80,
+    coordinates: { lat: 52.5200, lng: 13.4050 },
+    popularCategories: ['Stag Do']
+  },
+  {
+    id: 'prague',
+    name: 'Prague',
+    region: 'Czech Republic',
+    image: 'https://images.pexels.com/photos/1850623/pexels-photo-1850623.jpeg',
+    description: 'Historic beauty meets modern entertainment',
+    activities: 75,
+    coordinates: { lat: 50.0755, lng: 14.4378 },
+    popularCategories: ['Stag Do']
+  },
+  {
+    id: 'budapest',
+    name: 'Budapest',
+    region: 'Hungary',
+    image: 'https://images.pexels.com/photos/1850624/pexels-photo-1850624.jpeg',
+    description: 'Eastern European charm and excitement',
+    activities: 70,
+    coordinates: { lat: 47.4979, lng: 19.0402 },
+    popularCategories: ['Hen Do', 'Stag Do']
+  },
+  {
+    id: 'krakow',
+    name: 'Krakow',
+    region: 'Poland',
+    image: 'https://images.pexels.com/photos/1850625/pexels-photo-1850625.jpeg',
+    description: 'Polish culture and vibrant nightlife',
+    activities: 65,
+    coordinates: { lat: 50.0647, lng: 19.9450 },
+    popularCategories: ['Stag Do']
+  },
+  {
+    id: 'lisbon',
+    name: 'Lisbon',
+    region: 'Portugal',
+    image: 'https://images.pexels.com/photos/1850626/pexels-photo-1850626.jpeg',
+    description: 'Sun-soaked celebrations by the Atlantic',
+    activities: 70,
+    coordinates: { lat: 38.7223, lng: -9.1393 },
+    popularCategories: ['Hen Do']
+  },
+  {
+    id: 'madrid',
+    name: 'Madrid',
+    region: 'Spain',
+    image: 'https://images.pexels.com/photos/1850627/pexels-photo-1850627.jpeg',
+    description: 'Spanish capital of culture and fun',
+    activities: 75,
+    coordinates: { lat: 40.4168, lng: -3.7038 },
+    popularCategories: ['Hen Do']
+  },
+  {
+    id: 'benidorm',
+    name: 'Benidorm',
+    region: 'Spain',
+    image: 'https://images.pexels.com/photos/1850628/pexels-photo-1850628.jpeg',
+    description: 'Costa Blanca\'s party paradise',
+    activities: 60,
+    coordinates: { lat: 38.5411, lng: -0.1225 },
+    popularCategories: ['Hen Do', 'Stag Do', 'Birthday']
+  },
+  {
+    id: 'magaluf',
+    name: 'Magaluf',
+    region: 'Spain',
+    image: 'https://images.pexels.com/photos/1850629/pexels-photo-1850629.jpeg',
+    description: 'Mallorca\'s ultimate party destination',
+    activities: 55,
+    coordinates: { lat: 39.5065, lng: 2.5383 },
+    popularCategories: ['Hen Do']
+  },
+  {
+    id: 'marbella',
+    name: 'Marbella',
+    region: 'Spain',
+    image: 'https://images.pexels.com/photos/1850630/pexels-photo-1850630.jpeg',
+    description: 'Luxury celebrations on the Costa del Sol',
+    activities: 65,
+    coordinates: { lat: 36.5097, lng: -4.8766 },
+    popularCategories: ['Hen Do']
+  },
+  {
+    id: 'hamburg',
+    name: 'Hamburg',
+    region: 'Germany',
+    image: 'https://images.pexels.com/photos/1850631/pexels-photo-1850631.jpeg',
+    description: 'Northern Germany\'s entertainment hub',
+    activities: 70,
+    coordinates: { lat: 53.5511, lng: 9.9937 },
+    popularCategories: ['Stag Do']
+  },
+  {
+    id: 'munich',
+    name: 'Munich',
+    region: 'Germany',
+    image: 'https://images.pexels.com/photos/1850632/pexels-photo-1850632.jpeg',
+    description: 'Bavarian tradition meets modern fun',
+    activities: 75,
+    coordinates: { lat: 48.1351, lng: 11.5820 },
+    popularCategories: ['Stag Do']
   }
 ];
 
 export const REGIONS = [
   {
-    id: 'greater-london',
-    name: 'Greater London',
-    cities: ['London'],
-    activities: 150
-  },
-  {
-    id: 'north-west',
-    name: 'North West',
-    cities: ['Manchester', 'Liverpool'],
-    activities: 161
-  },
-  {
-    id: 'west-midlands',
-    name: 'West Midlands',
-    cities: ['Birmingham'],
-    activities: 76
+    id: 'england',
+    name: 'England',
+    cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Newcastle', 'Leeds', 'Bristol', 'Brighton', 'Nottingham', 'Bournemouth', 'Bath', 'York', 'Chester'],
+    activities: 1000
   },
   {
     id: 'scotland',
     name: 'Scotland',
     cities: ['Edinburgh', 'Glasgow'],
-    activities: 122
-  },
-  {
-    id: 'south-west',
-    name: 'South West',
-    cities: ['Bristol'],
-    activities: 55
-  },
-  {
-    id: 'yorkshire',
-    name: 'Yorkshire',
-    cities: ['Leeds'],
-    activities: 48
-  },
-  {
-    id: 'north-east',
-    name: 'North East',
-    cities: ['Newcastle'],
-    activities: 52
+    activities: 175
   },
   {
     id: 'wales',
     name: 'Wales',
     cities: ['Cardiff'],
-    activities: 45
+    activities: 70
+  },
+  {
+    id: 'northern-ireland',
+    name: 'Northern Ireland',
+    cities: ['Belfast'],
+    activities: 65
+  },
+  {
+    id: 'ireland',
+    name: 'Ireland',
+    cities: ['Dublin'],
+    activities: 95
+  },
+  {
+    id: 'spain',
+    name: 'Spain',
+    cities: ['Barcelona', 'Madrid', 'Benidorm', 'Magaluf', 'Marbella'],
+    activities: 365
+  },
+  {
+    id: 'germany',
+    name: 'Germany',
+    cities: ['Berlin', 'Hamburg', 'Munich'],
+    activities: 225
+  },
+  {
+    id: 'netherlands',
+    name: 'Netherlands',
+    cities: ['Amsterdam'],
+    activities: 85
+  },
+  {
+    id: 'czech-republic',
+    name: 'Czech Republic',
+    cities: ['Prague'],
+    activities: 75
+  },
+  {
+    id: 'hungary',
+    name: 'Hungary',
+    cities: ['Budapest'],
+    activities: 70
+  },
+  {
+    id: 'poland',
+    name: 'Poland',
+    cities: ['Krakow'],
+    activities: 65
+  },
+  {
+    id: 'portugal',
+    name: 'Portugal',
+    cities: ['Lisbon'],
+    activities: 70
   }
 ];
 
