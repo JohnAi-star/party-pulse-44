@@ -72,7 +72,7 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
                         id={`category-${category.id}`}
                         checked={isChecked || false}
                         onCheckedChange={(checked) => {
-                          const isNowChecked = checked === true;
+                          const isNowChecked = !!checked;
                           handleUpdate('category', isNowChecked ? category.id : '');
                           if (!isNowChecked) {
                             handleUpdate('subcategory', '');
@@ -124,8 +124,8 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
                       <Checkbox
                         id={`region-${region.id}`}
                         checked={localFilters.region === region.id}
-                        onCheckedChange={(checked: boolean) => {
-                          const isNowChecked = checked;
+                        onCheckedChange={(checked) => {
+                          const isNowChecked = !!checked;
                           handleUpdate('region', isNowChecked ? region.id : '');
                           if (!isNowChecked) {
                             handleUpdate('location', '');
@@ -153,7 +153,7 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
                       id={`city-${city.id}`}
                       checked={localFilters.location === city.id}
                       onCheckedChange={(checked) => {
-                        const isNowChecked = checked === true;
+                        const isNowChecked = !!checked;
                         handleUpdate('location', isNowChecked ? city.id : '');
                       }}
                       />
