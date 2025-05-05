@@ -199,7 +199,7 @@ export default function BookingForm({ activity }: BookingFormProps) {
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
           disabled={loading}
         >
-          {loading ? 'Processing...' : `Book Now - From £${activity.priceFrom}pp`}
+          {loading ? 'Processing...' : `Book Now - From £${activity.priceFrom}`}
         </Button>
 
         <p className="text-xs text-muted-foreground text-center">

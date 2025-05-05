@@ -1,22 +1,30 @@
 export const MOCK_ACTIVITIES = [
   {
     id: '1',
-    title: 'Cocktail Making Class',
-    description: 'Learn how to make delicious cocktails from expert mixologists. Perfect for hen parties, birthdays or corporate events.',
+    title: 'Cocktail Making Masterclass',
+    description: 'Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events. Create and enjoy 4 signature cocktails while learning professional techniques and tricks.',
     city: 'London',
     region: 'Greater London',
-    priceFrom: 29,
+    priceFrom: 35,
     image: 'https://images.pexels.com/photos/2531186/pexels-photo-2531186.jpeg',
     category: 'Hen Do',
     subcategory: 'Food & Drink',
     rating: 4.8,
     duration: '2 hours',
     groupSize: '8-15',
-    features: ['Equipment provided', 'Expert instructor', 'Take home recipes'],
+    features: [
+      'Create 4 signature cocktails',
+      'Professional mixologist instruction',
+      'All equipment and ingredients provided',
+      'Take home recipe cards',
+      'Welcome drink on arrival',
+      'Cocktail making certificate',
+      'Photos of your experience'
+    ],
     availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     location: {
-      address: '123 Party Street',
-      postcode: 'EC1A 1BB',
+      address: '123 Party Street, Soho',
+      postcode: 'W1F 7HQ',
       coordinates: { lat: 51.5074, lng: -0.1278 }
     }
   },
@@ -208,57 +216,1957 @@ export const MOCK_ACTIVITIES = [
       postcode: 'CF1 1BB',
       coordinates: { lat: 51.4816, lng: -3.1791 }
     }
+  },
+  {
+    id: '11',
+    title: 'Pizza Making Workshop',
+    description: 'Learn the secrets of authentic Italian pizza making from our expert chefs. Perfect for team building or birthday celebrations. Create your own pizzas from scratch using premium ingredients and traditional techniques.',
+    city: 'Manchester',
+    region: 'Greater Manchester',
+    priceFrom: 40,
+    image: 'https://images.pexels.com/photos/905847/pexels-photo-905847.jpeg',
+    category: 'Team Building',
+    subcategory: 'Food & Drink',
+    rating: 4.7,
+    duration: '2.5 hours',
+    groupSize: '8-16',
+    features: [
+      'Make 2 pizzas from scratch',
+      'Professional chef instruction',
+      'All ingredients provided',
+      'Wine or beer included',
+      'Take home recipe guide',
+      'Eat your creations',
+      'Group photo'
+    ],
+    availability: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    location: {
+      address: '45 Culinary Lane',
+      postcode: 'M1 2WR',
+      coordinates: { lat: 53.4808, lng: -2.2426 }
+    }
+  },
+  {
+    id: '12',
+    title: 'Pottery Painting Party',
+    description: 'Get creative with this relaxing pottery painting session. Choose from a wide selection of ceramic pieces and create your own unique masterpiece. Perfect for hen parties and birthday celebrations.',
+    city: 'Brighton',
+    region: 'South East',
+    priceFrom: 28,
+    image: 'https://images.pexels.com/photos/4992432/pexels-photo-4992432.jpeg',
+    category: 'Birthday',
+    subcategory: 'Arts & Crafts',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '6-12',
+    features: [
+      'Choose from wide range of ceramics',
+      'All paints and materials included',
+      'Expert guidance available',
+      'Glazing and firing included',
+      'Take home your creation',
+      'Complimentary refreshments',
+      'Private party space'
+    ],
+    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: '78 Creative Corner',
+      postcode: 'BN1 3XP',
+      coordinates: { lat: 50.8225, lng: -0.1372 }
+    }
+  },
+  {
+    id: '13',
+    title: 'Virtual Reality Experience',
+    description: 'Step into the future with this immersive VR gaming session. Perfect for stag dos and team building events. Compete in various virtual worlds and challenges using state-of-the-art VR equipment.',
+    city: 'Leeds',
+    region: 'Yorkshire',
+    priceFrom: 32,
+    image: 'https://images.pexels.com/photos/8728285/pexels-photo-8728285.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Gaming',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '4-8',
+    features: [
+      'Latest VR equipment',
+      'Multiple game options',
+      'Competitive challenges',
+      'Professional instruction',
+      'Private gaming space',
+      'Scoreboard and prizes',
+      'Photos and videos included'
+    ],
+    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: '90 Digital Hub',
+      postcode: 'LS1 5QB',
+      coordinates: { lat: 53.8008, lng: -1.5491 }
+    }
+  },
+  {
+    id: '14',
+    title: 'Afternoon Tea Dance',
+    description: 'Combine a delightful afternoon tea with dance lessons in this unique experience. Learn classic dance moves while enjoying a selection of sandwiches, scones, and cakes. Perfect for hen parties and special celebrations.',
+    city: 'Edinburgh',
+    region: 'Scotland',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Food & Dance',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '10-20',
+    features: [
+      'Professional dance instruction',
+      'Full afternoon tea service',
+      'Prosecco reception',
+      'Live music',
+      'Private venue hire',
+      'Photo opportunities',
+      'Take home goodie bag'
+    ],
+    availability: ['Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: '123 Royal Mile',
+      postcode: 'EH1 1TH',
+      coordinates: { lat: 55.9533, lng: -3.1883 }
+    }
+  },
+  {
+    id: '15',
+    title: 'Chocolate Truffle Making Workshop',
+    description: 'Indulge in a decadent chocolate-making session guided by master chocolatiers. Craft your own luxury truffles, perfect for gifting or treating yourself.',
+    city: 'Manchester',
+    region: 'Greater Manchester',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/616353/pexels-photo-616353.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Food & Drink',
+    rating: 4.9,
+    duration: '1.5 hours',
+    groupSize: '6-20',
+    features: [
+      'Make 12 luxury truffles',
+      'Expert chocolatier guidance',
+      'Decorating and packaging included',
+      'Take-home gift box',
+      'Glass of prosecco included'
+    ],
+    availability: ['Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: '44 Deansgate, Manchester',
+      postcode: 'M3 2BW',
+      coordinates: { lat: 53.4810, lng: -2.2446 }
+    }
+  },
+  {
+    id: '16',
+    title: 'Afternoon Tea Bus Tour',
+    description: 'Experience the sights of London aboard a vintage double-decker bus while enjoying a classic British afternoon tea with finger sandwiches, scones, and pastries.',
+    city: 'London',
+    region: 'Greater London',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/239581/pexels-photo-239581.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Food & Drink',
+    rating: 4.7,
+    duration: '1.5 hours',
+    groupSize: '2-30',
+    features: [
+      'Classic afternoon tea',
+      'Vintage double-decker bus ride',
+      'Sightseeing around London landmarks',
+      'Vegetarian and gluten-free options available'
+    ],
+    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: 'Victoria Coach Station, London',
+      postcode: 'SW1W 9RH',
+      coordinates: { lat: 51.4941, lng: -0.1479 }
+    }
+  },
+  {
+    id: '17',
+    title: 'Flower Crown Making Workshop',
+    description: 'Unleash your creativity in this relaxed and fun workshop where you will learn to craft beautiful flower crowns with fresh blooms – perfect for bridal showers or festivals.',
+    city: 'Brighton',
+    region: 'East Sussex',
+    priceFrom: 28,
+    image: 'https://images.pexels.com/photos/461940/pexels-photo-461940.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Creative & Crafty',
+    rating: 4.6,
+    duration: '2 hours',
+    groupSize: '5-15',
+    features: [
+      'All materials included',
+      'Guided by professional florists',
+      'Take-home flower crown',
+      'Glass of bubbly included'
+    ],
+    availability: ['Saturday', 'Sunday'],
+    location: {
+      address: 'North Laine Workshop, Brighton',
+      postcode: 'BN1 4GH',
+      coordinates: { lat: 50.8284, lng: -0.1411 }
+    }
+  },
+  {
+    id: '18',
+    title: 'Salsa Dancing Experience',
+    description: 'Get your hips moving with an energetic salsa dance lesson, led by passionate instructors. Ideal for groups looking to have fun, laugh, and learn new moves.',
+    city: 'Birmingham',
+    region: 'West Midlands',
+    priceFrom: 25,
+    image: 'https://images.pexels.com/photos/797949/pexels-photo-797949.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Active & Dance',
+    rating: 4.5,
+    duration: '1 hour',
+    groupSize: '6-20',
+    features: [
+      'Learn salsa basics',
+      'Fun group choreography',
+      'Professional dance instructor',
+      'No experience needed'
+    ],
+    availability: ['Friday', 'Saturday'],
+    location: {
+      address: '123 Dance Studio, Birmingham',
+      postcode: 'B1 1AA',
+      coordinates: { lat: 52.4786, lng: -1.9080 }
+    }
+  },
+  {
+    id: '19',
+    title: 'Cocktail Making Masterclass',
+    description: 'Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events. Create and enjoy 4 signature cocktails while learning professional techniques and tricks.',
+    city: 'London',
+    region: 'Greater London',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/2531186/pexels-photo-2531186.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Food & Drink',
+    rating: 4.8,
+    duration: '2 hours',
+    groupSize: '8-15',
+    features: [
+      'Create 4 signature cocktails',
+      'Professional mixologist instruction',
+      'All equipment and ingredients provided',
+      'Take home recipe cards',
+      'Welcome drink on arrival',
+      'Cocktail making certificate',
+      'Photos of your experience'
+    ],
+    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    location: {
+      address: '123 Party Street, Soho',
+      postcode: 'W1F 7HQ',
+      coordinates: { lat: 51.5074, lng: -0.1278 }
+    }
+  },
+  {
+    id: '20',
+    title: 'Chocolate Making Workshop',
+    description: 'A delicious hands-on experience where you’ll learn to craft artisanal chocolates with a master chocolatier. Perfect for date nights, birthdays, or team-building events.',
+    city: 'Manchester',
+    region: 'North West',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/569260/pexels-photo-569260.jpeg',
+    category: 'Team Building',
+    subcategory: 'Food & Drink',
+    rating: 4.7,
+    duration: '1.5 hours',
+    groupSize: '6-12',
+    features: [
+      'Handmade truffles & chocolate bars',
+      'Professional chocolatier guidance',
+      'All ingredients provided',
+      'Take-home treats',
+      'Personalized packaging',
+      'Tasting session'
+    ],
+    availability: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
+    location: {
+      address: '45 Sweet Avenue, Northern Quarter',
+      postcode: 'M4 1HQ',
+      coordinates: { lat: 53.4839, lng: -2.2446 }
+    }
+  },
+  {
+    id: '21',
+    title: 'Pottery Painting Experience',
+    description: 'Unleash your creativity in this relaxing pottery painting session. Choose from ceramics like mugs, plates, or vases and decorate them with professional guidance.',
+    city: 'Bristol',
+    region: 'South West',
+    priceFrom: 25,
+    image: 'https://images.pexels.com/photos/6152238/pexels-photo-6152238.jpeg',
+    category: 'Creative',
+    subcategory: 'Arts & Crafts',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-10',
+    features: [
+      'Selection of bisque pottery',
+      'Unlimited paints & tools',
+      'Expert tips provided',
+      'Kiln firing included',
+      'Take home your masterpiece',
+      'BYOB option available'
+    ],
+    availability: ['Wednesday', 'Saturday', 'Sunday'],
+    location: {
+      address: '22 Artisan Lane, Clifton',
+      postcode: 'BS8 4PD',
+      coordinates: { lat: 51.4545, lng: -2.6226 }
+    }
+  },
+  {
+    id: '22',
+    title: 'Escape Room Challenge',
+    description: 'Test your problem-solving skills in a themed escape room. Work as a team to solve puzzles, crack codes, and escape before time runs out!',
+    city: 'Edinburgh',
+    region: 'Scotland',
+    priceFrom: 20,
+    image: 'https://images.pexels.com/photos/7031723/pexels-photo-7031723.jpeg',
+    category: 'Adventure',
+    subcategory: 'Games',
+    rating: 4.8,
+    duration: '1 hour',
+    groupSize: '2-6',
+    features: [
+      'Multiple themed rooms',
+      'Live hints available',
+      'Private group bookings',
+      'Difficulty levels',
+      'Team photo at the end',
+      'Leaderboard ranking'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: '7 Mystery Close, Old Town',
+      postcode: 'EH1 1RE',
+      coordinates: { lat: 55.9533, lng: -3.1883 }
+    }
+  },
+  {
+    id: '23',
+    title: 'Gin Distillery Tour & Tasting',
+    description: 'Discover the craft behind gin production with a guided distillery tour followed by a tasting session of small-batch gins and cocktails.',
+    city: 'Liverpool',
+    region: 'North West',
+    priceFrom: 40,
+    image: 'https://images.pexels.com/photos/1089932/pexels-photo-1089932.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Tours',
+    rating: 4.9,
+    duration: '2.5 hours',
+    groupSize: '10-20',
+    features: [
+      'Behind-the-scenes tour',
+      'Sample 5 premium gins',
+      'Cocktail demonstration',
+      'Expert-led tasting notes',
+      'Discount on bottle purchases',
+      'Exclusive merch available'
+    ],
+    availability: ['Friday', 'Saturday'],
+    location: {
+      address: '18 Spirit Lane, Baltic Triangle',
+      postcode: 'L1 0AG',
+      coordinates: { lat: 53.4009, lng: -2.9915 }
+    }
+  },
+  {
+    id: '24',
+    title: 'Archery Tag Session',
+    description: 'A thrilling mix of dodgeball and archery! Compete in teams using foam-tipped arrows in a high-energy, safe combat game.',
+    city: 'Birmingham',
+    region: 'West Midlands',
+    priceFrom: 28,
+    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
+    category: 'Adventure',
+    subcategory: 'Sports',
+    rating: 4.6,
+    duration: '1.5 hours',
+    groupSize: '8-16',
+    features: [
+      'All equipment provided',
+      'Safety briefing & training',
+      'Multiple game modes',
+      'Team tournaments',
+      'Indoor/outdoor options',
+      'Photos & videos included'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: '3 Target Road, Digbeth',
+      postcode: 'B5 5RS',
+      coordinates: { lat: 52.4756, lng: -1.8833 }
+    }
+  },
+  {
+    id: '25',
+    title: 'Silent Disco Yoga',
+    description: 'A unique fusion of yoga and silent disco—flow to your own beat with wireless headphones while an instructor guides the session.',
+    city: 'Brighton',
+    region: 'South East',
+    priceFrom: 18,
+    image: 'https://images.pexels.com/photos/8436685/pexels-photo-8436685.jpeg',
+    category: 'Wellness',
+    subcategory: 'Fitness',
+    rating: 4.7,
+    duration: '1 hour',
+    groupSize: '15-30',
+    features: [
+      'Wireless headphones provided',
+      'Choice of music genres',
+      'Beginner-friendly',
+      'Glow-in-the-dark accessories',
+      'Relaxation segment',
+      'BYO mat or rent onsite'
+    ],
+    availability: ['Tuesday', 'Thursday', 'Sunday'],
+    location: {
+      address: '11 Zen Street, North Laine',
+      postcode: 'BN1 1AA',
+      coordinates: { lat: 50.8225, lng: -0.1372 }
+    }
+  },
+  {
+    id: '26',
+    title: 'Foraging & Wild Cooking',
+    description: 'Explore the countryside with an expert forager, then cook your finds over a fire in this immersive outdoor experience.',
+    city: 'Cardiff',
+    region: 'Wales',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/6994982/pexels-photo-6994982.jpeg',
+    category: 'Outdoor',
+    subcategory: 'Adventure',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '6-12',
+    features: [
+      'Guided foraging walk',
+      'Identify edible plants/mushrooms',
+      'Outdoor cooking demo',
+      'Wild tea tasting',
+      'Recipe booklet',
+      'Eco-friendly practices'
+    ],
+    availability: ['Spring-Autumn weekends'],
+    location: {
+      address: 'Forest Retreat, Bute Park',
+      postcode: 'CF10 3ER',
+      coordinates: { lat: 51.4866, lng: -3.1867 }
+    }
+  },
+  {
+    id: '27',
+    title: 'Neon Sign Making',
+    description: 'Design and bend your own LED neon sign with expert guidance—perfect for personalized décor or gifts.',
+    city: 'Leeds',
+    region: 'Yorkshire',
+    priceFrom: 65,
+    image: 'https://images.pexels.com/photos/5721908/pexels-photo-5721908.jpeg',
+    category: 'Creative',
+    subcategory: 'Workshop',
+    rating: 4.8,
+    duration: '3 hours',
+    groupSize: '4-8',
+    features: [
+      'Custom 15cm sign',
+      'Learn tube-bending basics',
+      '10+ color options',
+      'Take home same day',
+      'Aprons & tools provided',
+      'BYOB allowed'
+    ],
+    availability: ['Friday', 'Saturday'],
+    location: {
+      address: '8 Glow Avenue, Kirkgate',
+      postcode: 'LS1 6HA',
+      coordinates: { lat: 53.7965, lng: -1.5479 }
+    }
+  },
+  {
+    id: '28',
+    title: 'Axe Throwing Session',
+    description: 'Channel your inner lumberjack with this adrenaline-pumping axe-throwing experience under expert supervision.',
+    city: 'Newcastle',
+    region: 'North East',
+    priceFrom: 22,
+    image: 'https://images.pexels.com/photos/6186123/pexels-photo-6186123.jpeg',
+    category: 'Adventure',
+    subcategory: 'Sports',
+    rating: 4.7,
+    duration: '1 hour',
+    groupSize: '4-10',
+    features: [
+      'Safety training included',
+      'Multiple target games',
+      'Competitive scoring',
+      'Group tournaments',
+      'Photo opportunities',
+      'Licensed bar onsite'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: '14 Timber Yard, Ouseburn',
+      postcode: 'NE1 2PQ',
+      coordinates: { lat: 54.9783, lng: -1.6174 }
+    }
+  },
+  {
+    id: '29',
+    title: 'Virtual Reality Gaming Party',
+    description: 'Immerse yourself in VR worlds with multiplayer games, from zombie survival to racing and puzzle adventures.',
+    city: 'Glasgow',
+    region: 'Scotland',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg',
+    category: 'Gaming',
+    subcategory: 'Tech',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '4-12',
+    features: [
+      'State-of-the-art VR headsets',
+      '20+ game options',
+      'Private gaming pod',
+      'Leaderboard challenges',
+      'Screen to watch players',
+      'Souvenir digital clips'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: '25 Tech Plaza, Merchant City',
+      postcode: 'G1 1AA',
+      coordinates: { lat: 55.8598, lng: -4.2425 }
+    }
+  },
+  {
+    id: '30',
+    title: 'Prosecco Painting Party',
+    description: 'Sip prosecco while creating canvas art with friends—guided by a local artist. Perfect for hen parties!',
+    city: 'London',
+    region: 'England',
+    priceFrom: 32,
+    image: 'https://images.pexels.com/photos/3825519/pexels-photo-3825519.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Creative',
+    rating: 4.8,
+    duration: '2 hours',
+    groupSize: '6-20',
+    features: [
+      'All art supplies provided',
+      '2 glasses of prosecco',
+      'Take-home artwork',
+      'BYOB option',
+      'Private venue'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: '12 Canvas Lane, Shoreditch',
+      postcode: 'E1 6AB',
+      coordinates: { lat: 51.5234, lng: -0.0756 }
+    }
+  },
+  {
+    id: '31',
+    title: 'Belly Dancing Workshop',
+    description: 'Learn sensual belly dancing moves in a fun, inclusive class tailored for hen parties.',
+    city: 'Barcelona',
+    region: 'Spain',
+    priceFrom: 25,
+    image: 'https://images.pexels.com/photos/8951203/pexels-photo-8951203.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Dance',
+    rating: 4.7,
+    duration: '1.5 hours',
+    groupSize: '8-15',
+    features: [
+      'Professional instructor',
+      'Costume accessories',
+      'Group choreography',
+      'Photo session',
+      'Option for private class'
+    ],
+    availability: ['Friday', 'Saturday'],
+    location: {
+      address: '9 Flamenco Street, Gothic Quarter',
+      postcode: '08002',
+      coordinates: { lat: 41.3825, lng: 2.1769 }
+    }
+  },
+  {
+    id: '32',
+    title: 'Sparkly Afternoon Tea',
+    description: 'Glamorous afternoon tea with champagne, bespoke cocktails, and edible glitter desserts.',
+    city: 'Manchester',
+    region: 'England',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Food & Drink',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-12',
+    features: [
+      '3-tiered dessert stand',
+      'Bottomless prosecco upgrade',
+      'Personalized cupcakes',
+      'Instagrammable décor',
+      'Vegan/GF options'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'The Glitter Café, Deansgate',
+      postcode: 'M3 4EN',
+      coordinates: { lat: 53.4775, lng: -2.2511 }
+    }
+  },
+  {
+    id: '33',
+    title: 'Pole Fitness Class',
+    description: 'A beginner-friendly pole dancing session designed for hen parties—build confidence and laugh together!',
+    city: 'Berlin',
+    region: 'Germany',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/6456159/pexels-photo-6456159.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Fitness',
+    rating: 4.6,
+    duration: '1.5 hours',
+    groupSize: '6-10',
+    features: [
+      'Expert instructor',
+      'Safety mats provided',
+      'Group discounts',
+      'Photo/video package',
+      'Private studio'
+    ],
+    availability: ['Thursday-Sunday'],
+    location: {
+      address: '14 Neon Studio, Mitte',
+      postcode: '10178',
+      coordinates: { lat: 52.5200, lng: 13.4050 }
+    }
+  },
+  {
+    id: '34',
+    title: 'Bridal Makeup Masterclass',
+    description: 'Learn professional bridal makeup techniques with a celebrity artist—ideal for pre-wedding prep.',
+    city: 'Dublin',
+    region: 'Ireland',
+    priceFrom: 55,
+    image: 'https://images.pexels.com/photos/3998418/pexels-photo-3998418.jpeg',
+    category: 'Hen Do',
+    subcategory: 'Beauty',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-8',
+    features: [
+      'Luxury product samples',
+      'Step-by-step demo',
+      'Bride-focused tips',
+      'Goody bags',
+      'Pro photoshoot'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: '5 Glamour Lane, Temple Bar',
+      postcode: 'D02 NX53',
+      coordinates: { lat: 53.3458, lng: -6.2636 }
+    }
+  },
+
+  // STAG DO ACTIVITIES (5)
+  {
+    id: '35',
+    title: 'Tank Driving Experience',
+    description: 'Drive a real military tank over obstacles and fire (blank) rounds—epic stag activity!',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 120,
+    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Adventure',
+    rating: 5.0,
+    duration: '3 hours',
+    groupSize: '4-10',
+    features: [
+      '30 mins tank driving',
+      'Safety briefing',
+      'Army-style challenges',
+      'BBQ lunch included',
+      'Photos/videos'
+    ],
+    availability: ['April-October'],
+    location: {
+      address: 'Tank Base, Prague 9',
+      postcode: '19000',
+      coordinates: { lat: 50.1264, lng: 14.5164 }
+    }
+  },
+
+  {
+    id: '36',
+    title: 'Whiskey & Cigar Tasting',
+    description: 'Sample rare whiskeys paired with premium cigars in a private members’ club.',
+    city: 'Belfast',
+    region: 'Northern Ireland',
+    priceFrom: 60,
+    image: 'https://images.pexels.com/photos/4825701/pexels-photo-4825701.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Food & Drink',
+    rating: 4.8,
+    duration: '2 hours',
+    groupSize: '6-12',
+    features: [
+      '5 premium whiskeys',
+      'Hand-rolled cigars',
+      'Expert sommelier',
+      'Private lounge',
+      'Stag trophy'
+    ],
+    availability: ['Thursday-Saturday'],
+    location: {
+      address: '8 Distillery Road',
+      postcode: 'BT1 5AB',
+      coordinates: { lat: 54.5973, lng: -5.9301 }
+    }
+  },
+  {
+    id: '37',
+    title: 'White Water Rafting',
+    description: 'Tackle Grade IV rapids with your crew—includes wetsuits and safety gear.',
+    city: 'Cardiff',
+    region: 'Wales',
+    priceFrom: 65,
+    image: 'https://images.pexels.com/photos/7527846/pexels-photo-7527846.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Extreme',
+    rating: 4.9,
+    duration: 'Half-day',
+    groupSize: '8-16',
+    features: [
+      'Professional guides',
+      'Transport from city',
+      'Post-rafting pub lunch',
+      'GoPro footage',
+      'Min age: 18'
+    ],
+    availability: ['May-September'],
+    location: {
+      address: 'River Taff Rafting Centre',
+      postcode: 'CF10 1AA',
+      coordinates: { lat: 51.4733, lng: -3.1759 }
+    }
+  },
+  {
+    id: '38',
+    title: 'Casino Night Package',
+    description: 'Private casino night with poker, blackjack, and roulette—fake money, real fun!',
+    city: 'Amsterdam',
+    region: 'Netherlands',
+    priceFrom: 40,
+    image: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Games',
+    rating: 4.7,
+    duration: '3 hours',
+    groupSize: '10-20',
+    features: [
+      'Dealers & tables provided',
+      'Stag-themed prizes',
+      'Cocktail package upgrade',
+      'VIP area',
+      'BYOB allowed'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: '22 Casino Street, Red Light District',
+      postcode: '1012 LA',
+      coordinates: { lat: 52.3702, lng: 4.8952 }
+    }
+  },
+  {
+    id: '39',
+    title: 'Combat Archery Battle',
+    description: 'Like paintball but with bows and foam-tipped arrows—intense team battles!',
+    city: 'Glasgow',
+    region: 'Scotland',
+    priceFrom: 28,
+    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
+    category: 'Stag Do',
+    subcategory: 'Sports',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '8-16',
+    features: [
+      'All equipment provided',
+      '3 game modes',
+      'Stag team branding',
+      'Indoor arena',
+      'Photos included'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: 'Battle Arena, Govan',
+      postcode: 'G51 1EA',
+      coordinates: { lat: 55.8617, lng: -4.3106 }
+    }
+  },
+
+  // TEAM BUILDING (5)
+  {
+    id: '40',
+    title: 'MasterChef Challenge',
+    description: 'Teams compete to cook a 3-course meal under time pressure—judged by a pro chef.',
+    city: 'Liverpool',
+    region: 'England',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg',
+    category: 'Team Building',
+    subcategory: 'Food & Drink',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '10-30',
+    features: [
+      'Ingredients provided',
+      'Teamwork challenges',
+      'Winning team prize',
+      'Recipe booklet',
+      'Dietary accommodations'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'The Cookhouse, Baltic Triangle',
+      postcode: 'L1 0AH',
+      coordinates: { lat: 53.4009, lng: -2.9915 }
+    }
+  },
+  {
+    id: '41',
+    title: 'Escape the Office',
+    description: 'Custom escape room designed for corporate teams—solve puzzles to "escape work".',
+    city: 'Leeds',
+    region: 'England',
+    priceFrom: 25,
+    image: 'https://images.pexels.com/photos/7031723/pexels-photo-7031723.jpeg',
+    category: 'Team Building',
+    subcategory: 'Games',
+    rating: 4.7,
+    duration: '1 hour',
+    groupSize: '4-8',
+    features: [
+      'Work-themed puzzles',
+      'Debrief session',
+      'Team scoring',
+      'Private bookings',
+      'Difficulty levels'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: '12 Puzzle Lane, City Centre',
+      postcode: 'LS1 4BR',
+      coordinates: { lat: 53.7997, lng: -1.5492 }
+    }
+  },
+  {
+    id: '42',
+    title: 'Robot Wars Workshop',
+    description: 'Build and battle robots with your team—STEM-focused and hilariously competitive.',
+    city: 'Bristol',
+    region: 'England',
+    priceFrom: 50,
+    image: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
+    category: 'Team Building',
+    subcategory: 'Tech',
+    rating: 4.8,
+    duration: '2.5 hours',
+    groupSize: '8-20',
+    features: [
+      'Kits provided',
+      'Engineering mentor',
+      'Tournament finale',
+      'Prizes for winners',
+      'No experience needed'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'Tech Hub, Temple Quay',
+      postcode: 'BS1 6DG',
+      coordinates: { lat: 51.4526, lng: -2.5824 }
+    }
+  },
+  {
+    id: '43',
+    title: 'Drum Circle Experience',
+    description: 'Boost team synergy with rhythmic drumming—led by a professional percussionist.',
+    city: 'Birmingham',
+    region: 'England',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg',
+    category: 'Team Building',
+    subcategory: 'Music',
+    rating: 4.6,
+    duration: '1.5 hours',
+    groupSize: '10-50',
+    features: [
+      'All instruments provided',
+      'Collaborative compositions',
+      'Energy-building exercises',
+      'Outdoor/indoor options',
+      'Recording of your performance'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'Rhythm Studio, Digbeth',
+      postcode: 'B5 5RS',
+      coordinates: { lat: 52.4756, lng: -1.8833 }
+    }
+  },
+  {
+    id: '44',
+    title: 'Survival Skills Workshop',
+    description: 'Learn wilderness survival as a team—fire-making, shelter-building, and navigation.',
+    city: 'Newcastle',
+    region: 'England',
+    priceFrom: 55,
+    image: 'https://images.pexels.com/photos/6214378/pexels-photo-6214378.jpeg',
+    category: 'Team Building',
+    subcategory: 'Outdoor',
+    rating: 4.9,
+    duration: '4 hours',
+    groupSize: '8-15',
+    features: [
+      'Expert survivalist',
+      'Team challenges',
+      'Outdoor location',
+      'Basic first aid training',
+      'Certificate of completion'
+    ],
+    availability: ['April-October'],
+    location: {
+      address: 'Wilderness Camp, Northumberland',
+      postcode: 'NE65 7PX',
+      coordinates: { lat: 55.3289, lng: -1.8881 }
+    }
+  },
+
+  // BIRTHDAY (5)
+  {
+    id: '45',
+    title: 'Private Karaoke Lounge',
+    description: 'Sing your heart out in a private karaoke room with unlimited song choices.',
+    city: 'London',
+    region: 'England',
+    priceFrom: 20,
+    image: 'https://images.pexels.com/photos/167491/pexels-photo-167491.jpeg',
+    category: 'Birthday',
+    subcategory: 'Music',
+    rating: 4.7,
+    duration: '2 hours',
+    groupSize: '4-12',
+    features: [
+      'Private soundproof room',
+      'Unlimited songs',
+      'Disco lighting',
+      'BYOB allowed',
+      'Snack menu'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'K-Star Karaoke, Soho',
+      postcode: 'W1D 4NG',
+      coordinates: { lat: 51.5139, lng: -0.1313 }
+    }
+  },
+  {
+    id: '46',
+    title: 'VIP Cinema Screening',
+    description: 'Rent a luxury cinema for a private screening of your favorite film.',
+    city: 'Dublin',
+    region: 'Ireland',
+    priceFrom: 150,
+    image: 'https://images.pexels.com/photos/436413/pexels-photo-436413.jpeg',
+    category: 'Birthday',
+    subcategory: 'Entertainment',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '10-30',
+    features: [
+      '4K projector & surround sound',
+      'Film of your choice',
+      'Complimentary popcorn',
+      'Bar service available',
+      'Red carpet entry'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'The Premiere Cinema, Temple Bar',
+      postcode: 'D02 NX53',
+      coordinates: { lat: 53.3458, lng: -6.2636 }
+    }
+  },
+  {
+    id: '47',
+    title: 'Chocolate Fountain Party',
+    description: 'Unlimited chocolate fountain with dippable treats—perfect for sweet-toothed celebrations.',
+    city: 'Brighton',
+    region: 'England',
+    priceFrom: 18,
+    image: 'https://images.pexels.com/photos/6605313/pexels-photo-6605313.jpeg',
+    category: 'Birthday',
+    subcategory: 'Food & Drink',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '6-15',
+    features: [
+      '3 chocolate flavors',
+      'Fruit, marshmallows, pretzels',
+      'Personalized birthday cake',
+      'Vegan options',
+      'Themed decorations'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: 'Sweet Tooth Café, The Lanes',
+      postcode: 'BN1 1AA',
+      coordinates: { lat: 50.8225, lng: -0.1372 }
+    }
+  },
+  {
+    id: '48',
+    title: 'Laser Tag Party',
+    description: 'High-energy laser tag battles in a futuristic arena—great for all ages.',
+    city: 'Edinburgh',
+    region: 'Scotland',
+    priceFrom: 15,
+    image: 'https://images.pexels.com/photos/2740956/pexels-photo-2740956.jpeg',
+    category: 'Birthday',
+    subcategory: 'Games',
+    rating: 4.7,
+    duration: '1 hour',
+    groupSize: '6-20',
+    features: [
+      'Vest & gun rental',
+      'Team-based missions',
+      'Score tracking',
+      'Party room add-on',
+      'Glow-in-the-dark mode'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Laser Zone, Leith',
+      postcode: 'EH6 6LU',
+      coordinates: { lat: 55.9753, lng: -3.1693 }
+    }
+  },
+  {
+    id: '49',
+    title: 'Pottery Wheel Workshop',
+    description: 'Create ceramic masterpieces on a wheel—relaxing and creative birthday activity.',
+    city: 'Barcelona',
+    region: 'Spain',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/6152238/pexels-photo-6152238.jpeg',
+    category: 'Birthday',
+    subcategory: 'Creative',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-8',
+    features: [
+      'Expert potter guidance',
+      '2 pieces to take home',
+      'Glazing & firing included',
+      'BYOB option',
+      'Aprons provided'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: 'Clay Studio, El Born',
+      postcode: '08003',
+      coordinates: { lat: 41.3851, lng: 2.1734 }
+    }
+  },
+
+  // CORPORATE (5)
+  {
+    id: '50',
+    title: 'Executive Whiskey Tasting',
+    description: 'Premium whiskey tasting led by a master distiller—ideal for client entertainment.',
+    city: 'London',
+    region: 'England',
+    priceFrom: 75,
+    image: 'https://images.pexels.com/photos/4825701/pexels-photo-4825701.jpeg',
+    category: 'Corporate',
+    subcategory: 'Food & Drink',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '6-12',
+    features: [
+      'Rare whiskey selection',
+      'Pairing with artisan chocolates',
+      'Private tasting room',
+      'Branded gift bags',
+      'Custom engraving option'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'The Whiskey Library, Mayfair',
+      postcode: 'W1K 4HR',
+      coordinates: { lat: 51.5099, lng: -0.1476 }
+    }
+  },
+  {
+    id: '51',
+    title: 'Luxury Yacht Networking',
+    description: 'Host clients on a private yacht cruise with catering and city views.',
+    city: 'Amsterdam',
+    region: 'Netherlands',
+    priceFrom: 200,
+    image: 'https://images.pexels.com/photos/843633/pexels-photo-843633.jpeg',
+    category: 'Corporate',
+    subcategory: 'Networking',
+    rating: 5.0,
+    duration: '3 hours',
+    groupSize: '10-25',
+    features: [
+      'Private yacht rental',
+      'Champagne & canapés',
+      'Skyline photo ops',
+      'Dedicated steward',
+      'Custom branding'
+    ],
+    availability: ['April-September'],
+    location: {
+      address: 'Amstel River Dock',
+      postcode: '1018 AB',
+      coordinates: { lat: 52.3676, lng: 4.9041 }
+    }
+  },
+  {
+    id: '52',
+    title: 'AI Innovation Workshop',
+    description: 'Hands-on session exploring AI tools for business—led by tech experts.',
+    city: 'Berlin',
+    region: 'Germany',
+    priceFrom: 90,
+    image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
+    category: 'Corporate',
+    subcategory: 'Tech',
+    rating: 4.8,
+    duration: '4 hours',
+    groupSize: '10-30',
+    features: [
+      'Case studies',
+      'Team ideation exercises',
+      'Actionable strategies',
+      'Post-workshop resources',
+      'Lunch included'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'Tech Hub Berlin, Mitte',
+      postcode: '10178',
+      coordinates: { lat: 52.5200, lng: 13.4050 }
+    }
+  },
+  {
+    id: '53',
+    title: 'Golf Tournament Package',
+    description: 'Corporate golf day with scoring, prizes, and post-game drinks.',
+    city: 'Dublin',
+    region: 'Ireland',
+    priceFrom: 120,
+    image: 'https://images.pexels.com/photos/2745067/pexels-photo-2745067.jpeg',
+    category: 'Corporate',
+    subcategory: 'Sports',
+    rating: 4.7,
+    duration: '6 hours',
+    groupSize: '12-48',
+    features: [
+      '18-hole course',
+      'Golf cart rental',
+      'Post-game dinner',
+      'Custom trophies',
+      'Photographer'
+    ],
+    availability: ['April-October'],
+    location: {
+      address: 'Elm Green Golf Club',
+      postcode: 'D18 XW25',
+      coordinates: { lat: 53.2866, lng: -6.2144 }
+    }
+  },
+  {
+    id: '54',
+    title: 'Mindfulness Retreat',
+    description: 'Half-day retreat with meditation, yoga, and stress-management workshops.',
+    city: 'Bristol',
+    region: 'England',
+    priceFrom: 65,
+    image: 'https://images.pexels.com/photos/3825507/pexels-photo-3825507.jpeg',
+    category: 'Corporate',
+    subcategory: 'Wellness',
+    rating: 4.9,
+    duration: '4 hours',
+    groupSize: '10-20',
+    features: [
+      'Guided meditation',
+      'Breathwork session',
+      'Healthy lunch',
+      'Take-home journal',
+      'Nature walk'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'Serenity Spa, Clifton',
+      postcode: 'BS8 4PD',
+      coordinates: { lat: 51.4545, lng: -2.6226 }
+    }
+  },
+
+  // KIDS (5)
+  {
+    id: '55',
+    title: 'Dinosaur Fossil Dig',
+    description: 'Kids uncover replica fossils and learn about prehistoric life from a paleontologist.',
+    city: 'London',
+    region: 'England',
+    priceFrom: 18,
+    image: 'https://images.pexels.com/photos/62318/dinosaur-museum-exhibit-62318.jpeg',
+    category: 'Kids',
+    subcategory: 'Educational',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '10-15',
+    features: [
+      'Dig site simulation',
+      'Take-home fossil',
+      'Dino quiz',
+      'Age 5-12',
+      'Parent participation'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: 'Natural History Museum, Kensington',
+      postcode: 'SW7 5BD',
+      coordinates: { lat: 51.4967, lng: -0.1764 }
+    }
+  },
+  {
+    id: '56',
+    title: 'Pirate Adventure Cruise',
+    description: 'Interactive boat trip where kids solve pirate puzzles and hunt for treasure.',
+    city: 'Liverpool',
+    region: 'England',
+    priceFrom: 12,
+    image: 'https://images.pexels.com/photos/1637122/pexels-photo-1637122.jpeg',
+    category: 'Kids',
+    subcategory: 'Adventure',
+    rating: 4.9,
+    duration: '1 hour',
+    groupSize: '15-30',
+    features: [
+      'Costumed pirate guide',
+      'Treasure map',
+      'Small prizes',
+      'Life jackets provided',
+      'Age 4-10'
+    ],
+    availability: ['Summer weekends'],
+    location: {
+      address: 'Albert Dock Pier',
+      postcode: 'L3 4AA',
+      coordinates: { lat: 53.4009, lng: -2.9915 }
+    }
+  },
+  {
+    id: '57',
+    title: 'Magic Workshop',
+    description: 'Learn beginner magic tricks with props to take home—taught by a professional magician.',
+    city: 'Birmingham',
+    region: 'England',
+    priceFrom: 15,
+    image: 'https://images.pexels.com/photos/356147/pexels-photo-356147.jpeg',
+    category: 'Kids',
+    subcategory: 'Entertainment',
+    rating: 4.7,
+    duration: '1 hour',
+    groupSize: '8-12',
+    features: [
+      '5 tricks to learn',
+      'Magic kit included',
+      'Performance showcase',
+      'Age 6-12',
+      'Parent viewing area'
+    ],
+    availability: ['Saturday'],
+    location: {
+      address: 'Wonder Theatre, Bullring',
+      postcode: 'B5 4BU',
+      coordinates: { lat: 52.4778, lng: -1.8944 }
+    }
+  },
+  {
+    id: '58',
+    title: 'Mini MasterChef Junior',
+    description: 'Kids cook a 3-course meal with chef supervision—suitable for tiny foodies!',
+    city: 'Glasgow',
+    region: 'Scotland',
+    priceFrom: 22,
+    image: 'https://images.pexels.com/photos/699524/pexels-photo-699524.jpeg',
+    category: 'Kids',
+    subcategory: 'Food & Drink',
+    rating: 4.8,
+    duration: '2 hours',
+    groupSize: '6-10',
+    features: [
+      'Kid-safe utensils',
+      'Apron & chef hat',
+      'Recipe booklet',
+      'Age 7-12',
+      'Dietary accommodations'
+    ],
+    availability: ['Sunday'],
+    location: {
+      address: 'Little Cooks Kitchen, West End',
+      postcode: 'G12 8RR',
+      coordinates: { lat: 55.8746, lng: -4.2919 }
+    }
+  },
+  {
+    id: '59',
+    title: 'Superhero Training Camp',
+    description: 'Obstacle course, "strength" challenges, and capes—kids become heroes for a day!',
+    city: 'Cardiff',
+    region: 'Wales',
+    priceFrom: 14,
+    image: 'https://images.pexels.com/photos/1078973/pexels-photo-1078973.jpeg',
+    category: 'Kids',
+    subcategory: 'Active',
+    rating: 4.9,
+    duration: '1.5 hours',
+    groupSize: '10-20',
+    features: [
+      'Cape & mask provided',
+      'Certified instructors',
+      'Photo ops',
+      'Age 4-10',
+      'Parent participation'
+    ],
+    availability: ['Weekends'],
+    location: {
+      address: 'Hero HQ, Cardiff Bay',
+      postcode: 'CF10 5AL',
+      coordinates: { lat: 51.4645, lng: -3.1649 }
+    }
+  },
+
+  {
+    id: '60',
+    title: 'Flamenco Dance Class',
+    description: 'Authentic flamenco lesson with live guitar—learn the basics of this passionate art form.',
+    city: 'Barcelona',
+    region: 'Spain',
+    priceFrom: 25,
+    image: 'https://images.pexels.com/photos/3738350/pexels-photo-3738350.jpeg',
+    category: 'Cultural',
+    subcategory: 'Dance',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '6-12',
+    features: [
+      'Professional dancer',
+      'Skirt rental included',
+      'Beginner-friendly',
+      'Video recording',
+      'Tapas & sangria option'
+    ],
+    availability: ['Tuesday', 'Thursday', 'Saturday'],
+    location: {
+      address: 'Flamenco Studio, El Raval',
+      postcode: '08001',
+      coordinates: { lat: 41.3809, lng: 2.1734 }
+    }
+  },
+  {
+    id: '61',
+    title: 'Paella Cooking Class',
+    description: 'Master the art of authentic Valencian paella with a local chef in a seaside setting.',
+    city: 'Valencia',
+    region: 'Spain',
+    priceFrom: 40,
+    image: 'https://images.pexels.com/photos/5949888/pexels-photo-5949888.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Cooking',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '8-15',
+    features: [
+      'Fresh ingredients',
+      'Wine pairing',
+      'Beachfront location',
+      'Recipe booklet',
+      'Vegetarian option'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'La Paellera, Malvarrosa Beach',
+      postcode: '46011',
+      coordinates: { lat: 39.4699, lng: -0.3263 }
+    }
+  },
+  {
+    id: '62',
+    title: 'Hot Air Balloon Ride',
+    description: 'Sunrise flight over Catalonia’s countryside with cava toast upon landing.',
+    city: 'Barcelona',
+    region: 'Spain',
+    priceFrom: 150,
+    image: 'https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg',
+    category: 'Adventure',
+    subcategory: 'Outdoor',
+    rating: 5.0,
+    duration: '4 hours',
+    groupSize: '2-8',
+    features: [
+      '1-hour flight',
+      'Breakfast picnic',
+      'Flight certificate',
+      'Photo package',
+      'Weight restrictions apply'
+    ],
+    availability: ['April-October'],
+    location: {
+      address: 'Balloon Base, Vic',
+      postcode: '08500',
+      coordinates: { lat: 41.9307, lng: 2.2549 }
+    }
+  },
+  {
+    id: '63',
+    title: 'Gaudi Architecture Tour',
+    description: 'Guided walkthrough of Barcelona’s iconic Gaudi landmarks, including Sagrada Família.',
+    city: 'Barcelona',
+    region: 'Spain',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
+    category: 'Cultural',
+    subcategory: 'Tours',
+    rating: 4.8,
+    duration: '3 hours',
+    groupSize: '10-20',
+    features: [
+      'Skip-the-line tickets',
+      'Expert art historian',
+      'Small group',
+      'Audio headsets',
+      'Local tapas stop'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Plaça de Gaudí, Eixample',
+      postcode: '08025',
+      coordinates: { lat: 41.4036, lng: 2.1744 }
+    }
+  },
+  {
+    id: '64',
+    title: 'Ibiza Beach Yoga',
+    description: 'Sunrise/sunset yoga sessions on a secluded Ibiza beach—pure relaxation.',
+    city: 'Ibiza',
+    region: 'Spain',
+    priceFrom: 20,
+    image: 'https://images.pexels.com/photos/1812964/pexels-photo-1812964.jpeg',
+    category: 'Wellness',
+    subcategory: 'Fitness',
+    rating: 4.9,
+    duration: '1 hour',
+    groupSize: '5-15',
+    features: [
+      'Oceanfront mats',
+      'All levels welcome',
+      'Fresh coconut water',
+      'Sound bath option',
+      'Towels provided'
+    ],
+    availability: ['May-September'],
+    location: {
+      address: 'Cala Salada Beach',
+      postcode: '07820',
+      coordinates: { lat: 38.9931, lng: 1.2345 }
+    }
+  },
+
+  // REGIONS: GERMANY (5)
+  {
+    id: '65',
+    title: 'Beer Brewery Tour',
+    description: 'Behind-the-scenes tour of a traditional Bavarian brewery with tasting flight.',
+    city: 'Berlin',
+    region: 'Germany',
+    priceFrom: 28,
+    image: 'https://images.pexels.com/photos/1267701/pexels-photo-1267701.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Tours',
+    rating: 4.7,
+    duration: '2 hours',
+    groupSize: '8-20',
+    features: [
+      '5 beer samples',
+      'History of brewing',
+      'Pretzel snack',
+      'Souvenir glass',
+      'English/German guides'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Berliner Berg Brewery, Kreuzberg',
+      postcode: '10999',
+      coordinates: { lat: 52.4996, lng: 13.4224 }
+    }
+  },
+  {
+    id: '66',
+    title: 'Cold War Bunker Tour',
+    description: 'Explore a preserved Cold War bunker with stories of Berlin’s divided history.',
+    city: 'Berlin',
+    region: 'Germany',
+    priceFrom: 18,
+    image: 'https://images.pexels.com/photos/3990355/pexels-photo-3990355.jpeg',
+    category: 'Historical',
+    subcategory: 'Tours',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '6-15',
+    features: [
+      'Original bunker artifacts',
+      'Expert historian guide',
+      'Audio recordings',
+      'Not wheelchair accessible',
+      'Age 12+'
+    ],
+    availability: ['Wednesday-Sunday'],
+    location: {
+      address: 'Bunker Museum, Mitte',
+      postcode: '10117',
+      coordinates: { lat: 52.5186, lng: 13.4081 }
+    }
+  },
+  {
+    id: '67',
+    title: 'Black Forest Hiking',
+    description: 'Guided hike through fairy-tale forests with waterfall stops and local folklore.',
+    city: 'Munich',
+    region: 'Germany',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg',
+    category: 'Outdoor',
+    subcategory: 'Adventure',
+    rating: 4.9,
+    duration: '5 hours',
+    groupSize: '4-12',
+    features: [
+      'Picnic lunch',
+      'Scenic viewpoints',
+      'Wildlife spotting',
+      'Hiking poles provided',
+      'Transport from Munich'
+    ],
+    availability: ['May-October'],
+    location: {
+      address: 'Black Forest Trailhead',
+      postcode: '79117',
+      coordinates: { lat: 47.9333, lng: 7.9000 }
+    }
+  },
+  {
+    id: '68',
+    title: 'VW Beetle Road Trip',
+    description: 'Drive a classic VW Beetle through scenic routes with a curated playlist.',
+    city: 'Hamburg',
+    region: 'Germany',
+    priceFrom: 90,
+    image: 'https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg',
+    category: 'Adventure',
+    subcategory: 'Driving',
+    rating: 4.8,
+    duration: '4 hours',
+    groupSize: '2 (per car)',
+    features: [
+      '1970s Beetle rental',
+      'Scenic route map',
+      'Polaroid camera',
+      'Picnic blanket & basket',
+      'Insurance included'
+    ],
+    availability: ['April-November'],
+    location: {
+      address: 'Retro Rides, Altona',
+      postcode: '22767',
+      coordinates: { lat: 53.5500, lng: 9.9333 }
+    }
+  },
+  {
+    id: '69',
+    title: 'Christmas Market Tour',
+    description: 'Guided tasting tour of Germany’s famous Christmas markets (seasonal).',
+    city: 'Berlin',
+    region: 'Germany',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/1597524/pexels-photo-1597524.jpeg',
+    category: 'Cultural',
+    subcategory: 'Food & Drink',
+    rating: 4.9,
+    duration: '3 hours',
+    groupSize: '6-12',
+    features: [
+      '6 food/drink samples',
+      'Local guide',
+      'Market history',
+      'Souvenir mug',
+      'Glühwein included'
+    ],
+    availability: ['November-December'],
+    location: {
+      address: 'Gendarmenmarkt, Mitte',
+      postcode: '10117',
+      coordinates: { lat: 52.5139, lng: 13.3927 }
+    }
+  },
+
+  // REGIONS: NETHERLANDS (5)
+  {
+    id: '70',
+    title: 'Canal Pizza Cruise',
+    description: 'Evening cruise through Amsterdam’s canals with unlimited pizza and drinks.',
+    city: 'Amsterdam',
+    region: 'Netherlands',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Tours',
+    rating: 4.8,
+    duration: '2 hours',
+    groupSize: '10-30',
+    features: [
+      '5 pizza varieties',
+      'Open bar (beer/wine)',
+      'Sunset views',
+      'Indoor/outdoor seating',
+      'DJ on weekends'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Prins Hendrikkade Dock',
+      postcode: '1012 TM',
+      coordinates: { lat: 52.3758, lng: 4.8976 }
+    }
+  },
+  {
+    id: '71',
+    title: 'Van Gogh Bike Tour',
+    description: 'Cycle to Van Gogh’s inspirations with stops at hidden art spots.',
+    city: 'Amsterdam',
+    region: 'Netherlands',
+    priceFrom: 30,
+    image: 'https://images.pexels.com/photos/7249213/pexels-photo-7249213.jpeg',
+    category: 'Cultural',
+    subcategory: 'Tours',
+    rating: 4.7,
+    duration: '3 hours',
+    groupSize: '6-12',
+    features: [
+      'Bike rental included',
+      'Art historian guide',
+      'Sketchbook & pencils',
+      'Coffee stop',
+      'Small group'
+    ],
+    availability: ['April-October'],
+    location: {
+      address: 'Museumplein Bike Hub',
+      postcode: '1071 DJ',
+      coordinates: { lat: 52.3584, lng: 4.8811 }
+    }
+  },
+  {
+    id: '72',
+    title: 'Cheese Tasting Workshop',
+    description: 'Sample Dutch cheeses paired with wines and jenever in a 17th-century cellar.',
+    city: 'Amsterdam',
+    region: 'Netherlands',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Tasting',
+    rating: 4.9,
+    duration: '1.5 hours',
+    groupSize: '6-15',
+    features: [
+      '8 cheese varieties',
+      'Wine/jenever pairings',
+      'Cheese-making demo',
+      'Discount on purchases',
+      'Vegetarian-friendly'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Old Amsterdam Cheese House',
+      postcode: '1012 JS',
+      coordinates: { lat: 52.3731, lng: 4.8925 }
+    }
+  },
+  {
+    id: '73',
+    title: 'Windmill Kayaking',
+    description: 'Paddle through Dutch waterways past historic windmills with a guide.',
+    city: 'Rotterdam',
+    region: 'Netherlands',
+    priceFrom: 40,
+    image: 'https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg',
+    category: 'Outdoor',
+    subcategory: 'Adventure',
+    rating: 4.8,
+    duration: '2.5 hours',
+    groupSize: '4-10',
+    features: [
+      'Double kayaks',
+      'Safety briefing',
+      'Windmill interior visit',
+      'Local snack pack',
+      'Waterproof bags'
+    ],
+    availability: ['May-September'],
+    location: {
+      address: 'Kinderdijk Kayak Center',
+      postcode: '2961 AT',
+      coordinates: { lat: 51.8853, lng: 4.6361 }
+    }
+  },
+  {
+    id: '74',
+    title: 'Delft Pottery Workshop',
+    description: 'Paint traditional Delft blue pottery in a historic studio.',
+    city: 'Delft',
+    region: 'Netherlands',
+    priceFrom: 50,
+    image: 'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg',
+    category: 'Creative',
+    subcategory: 'Arts',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-8',
+    features: [
+      'Authentic Delftware',
+      'Master painter guidance',
+      'Kiln firing included',
+      'Shipping available',
+      '300-year-old studio'
+    ],
+    availability: ['Wednesday-Sunday'],
+    location: {
+      address: 'Royal Delft Workshop',
+      postcode: '2628 AR',
+      coordinates: { lat: 52.0116, lng: 4.3571 }
+    }
+  },
+
+  // REGIONS: CZECH REPUBLIC (5)
+  {
+    id: '75',
+    title: 'Prague Ghost Tour',
+    description: 'Spooky evening walk through Prague’s haunted alleys with a storyteller guide.',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 18,
+    image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg',
+    category: 'Historical',
+    subcategory: 'Tours',
+    rating: 4.7,
+    duration: '1.5 hours',
+    groupSize: '8-20',
+    features: [
+      'Dark history tales',
+      'Lanterns provided',
+      'Medieval torture exhibit',
+      'Age 12+',
+      'English/Czech guides'
+    ],
+    availability: ['Nightly'],
+    location: {
+      address: 'Old Town Square',
+      postcode: '11000',
+      coordinates: { lat: 50.0875, lng: 14.4213 }
+    }
+  },
+  {
+    id: '76',
+    title: 'Beer Spa Relaxation',
+    description: 'Soak in a beer-infused tub with unlimited Czech beer on tap beside you.',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 60,
+    image: 'https://images.pexels.com/photos/1267354/pexels-photo-1267354.jpeg',
+    category: 'Wellness',
+    subcategory: 'Spa',
+    rating: 4.9,
+    duration: '1 hour',
+    groupSize: '2-4',
+    features: [
+      'Private beer bath',
+      'Unlimited Pilsner',
+      'Herbal compress',
+      'Relaxation room',
+      'Towels & robes'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Bernard Beer Spa, Old Town',
+      postcode: '11000',
+      coordinates: { lat: 50.0865, lng: 14.4206 }
+    }
+  },
+  {
+    id: '77',
+    title: 'Bohemian Glassblowing',
+    description: 'Watch a master glassblower craft Czech crystal, then try it yourself.',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 45,
+    image: 'https://images.pexels.com/photos/6152252/pexels-photo-6152252.jpeg',
+    category: 'Cultural',
+    subcategory: 'Workshop',
+    rating: 4.8,
+    duration: '1.5 hours',
+    groupSize: '4-8',
+    features: [
+      'Live demonstration',
+      'Hands-on ornament making',
+      'Take-home creation',
+      'Age 10+',
+      'Cooling/finishing service'
+    ],
+    availability: ['Weekdays'],
+    location: {
+      address: 'Bohemia Crystal Studio',
+      postcode: '11800',
+      coordinates: { lat: 50.0755, lng: 14.4378 }
+    }
+  },
+  {
+    id: '78',
+    title: 'Castle Night Tour',
+    description: 'Exclusive after-hours access to Prague Castle with a historian.',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 55,
+    image: 'https://images.pexels.com/photos/164336/pexels-photo-164336.jpeg',
+    category: 'Historical',
+    subcategory: 'Tours',
+    rating: 5.0,
+    duration: '2 hours',
+    groupSize: '6-12',
+    features: [
+      'Skip-the-line entry',
+      'Secret corridors',
+      'Crown jewels replica',
+      'Ghost stories',
+      'Small group only'
+    ],
+    availability: ['Friday', 'Saturday'],
+    location: {
+      address: 'Prague Castle Gate',
+      postcode: '11908',
+      coordinates: { lat: 50.0900, lng: 14.4000 }
+    }
+  },
+  {
+    id: '79',
+    title: 'Trufa Chocolate Workshop',
+    description: 'Learn to make Czech trufa chocolates with a pastry chef in a boutique kitchen.',
+    city: 'Prague',
+    region: 'Czech Republic',
+    priceFrom: 35,
+    image: 'https://images.pexels.com/photos/6605313/pexels-photo-6605313.jpeg',
+    category: 'Food & Drink',
+    subcategory: 'Cooking',
+    rating: 4.9,
+    duration: '2 hours',
+    groupSize: '4-10',
+    features: [
+      '5 truffle varieties',
+      'Personalized packaging',
+      'Coffee/tea pairing',
+      'Recipe cards',
+      'Dietary options'
+    ],
+    availability: ['Daily'],
+    location: {
+      address: 'Sweet Prague Kitchen',
+      postcode: '12000',
+      coordinates: { lat: 50.0830, lng: 14.4256 }
+    }
   }
+
+
 ];
 
 export const CATEGORIES = [
   {
     id: 'hen-do',
     title: 'Hen Do',
+    description: 'Unforgettable celebrations for brides-to-be',
+    image: 'https://images.pexels.com/photos/7551658/pexels-photo-7551658.jpeg',
     icon: 'champagne',
-    description: 'Unforgettable hen party activities and experiences',
-    image: 'https://images.pexels.com/photos/3171837/pexels-photo-3171837.jpeg',
-    subcategories: ['Food & Drink', 'Spa & Beauty', 'Arts & Crafts', 'Dance', 'Adventure']
+    subcategories: ['Activities', 'Spa & Beauty', 'Food & Drink', 'Dance Classes', 'Crafts']
   },
   {
     id: 'stag-do',
     title: 'Stag Do',
+    description: 'Action-packed adventures for the groom-to-be',
+    image: 'https://images.pexels.com/photos/5935232/pexels-photo-5935232.jpeg',
     icon: 'beer',
-    description: 'Epic stag do activities and adventures',
-    image: 'https://images.pexels.com/photos/4255483/pexels-photo-4255483.jpeg',
-    subcategories: ['Sports', 'Adventure', 'Food & Drink', 'Gaming', 'Nightlife']
+    subcategories: ['Activities', 'Sports', 'Racing', 'Shooting', 'Water Sports']
   },
   {
     id: 'team-building',
     title: 'Team Building',
-    icon: 'users',
-    description: 'Boost team morale with exciting group activities',
+    description: 'Engaging activities to strengthen team bonds',
     image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
-    subcategories: ['Problem Solving', 'Outdoor Activities', 'Cooking', 'Sports', 'Creative']
+    icon: 'users',
+    subcategories: ['Indoor', 'Outdoor', 'Challenges', 'Workshops', 'Games']
   },
   {
     id: 'birthday',
     title: 'Birthday',
+    description: 'Memorable celebrations for all ages',
+    image: 'https://images.pexels.com/photos/7180795/pexels-photo-7180795.jpeg',
     icon: 'cake',
-    description: 'Make your birthday celebration truly special',
-    image: 'https://images.pexels.com/photos/7180617/pexels-photo-7180617.jpeg',
-    subcategories: ['Food & Drink', 'Entertainment', 'Adventure', 'Creative', 'Games']
+    subcategories: ['Activities', 'Parties', 'Dining', 'Entertainment']
   },
   {
     id: 'corporate',
     title: 'Corporate',
+    description: 'Professional events and team activities',
+    image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg',
     icon: 'briefcase',
-    description: 'Impress clients and colleagues with premium experiences',
-    image: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg',
-    subcategories: ['Fine Dining', 'Team Building', 'Workshops', 'Entertainment', 'Conferences']
+    subcategories: ['Meetings', 'Conferences', 'Team Building', 'Workshops']
   },
   {
     id: 'kids',
     title: 'Kids',
+    description: 'Fun activities for younger groups',
+    image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg',
     icon: 'snowflake',
-    description: 'Fun and exciting activities for children',
-    image: 'https://images.pexels.com/photos/1708601/pexels-photo-1708601.jpeg',
-    subcategories: ['Party Games', 'Arts & Crafts', 'Sports', 'Educational', 'Entertainment']
+    subcategories: ['Parties', 'Activities', 'Education', 'Entertainment']
   }
 ];
 
@@ -266,312 +2174,138 @@ export const CITIES = [
   {
     id: 'london',
     name: 'London',
-    region: 'England',
+    activities: 120,
+    region: 'england',
     image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg',
-    description: 'Experience the best group activities in the capital',
-    activities: 150,
-    coordinates: { lat: 51.5074, lng: -0.1278 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday', 'Christmas']
+    description: 'Discover exciting activities in the capital'
   },
   {
     id: 'manchester',
     name: 'Manchester',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1942321/pexels-photo-1942321.jpeg',
-    description: 'From cocktail making to escape rooms, Manchester has it all',
-    activities: 120,
-    coordinates: { lat: 53.4808, lng: -2.2426 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday', 'Christmas']
+    activities: 85,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Vibrant activities in the heart of the North'
   },
   {
     id: 'birmingham',
     name: 'Birmingham',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/6045083/pexels-photo-6045083.jpeg',
-    description: 'The perfect destination for unforgettable group experiences',
-    activities: 95,
-    coordinates: { lat: 52.4862, lng: -1.8904 },
-    popularCategories: ['Hen Do', 'Birthday', 'Christmas']
+    activities: 65,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/585829/pexels-photo-585829.jpeg',
+    description: 'Fun-filled experiences in the Second City'
   },
   {
     id: 'liverpool',
     name: 'Liverpool',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/552766/pexels-photo-552766.jpeg',
-    description: 'Experience the best group activities in the cultural capital',
-    activities: 85,
-    coordinates: { lat: 53.4084, lng: -2.9916 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Group Activities', 'Christmas']
+    activities: 55,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Exciting activities in the cultural hub'
   },
   {
     id: 'newcastle',
     name: 'Newcastle',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/2662792/pexels-photo-2662792.jpeg',
-    description: 'The North East\'s top destination for celebrations',
-    activities: 80,
-    coordinates: { lat: 54.9783, lng: -1.6178 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Birthday']
+    activities: 45,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Unforgettable experiences in the North East'
   },
   {
     id: 'leeds',
     name: 'Leeds',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/6488512/pexels-photo-6488512.jpeg',
-    description: 'Yorkshire\'s finest selection of group experiences',
-    activities: 75,
-    coordinates: { lat: 53.8008, lng: -1.5491 },
-    popularCategories: ['Hen Do', 'Birthday', 'Team Building']
+    activities: 50,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Dynamic activities in Yorkshire'
   },
   {
     id: 'bristol',
     name: 'Bristol',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1058958/pexels-photo-1058958.jpeg',
-    description: 'Creative activities in the South West\'s most vibrant city',
-    activities: 70,
-    coordinates: { lat: 51.4545, lng: -2.5879 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Christmas']
+    activities: 45,
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Creative experiences in the South West'
   },
   {
     id: 'brighton',
     name: 'Brighton',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1705254/pexels-photo-1705254.jpeg',
-    description: 'Seaside fun and exciting group activities',
-    activities: 65,
-    coordinates: { lat: 50.8225, lng: -0.1372 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Team Building', 'Christmas']
-  },
-  {
-    id: 'nottingham',
-    name: 'Nottingham',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1850619/pexels-photo-1850619.jpeg',
-    description: 'Historic city with modern entertainment',
-    activities: 60,
-    coordinates: { lat: 52.9548, lng: -1.1581 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Group Activities']
-  },
-  {
-    id: 'bournemouth',
-    name: 'Bournemouth',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1838640/pexels-photo-1838640.jpeg',
-    description: 'Coastal activities and beach celebrations',
-    activities: 55,
-    coordinates: { lat: 50.7192, lng: -1.8808 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Cocktail Making']
-  },
-  {
-    id: 'bath',
-    name: 'Bath',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1850615/pexels-photo-1850615.jpeg',
-    description: 'Elegant city with unique experiences',
-    activities: 50,
-    coordinates: { lat: 51.3811, lng: -2.3590 },
-    popularCategories: ['Hen Do', 'Group Activities', 'Cocktail Making']
-  },
-  {
-    id: 'york',
-    name: 'York',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1850617/pexels-photo-1850617.jpeg',
-    description: 'Historic charm meets modern entertainment',
-    activities: 45,
-    coordinates: { lat: 53.9591, lng: -1.0815 },
-    popularCategories: ['Hen Do', 'Cocktail Making']
-  },
-  {
-    id: 'chester',
-    name: 'Chester',
-    region: 'England',
-    image: 'https://images.pexels.com/photos/1850618/pexels-photo-1850618.jpeg',
-    description: 'Roman heritage and modern celebrations',
     activities: 40,
-    coordinates: { lat: 53.1937, lng: -2.8932 },
-    popularCategories: ['Cocktail Making']
+    region: 'england',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Coastal fun and activities'
   },
   {
     id: 'edinburgh',
     name: 'Edinburgh',
-    region: 'Scotland',
-    image: 'https://images.pexels.com/photos/1144199/pexels-photo-1144199.jpeg',
-    description: 'Historic charm meets modern entertainment',
-    activities: 90,
-    coordinates: { lat: 55.9533, lng: -3.1883 },
-    popularCategories: ['Hen Do', 'Group Activities', 'Team Building', 'Christmas']
+    activities: 60,
+    region: 'scotland',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Historic adventures in Scotland\'s capital'
   },
   {
     id: 'glasgow',
     name: 'Glasgow',
-    region: 'Scotland',
-    image: 'https://images.pexels.com/photos/2549572/pexels-photo-2549572.jpeg',
-    description: 'Scotland\'s largest city full of exciting activities',
-    activities: 85,
-    coordinates: { lat: 55.8642, lng: -4.2518 },
-    popularCategories: ['Hen Do', 'Group Activities', 'Christmas']
+    activities: 50,
+    region: 'scotland',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Urban excitement in Scotland\'s largest city'
   },
   {
     id: 'cardiff',
     name: 'Cardiff',
-    region: 'Wales',
-    image: 'https://images.pexels.com/photos/1722183/pexels-photo-1722183.jpeg',
-    description: 'The Welsh capital\'s best group experiences',
-    activities: 70,
-    coordinates: { lat: 51.4816, lng: -3.1791 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Christmas']
+    activities: 45,
+    region: 'wales',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Welsh capital adventures'
   },
   {
     id: 'belfast',
     name: 'Belfast',
-    region: 'Northern Ireland',
-    image: 'https://images.pexels.com/photos/1850616/pexels-photo-1850616.jpeg',
-    description: 'Northern Ireland\'s premier party destination',
-    activities: 65,
-    coordinates: { lat: 54.5973, lng: -5.9301 },
-    popularCategories: ['Group Activities', 'Cocktail Making']
+    activities: 32,
+    region: 'northern-ireland',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Northern Irish experiences'
   },
   {
     id: 'dublin',
     name: 'Dublin',
-    region: 'Ireland',
-    image: 'https://images.pexels.com/photos/1850620/pexels-photo-1850620.jpeg',
-    description: 'Ireland\'s vibrant capital of entertainment',
-    activities: 95,
-    coordinates: { lat: 53.3498, lng: -6.2603 },
-    popularCategories: ['Hen Do', 'Stag Do']
+    activities: 67,
+    region: 'ireland',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Irish charm and activities'
   },
   {
     id: 'amsterdam',
     name: 'Amsterdam',
-    region: 'Netherlands',
-    image: 'https://images.pexels.com/photos/1850621/pexels-photo-1850621.jpeg',
-    description: 'Vibrant city life and unique experiences',
-    activities: 85,
-    coordinates: { lat: 52.3676, lng: 4.9041 },
-    popularCategories: ['Birthday']
+    activities: 76,
+    region: 'netherlands',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Dutch adventures and experiences'
   },
   {
     id: 'barcelona',
     name: 'Barcelona',
-    region: 'Spain',
-    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
-    description: 'Mediterranean charm and endless entertainment',
-    activities: 90,
-    coordinates: { lat: 41.3851, lng: 2.1734 },
-    popularCategories: ['Hen Do']
+    activities: 85,
+    region: 'spain',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Catalan culture and activities'
   },
   {
     id: 'berlin',
     name: 'Berlin',
-    region: 'Germany',
-    image: 'https://images.pexels.com/photos/1850622/pexels-photo-1850622.jpeg',
-    description: 'Europe\'s capital of cool',
-    activities: 80,
-    coordinates: { lat: 52.5200, lng: 13.4050 },
-    popularCategories: ['Stag Do']
+    activities: 78,
+    region: 'germany',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'German capital experiences'
   },
   {
     id: 'prague',
     name: 'Prague',
-    region: 'Czech Republic',
-    image: 'https://images.pexels.com/photos/1850623/pexels-photo-1850623.jpeg',
-    description: 'Historic beauty meets modern entertainment',
-    activities: 75,
-    coordinates: { lat: 50.0755, lng: 14.4378 },
-    popularCategories: ['Stag Do']
-  },
-  {
-    id: 'budapest',
-    name: 'Budapest',
-    region: 'Hungary',
-    image: 'https://images.pexels.com/photos/1850624/pexels-photo-1850624.jpeg',
-    description: 'Eastern European charm and excitement',
-    activities: 70,
-    coordinates: { lat: 47.4979, lng: 19.0402 },
-    popularCategories: ['Hen Do', 'Stag Do']
-  },
-  {
-    id: 'krakow',
-    name: 'Krakow',
-    region: 'Poland',
-    image: 'https://images.pexels.com/photos/1850625/pexels-photo-1850625.jpeg',
-    description: 'Polish culture and vibrant nightlife',
-    activities: 65,
-    coordinates: { lat: 50.0647, lng: 19.9450 },
-    popularCategories: ['Stag Do']
-  },
-  {
-    id: 'lisbon',
-    name: 'Lisbon',
-    region: 'Portugal',
-    image: 'https://images.pexels.com/photos/1850626/pexels-photo-1850626.jpeg',
-    description: 'Sun-soaked celebrations by the Atlantic',
-    activities: 70,
-    coordinates: { lat: 38.7223, lng: -9.1393 },
-    popularCategories: ['Hen Do']
-  },
-  {
-    id: 'madrid',
-    name: 'Madrid',
-    region: 'Spain',
-    image: 'https://images.pexels.com/photos/1850627/pexels-photo-1850627.jpeg',
-    description: 'Spanish capital of culture and fun',
-    activities: 75,
-    coordinates: { lat: 40.4168, lng: -3.7038 },
-    popularCategories: ['Hen Do']
-  },
-  {
-    id: 'benidorm',
-    name: 'Benidorm',
-    region: 'Spain',
-    image: 'https://images.pexels.com/photos/1850628/pexels-photo-1850628.jpeg',
-    description: 'Costa Blanca\'s party paradise',
-    activities: 60,
-    coordinates: { lat: 38.5411, lng: -0.1225 },
-    popularCategories: ['Hen Do', 'Stag Do', 'Birthday']
-  },
-  {
-    id: 'magaluf',
-    name: 'Magaluf',
-    region: 'Spain',
-    image: 'https://images.pexels.com/photos/1850629/pexels-photo-1850629.jpeg',
-    description: 'Mallorca\'s ultimate party destination',
-    activities: 55,
-    coordinates: { lat: 39.5065, lng: 2.5383 },
-    popularCategories: ['Hen Do']
-  },
-  {
-    id: 'marbella',
-    name: 'Marbella',
-    region: 'Spain',
-    image: 'https://images.pexels.com/photos/1850630/pexels-photo-1850630.jpeg',
-    description: 'Luxury celebrations on the Costa del Sol',
-    activities: 65,
-    coordinates: { lat: 36.5097, lng: -4.8766 },
-    popularCategories: ['Hen Do']
-  },
-  {
-    id: 'hamburg',
-    name: 'Hamburg',
-    region: 'Germany',
-    image: 'https://images.pexels.com/photos/1850631/pexels-photo-1850631.jpeg',
-    description: 'Northern Germany\'s entertainment hub',
-    activities: 70,
-    coordinates: { lat: 53.5511, lng: 9.9937 },
-    popularCategories: ['Stag Do']
-  },
-  {
-    id: 'munich',
-    name: 'Munich',
-    region: 'Germany',
-    image: 'https://images.pexels.com/photos/1850632/pexels-photo-1850632.jpeg',
-    description: 'Bavarian tradition meets modern fun',
-    activities: 75,
-    coordinates: { lat: 48.1351, lng: 11.5820 },
-    popularCategories: ['Stag Do']
+    activities: 54,
+    region: 'czech-republic',
+    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    description: 'Czech adventures and culture'
   }
 ];
 
@@ -579,74 +2313,74 @@ export const REGIONS = [
   {
     id: 'england',
     name: 'England',
-    cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Newcastle', 'Leeds', 'Bristol', 'Brighton', 'Nottingham', 'Bournemouth', 'Bath', 'York', 'Chester'],
-    activities: 1000
+    activities: 245,
+    cities: ['London', 'Manchester', 'Birmingham', 'Liverpool', 'Newcastle', 'Leeds', 'Bristol', 'Brighton', 'Nottingham', 'Bournemouth', 'Bath', 'York', 'Chester']
   },
   {
     id: 'scotland',
     name: 'Scotland',
-    cities: ['Edinburgh', 'Glasgow'],
-    activities: 175
+    activities: 89,
+    cities: ['Edinburgh', 'Glasgow']
   },
   {
     id: 'wales',
     name: 'Wales',
-    cities: ['Cardiff'],
-    activities: 70
+    activities: 45,
+    cities: ['Cardiff']
   },
   {
     id: 'northern-ireland',
     name: 'Northern Ireland',
-    cities: ['Belfast'],
-    activities: 65
+    activities: 32,
+    cities: ['Belfast']
   },
   {
     id: 'ireland',
     name: 'Ireland',
-    cities: ['Dublin'],
-    activities: 95
+    activities: 67,
+    cities: ['Dublin']
   },
   {
     id: 'spain',
     name: 'Spain',
-    cities: ['Barcelona', 'Madrid', 'Benidorm', 'Magaluf', 'Marbella'],
-    activities: 365
+    activities: 156,
+    cities: ['Barcelona', 'Madrid', 'Benidorm', 'Magaluf', 'Marbella']
   },
   {
     id: 'germany',
     name: 'Germany',
-    cities: ['Berlin', 'Hamburg', 'Munich'],
-    activities: 225
+    activities: 98,
+    cities: ['Berlin', 'Hamburg', 'Munich']
   },
   {
     id: 'netherlands',
     name: 'Netherlands',
-    cities: ['Amsterdam'],
-    activities: 85
+    activities: 76,
+    cities: ['Amsterdam']
   },
   {
     id: 'czech-republic',
     name: 'Czech Republic',
-    cities: ['Prague'],
-    activities: 75
+    activities: 54,
+    cities: ['Prague']
   },
   {
     id: 'hungary',
     name: 'Hungary',
-    cities: ['Budapest'],
-    activities: 70
+    activities: 43,
+    cities: ['Budapest']
   },
   {
     id: 'poland',
     name: 'Poland',
-    cities: ['Krakow'],
-    activities: 65
+    activities: 65,
+    cities: ['Krakow']
   },
   {
     id: 'portugal',
     name: 'Portugal',
-    cities: ['Lisbon'],
-    activities: 70
+    activities: 78,
+    cities: ['Lisbon']
   }
 ];
 
@@ -735,5 +2469,149 @@ export const TESTIMONIALS = [
     image: 'https://images.pexels.com/photos/1181695/pexels-photo-1181695.jpeg',
     text: 'Found the perfect birthday activity through Party Pulse. The wine tasting experience was sophisticated and fun - exactly what I wanted!',
     rating: 5
+  }
+];
+
+export const ACTIVITY_CATEGORIES = [
+  {
+    id: 'hen-parties',
+    title: 'Hen Parties',
+    description: 'Unforgettable celebrations for the bride-to-be',
+    subcategories: [
+      'Cocktail Making',
+      'Dance Classes',
+      'Spa Days',
+      'Life Drawing',
+      'Afternoon Tea',
+      'Wine Tasting'
+    ]
+  },
+  {
+    id: 'stag-parties',
+    title: 'Stag Parties',
+    description: 'Epic last nights of freedom',
+    subcategories: [
+      'Beer Tasting',
+      'Go Karting',
+      'Paintball',
+      'Casino Nights',
+      'Escape Rooms',
+      'Adventure Sports'
+    ]
+  },
+  {
+    id: 'team-building',
+    title: 'Team Building',
+    description: 'Build stronger teams with fun activities',
+    subcategories: [
+      'Cooking Classes',
+      'Escape Rooms',
+      'Outdoor Activities',
+      'Indoor Games',
+      'Creative Workshops',
+      'Sports Events'
+    ]
+  },
+  {
+    id: 'birthdays',
+    title: 'Birthdays',
+    description: 'Make your birthday extra special',
+    subcategories: [
+      'Party Packages',
+      'Dining Experiences',
+      'Activity Days',
+      'Entertainment',
+      'Adventure Activities',
+      'Group Games'
+    ]
+  },
+  {
+    id: 'christmas',
+    title: 'Christmas',
+    description: 'Festive celebrations for groups',
+    subcategories: [
+      'Party Nights',
+      'Dinner & Dance',
+      'Themed Events',
+      'Lunch Parties',
+      'Entertainment',
+      'Activities'
+    ]
+
+  }
+];
+
+export const PARTY_EXTRAS = [
+  {
+    id: 'decorations',
+    name: 'Decorations',
+    options: [
+      {
+        id: 'basic-decorations',
+        name: 'Basic Decoration Package',
+        price: 50,
+        includes: ['Balloons', 'Banners', 'Table decorations']
+      },
+      {
+        id: 'premium-decorations',
+        name: 'Premium Decoration Package',
+        price: 100,
+        includes: ['Themed decorations', 'Photo backdrop', 'Centerpieces', 'LED lights']
+      }
+    ]
+  },
+  {
+    id: 'catering',
+    name: 'Food & Drinks',
+    options: [
+      {
+        id: 'drinks-package',
+        name: 'Welcome Drinks Package',
+        pricePerPerson: 15,
+        includes: ['Prosecco reception', 'Soft drinks', 'Mixers']
+      },
+      {
+        id: 'buffet-package',
+        name: 'Buffet Package',
+        pricePerPerson: 25,
+        includes: ['Selection of sandwiches', 'Hot finger food', 'Desserts', 'Soft drinks']
+      }
+    ]
+  },
+  {
+    id: 'extras',
+    name: 'Additional Extras',
+    options: [
+      {
+        id: 'photographer',
+        name: 'Professional Photographer',
+        price: 200,
+        includes: ['2 hours coverage', 'Digital photos', 'Online gallery']
+      },
+      {
+        id: 'transport',
+        name: 'Transport Package',
+        pricePerPerson: 20,
+        includes: ['Return minibus transfer', 'Professional driver', 'City center pickup']
+      }
+    ]
+  }
+];
+
+export const GROUP_SIZES = [
+  {
+    id: 'small',
+    name: 'Small',
+    range: '1-5 people'
+  },
+  {
+    id: 'medium',
+    name: 'Medium',
+    range: '6-15 people'
+  },
+  {
+    id: 'large',
+    name: 'Large',
+    range: '16+ people'
   }
 ];

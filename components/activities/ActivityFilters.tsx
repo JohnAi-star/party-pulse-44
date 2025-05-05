@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from '@/components/ui/accordion';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -24,11 +29,10 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
   const [localFilters, setLocalFilters] = useState(filters);
 
   const handleUpdate = (filterName: string, value: any) => {
-    setLocalFilters({ ...localFilters, [filterName]: value });
-  };
-
-  const applyFilters = () => {
-    updateFilters(localFilters);
+    const newFilters = { ...localFilters, [filterName]: value };
+    setLocalFilters(newFilters);
+    updateFilters(newFilters); // Immediate update to parent
+    console.log(`Updated ${filterName}:`, value); // ✅ DEBUG
   };
 
   const resetFilters = () => {
@@ -44,32 +48,41 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
     updateFilters(resetValues);
   };
 
-  // Get subcategories for selected category
   const selectedCategory = CATEGORIES.find(cat => cat.id === localFilters.category);
   const subcategories = selectedCategory?.subcategories || [];
 
   return (
     <div className="space-y-6">
-      <Accordion type="multiple" defaultValue={['category', 'location', 'price', 'group-size']}>
+      <Accordion
+        type="multiple"
+        defaultValue={['category', 'location', 'price', 'group-size']}
+        className="space-y-4"
+      >
         {/* Category Filter */}
-        <AccordionItem value="category">
-          <AccordionTrigger>Categories</AccordionTrigger>
-          <AccordionContent>
+        <AccordionItem value="category" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Categories</AccordionTrigger>
+          <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               <div className="space-y-2">
-                {CATEGORIES.map((category) => (
-                  <div key={category.id} className="flex items-center space-x-2">
-                    <Checkbox 
-                      id={`category-${category.id}`} 
-                      checked={localFilters.category === category.id}
-                      onCheckedChange={(checked) => {
-                        handleUpdate('category', checked ? category.id : '');
-                        handleUpdate('subcategory', ''); // Reset subcategory when category changes
-                      }}
-                    />
-                    <Label htmlFor={`category-${category.id}`}>{category.title}</Label>
-                  </div>
-                ))}
+                {CATEGORIES.map((category) => {
+                  const isChecked = localFilters.category === category.id;
+                  return (
+                    <div key={category.id} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`category-${category.id}`}
+                        checked={isChecked || false}
+                        onCheckedChange={(checked) => {
+                          const isNowChecked = checked === true;
+                          handleUpdate('category', isNowChecked ? category.id : '');
+                          if (!isNowChecked) {
+                            handleUpdate('subcategory', '');
+                          }
+                        }}
+                      />
+                      <Label htmlFor={`category-${category.id}`}>{category.title}</Label>
+                    </div>
+                  );
+                })}
               </div>
 
               {subcategories.length > 0 && (
@@ -79,11 +92,14 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
                     {subcategories.map((subcategory) => (
                       <Badge
                         key={subcategory}
-                        variant={localFilters.subcategory === subcategory ? "default" : "outline"}
+                        variant={localFilters.subcategory === subcategory ? 'default' : 'outline'}
                         className="cursor-pointer"
-                        onClick={() => handleUpdate('subcategory', 
-                          localFilters.subcategory === subcategory ? '' : subcategory
-                        )}
+                        onClick={() =>
+                          handleUpdate(
+                            'subcategory',
+                            localFilters.subcategory === subcategory ? '' : subcategory
+                          )
+                        }
                       >
                         {subcategory}
                       </Badge>
@@ -96,21 +112,24 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
         </AccordionItem>
 
         {/* Location Filter */}
-        <AccordionItem value="location">
-          <AccordionTrigger>Location</AccordionTrigger>
-          <AccordionContent>
+        <AccordionItem value="location" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Location</AccordionTrigger>
+          <AccordionContent className="px-4 pb-4">
             <div className="space-y-4">
               <div>
                 <h4 className="text-sm font-medium mb-2">Regions</h4>
                 <div className="space-y-2">
                   {REGIONS.map((region) => (
                     <div key={region.id} className="flex items-center space-x-2">
-                      <Checkbox 
-                        id={`region-${region.id}`} 
+                      <Checkbox
+                        id={`region-${region.id}`}
                         checked={localFilters.region === region.id}
-                        onCheckedChange={(checked) => {
-                          handleUpdate('region', checked ? region.id : '');
-                          handleUpdate('location', ''); // Reset city when region changes
+                        onCheckedChange={(checked: boolean) => {
+                          const isNowChecked = checked;
+                          handleUpdate('region', isNowChecked ? region.id : '');
+                          if (!isNowChecked) {
+                            handleUpdate('location', '');
+                          }
                         }}
                       />
                       <Label htmlFor={`region-${region.id}`}>
@@ -124,22 +143,24 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
               <div>
                 <h4 className="text-sm font-medium mb-2">Cities</h4>
                 <div className="space-y-2">
-                  {CITIES
-                    .filter(city => !localFilters.region || 
-                      REGIONS.find(r => r.id === localFilters.region)?.cities.includes(city.name))
-                    .map((city) => (
-                      <div key={city.id} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`city-${city.id}`} 
-                          checked={localFilters.location === city.id}
-                          onCheckedChange={(checked) => {
-                            handleUpdate('location', checked ? city.id : '');
-                          }}
-                        />
-                        <Label htmlFor={`city-${city.id}`}>
-                          {city.name} ({city.activities} activities)
-                        </Label>
-                      </div>
+                  {CITIES.filter((city) =>
+                    !localFilters.region
+                      ? true
+                      : REGIONS.find(r => r.id === localFilters.region)?.cities?.includes(city.name)
+                  ).map((city) => (
+                    <div key={city.id} className="flex items-center space-x-2">
+                      <Checkbox
+                      id={`city-${city.id}`}
+                      checked={localFilters.location === city.id}
+                      onCheckedChange={(checked) => {
+                        const isNowChecked = checked === true;
+                        handleUpdate('location', isNowChecked ? city.id : '');
+                      }}
+                      />
+                      <Label htmlFor={`city-${city.id}`}>
+                      {city.name} ({city.activities} activities)
+                      </Label>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -148,10 +169,10 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
         </AccordionItem>
 
         {/* Price Range Filter */}
-        <AccordionItem value="price">
-          <AccordionTrigger>Price Range</AccordionTrigger>
-          <AccordionContent>
-            <div className="space-y-4 px-1">
+        <AccordionItem value="price" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Price Range</AccordionTrigger>
+          <AccordionContent className="px-4 pb-4">
+            <div className="space-y-4">
               <Slider
                 defaultValue={[0, 100]}
                 max={100}
@@ -168,10 +189,10 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
         </AccordionItem>
 
         {/* Group Size Filter */}
-        <AccordionItem value="group-size">
-          <AccordionTrigger>Group Size</AccordionTrigger>
-          <AccordionContent>
-            <RadioGroup 
+        <AccordionItem value="group-size" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Group Size</AccordionTrigger>
+          <AccordionContent className="px-4 pb-4">
+            <RadioGroup
               value={localFilters.groupSize}
               onValueChange={(value) => handleUpdate('groupSize', value)}
             >
@@ -194,17 +215,13 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
 
       {/* Filter Actions */}
       <div className="space-y-2">
-        <Button 
+        <Button
           className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          onClick={applyFilters}
+          onClick={() => updateFilters(localFilters)}
         >
           Apply Filters
         </Button>
-        <Button 
-          variant="outline" 
-          className="w-full"
-          onClick={resetFilters}
-        >
+        <Button variant="outline" className="w-full" onClick={resetFilters}>
           Reset All
         </Button>
       </div>

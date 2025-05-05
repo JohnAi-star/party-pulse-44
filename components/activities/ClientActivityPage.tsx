@@ -265,7 +265,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
           <Card className="sticky top-4">
             <CardContent className="p-6">
               <div className="mb-4">
-                <p className="text-2xl font-bold">From £{activity.priceFrom}pp</p>
+                <p className="text-2xl font-bold">From £{activity.priceFrom}</p>
                 <p className="text-sm text-muted-foreground">Price varies based on group size and date</p>
               </div>
               <BookingForm activity={activity} />

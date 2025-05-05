@@ -67,7 +67,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
             {activity.description}
           </p>
-          <p className="font-semibold">From £{activity.priceFrom}pp</p>
+          <p className="font-semibold">From £{activity.priceFrom}</p>
         </CardContent>
 
         <CardFooter className="pt-0">
