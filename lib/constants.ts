@@ -2184,7 +2184,7 @@ export const CITIES = [
     name: 'Manchester',
     activities: 85,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/3584431/pexels-photo-3584431.jpeg',
     description: 'Vibrant activities in the heart of the North'
   },
   {
@@ -2200,7 +2200,7 @@ export const CITIES = [
     name: 'Liverpool',
     activities: 55,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/427679/pexels-photo-427679.jpeg',
     description: 'Exciting activities in the cultural hub'
   },
   {
@@ -2208,7 +2208,7 @@ export const CITIES = [
     name: 'Newcastle',
     activities: 45,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg',
     description: 'Unforgettable experiences in the North East'
   },
   {
@@ -2216,7 +2216,7 @@ export const CITIES = [
     name: 'Leeds',
     activities: 50,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/190482/pexels-photo-190482.jpeg',
     description: 'Dynamic activities in Yorkshire'
   },
   {
@@ -2224,7 +2224,7 @@ export const CITIES = [
     name: 'Bristol',
     activities: 45,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/302769/pexels-photo-302769.jpeg',
     description: 'Creative experiences in the South West'
   },
   {
@@ -2232,7 +2232,7 @@ export const CITIES = [
     name: 'Brighton',
     activities: 40,
     region: 'england',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/1024960/pexels-photo-1024960.jpeg',
     description: 'Coastal fun and activities'
   },
   {
@@ -2240,7 +2240,7 @@ export const CITIES = [
     name: 'Edinburgh',
     activities: 60,
     region: 'scotland',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/164336/pexels-photo-164336.jpeg',
     description: 'Historic adventures in Scotland\'s capital'
   },
   {
@@ -2248,7 +2248,7 @@ export const CITIES = [
     name: 'Glasgow',
     activities: 50,
     region: 'scotland',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg',
     description: 'Urban excitement in Scotland\'s largest city'
   },
   {
@@ -2256,7 +2256,7 @@ export const CITIES = [
     name: 'Cardiff',
     activities: 45,
     region: 'wales',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/3990358/pexels-photo-3990358.jpeg',
     description: 'Welsh capital adventures'
   },
   {
@@ -2264,7 +2264,7 @@ export const CITIES = [
     name: 'Belfast',
     activities: 32,
     region: 'northern-ireland',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/355321/pexels-photo-355321.jpeg',
     description: 'Northern Irish experiences'
   },
   {
@@ -2272,7 +2272,7 @@ export const CITIES = [
     name: 'Dublin',
     activities: 67,
     region: 'ireland',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/2583852/pexels-photo-2583852.jpeg',
     description: 'Irish charm and activities'
   },
   {
@@ -2280,7 +2280,7 @@ export const CITIES = [
     name: 'Amsterdam',
     activities: 76,
     region: 'netherlands',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/573238/pexels-photo-573238.jpeg',
     description: 'Dutch adventures and experiences'
   },
   {
@@ -2288,7 +2288,7 @@ export const CITIES = [
     name: 'Barcelona',
     activities: 85,
     region: 'spain',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
     description: 'Catalan culture and activities'
   },
   {
@@ -2296,7 +2296,7 @@ export const CITIES = [
     name: 'Berlin',
     activities: 78,
     region: 'germany',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/490411/pexels-photo-490411.jpeg',
     description: 'German capital experiences'
   },
   {
@@ -2304,9 +2304,49 @@ export const CITIES = [
     name: 'Prague',
     activities: 54,
     region: 'czech-republic',
-    image: 'https://images.pexels.com/photos/1703311/pexels-photo-1703311.jpeg',
+    image: 'https://images.pexels.com/photos/3722818/pexels-photo-3722818.jpeg',
     description: 'Czech adventures and culture'
-  }
+  },
+  {
+    id: 'budapest',
+    name: 'Budapest',
+    activities: 43,
+    region: 'hungary',
+    image: 'https://images.pexels.com/photos/1254140/pexels-photo-1254140.jpeg',
+    description: 'Hungarian cultural experiences'
+  },
+  {
+    id: 'warsaw',
+    name: 'Warsaw',
+    activities: 45,
+    region: 'poland',
+    image: 'https://images.pexels.com/photos/1797160/pexels-photo-1797160.jpeg',
+    description: 'Polish capital adventures'
+  },
+  {
+    id: 'krakow',
+    name: 'Krakow',
+    activities: 20,
+    region: 'poland',
+    image: 'https://images.pexels.com/photos/1797162/pexels-photo-1797162.jpeg',
+    description: 'Historic Polish city experiences'
+  },
+  {
+    id: 'lisbon',
+    name: 'Lisbon',
+    activities: 58,
+    region: 'portugal',
+    image: 'https://images.pexels.com/photos/3757144/pexels-photo-3757144.jpeg',
+    description: 'Portuguese capital delights'
+  },
+  {
+    id: 'porto',
+    name: 'Porto',
+    activities: 20,
+    region: 'portugal',
+    image: 'https://images.pexels.com/photos/186461/pexels-photo-186461.jpeg',
+    description: 'Northern Portuguese charm'
+  },
 ];
 
 export const REGIONS = [
