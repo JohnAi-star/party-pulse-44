@@ -1,6 +1,6 @@
 export const MOCK_ACTIVITIES = [
   {
-    id: 42,
+    id: '42',
     title: "Escape Room Challenge",
     description: "Solve puzzles to escape from a themed room within 60 minutes.",
     city: "Bristol",
@@ -26,11 +26,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 15,
+    id: '15',
     title: "Pottery Wheel Workshop",
     description: "Create ceramic masterpieces with professional potters.",
     city: "Stoke-on-Trent",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 35,
     image: "https://images.unsplash.com/photo-1596357395217-80de13130e92",
     category: "Hen Do",
@@ -52,7 +52,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 63,
+    id: '63',
     title: "Dragon Boat Racing",
     description: "Outdoor water-based team competition with professional instructors.",
     city: "Bristol",
@@ -72,13 +72,13 @@ export const MOCK_ACTIVITIES = [
     ],
     availability: ["April-October"],
     location: {
-      address: "Harbourside Dock",
+      address: "Harbourside 'Do'ck",
       postcode: "BS1 5LL",
       coordinates: { lat: 51.4485, lng: -2.5994 }
     }
   },
   {
-    id: 27,
+    id: '27',
     title: "Chocolate & Wine Pairing",
     description: "Gourmet chocolate tasting matched with fine wines.",
     city: "Bath",
@@ -94,8 +94,7 @@ export const MOCK_ACTIVITIES = [
       "5 chocolate varieties",
       "3 wine pairings",
       "Expert sommelier",
-      "Take home guide"
-    ],
+      "Take home guide"],
     availability: ["Thursday-Sunday"],
     location: {
       address: "The Chocolate House",
@@ -104,11 +103,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 134,
+    id: '134',
     title: "CSI Forensic Challenge",
     description: "Team-based crime scene investigation with professional analysis.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 45,
     image: "https://images.unsplash.com/photo-1581595219315-a187dd40c322",
     category: "Corporate",
@@ -130,7 +129,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 7,
+    id: '7',
     title: "Silent Disco Walking Tour",
     description: "Dance through the streets with wireless headphones and live DJ sets.",
     city: "Liverpool",
@@ -148,7 +147,7 @@ export const MOCK_ACTIVITIES = [
       "Fun dance stops",
       "Photo opportunities"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Mathew Street",
       postcode: "L2 6RE",
@@ -156,7 +155,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 115,
+    id: '115',
     title: "Belly Dancing Class",
     description: "Learn sensual belly dancing moves with a professional instructor.",
     city: "London",
@@ -174,7 +173,7 @@ export const MOCK_ACTIVITIES = [
       "Group routine",
       "Birthday performance"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Dance Studio",
       postcode: "W1D 3QB",
@@ -182,7 +181,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 91,
+    id: '91',
     title: "Neon Sign Making",
     description: "Design and bend your own custom neon sign to take home.",
     city: "London",
@@ -208,7 +207,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 3,
+    id: '3',
     title: "Prosecco Paddleboarding",
     description: "Stand-up paddleboarding combined with Prosecco tasting on the water.",
     city: "Bristol",
@@ -234,11 +233,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 55,
+    id: '55',
     title: "Supercar Driving",
     description: "Drive luxury supercars on professional race track.",
     city: "Silverstone",
-    region: "East Midlands",
+    region: "East Midla'nd's",
     priceFrom: 120,
     image: "https://images.unsplash.com/photo-1541873676-a18131494184",
     category: "Stag Do",
@@ -260,7 +259,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 146,
+    id: '146',
     title: "Animal Encounter Party",
     description: "Meet and learn about exotic animals with professional handlers.",
     city: "Bristol",
@@ -286,7 +285,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 19,
+    id: '19',
     title: "Crystal Healing Workshop",
     description: "Learn about crystal energies and create personal talismans.",
     city: "Glastonbury",
@@ -300,7 +299,7 @@ export const MOCK_ACTIVITIES = [
     groupSize: "6-15",
     features: [
       "Selection of crystals",
-      "Guided meditation",
+      "Guided' m'editation",
       "Personal energy reading",
       "Herbal tea included"
     ],
@@ -312,7 +311,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 129,
+    id: '129',
     title: "Leadership Survival Challenge",
     description: "Outdoor team survival experience with leadership coaching.",
     city: "Lake District",
@@ -338,11 +337,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 112,
+    id: '112',
     title: "Luxury Spa Day",
     description: "Full day spa experience with treatments, pool access and champagne lunch.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 85,
     image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
     category: "Birthday",
@@ -364,7 +363,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 76,
+    id: '76',
     title: "Indoor Rock Climbing",
     description: "Team-based climbing challenges with professional instructors.",
     city: "Sheffield",
@@ -390,7 +389,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 34,
+    id: '34',
     title: "Paintball Battle",
     description: "Adrenaline-fueled paintball matches across themed battlefields.",
     city: "Manchester",
@@ -416,7 +415,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 107,
+    id: '107',
     title: "Salsa Dancing Lesson",
     description: "Professional Latin dance instruction with cocktail break.",
     city: "London",
@@ -434,7 +433,7 @@ export const MOCK_ACTIVITIES = [
       "Cocktail break",
       "Birthday dance showcase"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Salsa Central",
       postcode: "W1D 3QB",
@@ -442,7 +441,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 61,
+    id: '61',
     title: "Escape Room Challenge",
     description: "Work together to solve puzzles and escape a themed room before time runs out.",
     city: "London",
@@ -468,7 +467,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 23,
+    id: '23',
     title: "Gin Distillery Tour",
     description: "Behind-the-scenes tour with tasting and custom gin blending.",
     city: "Bristol",
@@ -494,7 +493,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 140,
+    id: '140',
     title: "Princess Tea Party",
     description: "Royal-themed party with princess host, crafts and fancy dress.",
     city: "Manchester",
@@ -520,7 +519,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 50,
+    id: '50',
     title: "Virtual Reality Gaming",
     description: "Cutting-edge VR games in private gaming pods.",
     city: "London",
@@ -546,7 +545,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 96,
+    id: '96',
     title: "Silent Disco Walking Tour",
     description: "Dance through the streets with wireless headphones and live DJ sets.",
     city: "Liverpool",
@@ -564,7 +563,7 @@ export const MOCK_ACTIVITIES = [
       "Fun dance stops",
       "Birthday playlist option"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Mathew Street",
       postcode: "L2 6RE",
@@ -572,7 +571,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 85,
+    id: '85',
     title: "Go Kart Racing",
     description: "Team-based racing competition with professional timing.",
     city: "Milton Keynes",
@@ -598,7 +597,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 12,
+    id: '12',
     title: "Sushi Making Class",
     description: "Learn authentic sushi rolling techniques from a Japanese chef.",
     city: "London",
@@ -611,7 +610,6 @@ export const MOCK_ACTIVITIES = [
     duration: "2 hours",
     groupSize: "8-16",
     features: [
-      "All ingredients provided",
       "Sake tasting included",
       "Take home sushi mat",
       "Vegetarian options"
@@ -624,7 +622,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 88,
+    id: '88',
     title: "Escape Room Adventure",
     description: "Solve puzzles to escape from a themed room within 60 minutes.",
     city: "Manchester",
@@ -650,7 +648,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 144,
+    id: '144',
     title: "Pirate Treasure Hunt",
     description: "Swashbuckling adventure with treasure maps and costume dress-up.",
     city: "Liverpool",
@@ -676,9 +674,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 37,
+    id: '37',
     title: "Whiskey Tasting Masterclass",
-    description: "Premium whiskey sampling with expert guidance.",
+    description: "Premium whiskey sampling with expert guidan'ce'.",
     city: "Edinburgh",
     region: "Scotland",
     priceFrom: 40,
@@ -690,7 +688,7 @@ export const MOCK_ACTIVITIES = [
     groupSize: "6-12",
     features: [
       "5 premium whiskeys",
-      "Expert guidance",
+      "Expert guidan'ce'",
       "Tasting notes",
       "Cheese pairing option"
     ],
@@ -702,7 +700,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 109,
+    id: '109',
     title: "Go Kart Racing",
     description: "High-speed racing competition with professional timing.",
     city: "Milton Keynes",
@@ -728,7 +726,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 1,
+    id: '1',
     title: "Cocktail Making Masterclass",
     description: "Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events.",
     city: "London",
@@ -754,7 +752,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 78,
+    id: '78',
     title: "Robot Wars Competition",
     description: "Build and battle remote-controlled robots in team competition.",
     city: "Bristol",
@@ -780,7 +778,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 30,
+    id: '30',
     title: "Belly Dancing Class",
     description: "Learn sensual belly dancing moves with a professional instructor.",
     city: "London",
@@ -798,7 +796,7 @@ export const MOCK_ACTIVITIES = [
       "Group routine",
       "Photo session"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Dance Studio",
       postcode: "W1D 3QB",
@@ -806,7 +804,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 141,
+    id: '141',
     title: "Dinosaur Adventure Party",
     description: "Paleontology-themed party with fossil digs and dinosaur activities.",
     city: "Bristol",
@@ -832,9 +830,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 47,
+    id: '47',
     title: "Whiskey & Cigar Pairing",
-    description: "Premium whiskey and cigar tasting with expert guidance.",
+    description: "Premium whiskey and cigar tasting with expert guidan'ce'.",
     city: "Edinburgh",
     region: "Scotland",
     priceFrom: 55,
@@ -847,10 +845,10 @@ export const MOCK_ACTIVITIES = [
     features: [
       "3 premium whiskeys",
       "2 Cuban cigars",
-      "Expert guidance",
+      "Expert guidan'ce'",
       "Private lounge"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Highland Vault",
       postcode: "EH1 1SG",
@@ -858,9 +856,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 119,
+    id: '119',
     title: "Treasure Hunt Adventure",
-    description: "City-wide treasure hunt using GPS and puzzle-solving skills.",
+    description: "City-wide 'tr'easure hunt using GPS and puzzle-solving skills.",
     city: "Edinburgh",
     region: "Scotland",
     priceFrom: 28,
@@ -884,7 +882,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 16,
+    id: '16',
     title: "Murder Mystery Dinner",
     description: "Interactive theatrical dining experience with actors and costumes.",
     city: "York",
@@ -902,7 +900,7 @@ export const MOCK_ACTIVITIES = [
       "Professional actors",
       "Group photo package"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "The Grand Old Hall",
       postcode: "YO1 9WD",
@@ -910,7 +908,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 94,
+    id: '94',
     title: "Murder Mystery Dinner",
     description: "Interactive theatrical dining experience with actors and costumes.",
     city: "York",
@@ -928,7 +926,7 @@ export const MOCK_ACTIVITIES = [
       "Professional actors",
       "Birthday cake option"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "The Grand Old Hall",
       postcode: "YO1 9WD",
@@ -936,7 +934,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 72,
+    id: '72',
     title: "Corporate Olympics",
     description: "Series of fun physical challenges in team-based competition.",
     city: "Manchester",
@@ -962,7 +960,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 38,
+    id: '38',
     title: "Clay Pigeon Shooting",
     description: "Professional shooting instruction at outdoor range.",
     city: "Leeds",
@@ -988,7 +986,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 101,
+    id: '101',
     title: "Secret Cinema Experience",
     description: "Immersive movie night with actors, costumes and themed cocktails.",
     city: "London",
@@ -1006,7 +1004,7 @@ export const MOCK_ACTIVITIES = [
       "Interactive elements",
       "Birthday surprises"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Secret Location",
       postcode: "WC2H 8LA",
@@ -1014,7 +1012,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 22,
+    id: '22',
     title: "Secret Cinema Experience",
     description: "Immersive movie night with actors, costumes and themed cocktails.",
     city: "London",
@@ -1032,7 +1030,7 @@ export const MOCK_ACTIVITIES = [
       "Interactive elements",
       "Group photo ops"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Secret Location",
       postcode: "WC2H 8LA",
@@ -1040,7 +1038,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 143,
+    id: '143',
     title: "Science Madness Party",
     description: "Interactive science experiments and explosive demonstrations.",
     city: "Leeds",
@@ -1066,7 +1064,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 5,
+    id: '5',
     title: "Life Drawing Class",
     description: "Fun and creative life drawing session with a nude male model (optional).",
     city: "London",
@@ -1084,7 +1082,7 @@ export const MOCK_ACTIVITIES = [
       "Wine included",
       "Take home artwork"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "27a Brick Lane",
       postcode: "E1 6PU",
@@ -1092,7 +1090,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 98,
+    id: '98',
     title: "Life Drawing Class",
     description: "Fun and creative life drawing session with a nude model.",
     city: "London",
@@ -1110,7 +1108,7 @@ export const MOCK_ACTIVITIES = [
       "Wine included",
       "Take home artwork"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "27a Brick Lane",
       postcode: "E1 6PU",
@@ -1118,7 +1116,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 45,
+    id: '45',
     title: "Casino Night",
     description: "Private casino tables with professional croupiers.",
     city: "London",
@@ -1136,7 +1134,7 @@ export const MOCK_ACTIVITIES = [
       "Chip package included",
       "VIP area"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "The Mayfair Club",
       postcode: "W1J 7NE",
@@ -1144,7 +1142,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 117,
+    id: '117',
     title: "Cocktail Making Masterclass",
     description: "Learn the art of mixology from expert bartenders.",
     city: "London",
@@ -1170,7 +1168,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 152,
+    id: '152',
     title: "Farmyard Friends Party",
     description: "Meet and pet friendly farm animals with educational activities.",
     city: "Cambridge",
@@ -1196,7 +1194,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 35,
+    id: '35',
     title: "Poker Tournament",
     description: "Private Texas Hold'em tournament with professional dealer.",
     city: "London",
@@ -1214,7 +1212,7 @@ export const MOCK_ACTIVITIES = [
       "Prize for winner",
       "Whiskey tasting option"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Card Room",
       postcode: "W1D 3QB",
@@ -1222,9 +1220,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 80,
+    id: '80',
     title: "Corporate Art Workshop",
-    description: "Collaborative art creation with professional guidance.",
+    description: "Collaborative art creation with professional guidan'ce'.",
     city: "London",
     region: "Greater London",
     priceFrom: 40,
@@ -1235,7 +1233,7 @@ export const MOCK_ACTIVITIES = [
     duration: "2.5 hours",
     groupSize: "8-20",
     features: [
-      "Professional artist guidance",
+      "Professional artist guidan'ce'",
       "Large-scale collaboration",
       "All materials provided",
       "Take home artwork"
@@ -1248,7 +1246,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 14,
+    id: '14',
     title: "Indoor Skydiving",
     description: "Experience freefall in a safe indoor wind tunnel with instructors.",
     city: "Milton Keynes",
@@ -1274,7 +1272,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 104,
+    id: '104',
     title: "Indoor Skydiving",
     description: "Experience freefall in a safe indoor wind tunnel with instructors.",
     city: "Milton Keynes",
@@ -1300,7 +1298,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 40,
+    id: '40',
     title: "Go Karting Grand Prix",
     description: "High-speed kart racing with championship scoring.",
     city: "Milton Keynes",
@@ -1326,11 +1324,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 100,
+    id: '100',
     title: "Rage Room Experience",
     description: "Smash and destroy items in a safe controlled environment.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 30,
     image: "https://images.unsplash.com/photo-1621451537084-482c73073a0f",
     category: "Birthday",
@@ -1352,11 +1350,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 18,
+    id: '18',
     title: "Rage Room Experience",
     description: "Smash and destroy items in a safe controlled environment.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 30,
     image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9",
     category: "Hen Do",
@@ -1378,7 +1376,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 39,
+    id: '39',
     title: "Rage Room Experience",
     description: "Smash electronics and glass in a safe controlled environment.",
     city: "London",
@@ -1394,7 +1392,7 @@ export const MOCK_ACTIVITIES = [
       "Protective gear",
       "Variety of smashing tools",
       "Custom playlist",
-      "Slow-mo video package"
+      "Slow-mo video' p'ackage"
     ],
     availability: ["Daily"],
     location: {
@@ -1404,7 +1402,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 116,
+    id: '116',
     title: "Pole Dancing Class",
     description: "Beginner-friendly pole dancing lesson in a private studio.",
     city: "Manchester",
@@ -1430,7 +1428,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 2,
+    id: '2',
     title: "Pole Dancing Class",
     description: "Beginner-friendly pole dancing lesson with a professional instructor in a private studio.",
     city: "Manchester",
@@ -1456,7 +1454,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 4,
+    id: '4',
     title: "Burlesque Dance Workshop",
     description: "Learn seductive burlesque moves with professional dancers in a glamorous setting.",
     city: "London",
@@ -1482,7 +1480,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 99,
+    id: '99',
     title: "Burlesque Dance Workshop",
     description: "Learn seductive burlesque moves with professional dancers.",
     city: "London",
@@ -1508,7 +1506,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 26,
+    id: '26',
     title: "Salsa Dancing Lesson",
     description: "Professional Latin dance instruction with cocktail break.",
     city: "London",
@@ -1526,7 +1524,7 @@ export const MOCK_ACTIVITIES = [
       "Cocktail break",
       "Dance showcase"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Salsa Central",
       postcode: "W1D 3QB",
@@ -1534,7 +1532,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 154,
+    id: '154',
     title: "Dance Party Extravaganza",
     description: "High-energy dance party with professional instructor.",
     city: "Manchester",
@@ -1560,7 +1558,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 148,
+    id: '148',
     title: "Circus Skills Workshop",
     description: "Learn juggling, plate spinning and circus tricks.",
     city: "London",
@@ -1586,11 +1584,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 150,
+    id: '150',
     title: "Ninja Warrior Party",
     description: "Obstacle course challenge inspired by ninja training.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 155,
     image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2",
     category: "Kids",
@@ -1612,11 +1610,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 142,
+    id: '142',
     title: "Superhero Training Academy",
     description: "Action-packed party with obstacle courses and superhero training.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 140,
     image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
     category: "Kids",
@@ -1638,11 +1636,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 156,
+    id: '156',
     title: "Mini Olympics Party",
     description: "Sports day with races, challenges and medals.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 130,
     image: "https://images.unsplash.com/photo-1543351611-58f69d7c1781",
     category: "Kids",
@@ -1664,7 +1662,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 151,
+    id: '151',
     title: "Space Explorer Party",
     description: "Interactive space adventure with planetarium show.",
     city: "London",
@@ -1690,7 +1688,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 258,
+    id: '258',
     title: "Science of Slime Party",
     description: "Interactive slime-making with different textures and colors.",
     city: "Leeds",
@@ -1716,9 +1714,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 145,
+    id: '145',
     title: "Mini Masterchef Party",
-    description: "Junior cooking party with professional chef guidance.",
+    description: "Junior cooking party with professional chef guidan'ce'.",
     city: "London",
     region: "Greater London",
     priceFrom: 145,
@@ -1742,7 +1740,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 147,
+    id: '147',
     title: "Lego Engineering Party",
     description: "Creative building challenges with thousands of Lego pieces.",
     city: "Manchester",
@@ -1768,9 +1766,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 153,
+    id: '153',
     title: "Art Studio Party",
-    description: "Creative painting party with professional artist guidance.",
+    description: "Creative painting party with professional artist guidan'ce'.",
     city: "London",
     region: "Greater London",
     priceFrom: 120,
@@ -1783,7 +1781,7 @@ export const MOCK_ACTIVITIES = [
     features: [
       "Canvas painting",
       "All materials provided",
-      "Artist guidance",
+      "Artist guidan'ce'",
       "Take-home artwork"
     ],
     availability: ["Weekends"],
@@ -1794,7 +1792,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 155,
+    id: '155',
     title: "Puppet Making Party",
     description: "Create and perform with custom puppets.",
     city: "Bristol",
@@ -1820,7 +1818,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 149,
+    id: '149',
     title: "Fairy Tale Party",
     description: "Enchanted storytime with fairy tale characters and crafts.",
     city: "Edinburgh",
@@ -1846,7 +1844,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 259,
+    id: '259',
     title: "Jungle Safari Party",
     description: "Animal-themed adventure with explorer activities.",
     city: "London",
@@ -1872,7 +1870,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 157,
+    id: '157',
     title: "Pirate Ship Adventure",
     description: "Themed party on a pirate ship with treasure hunt.",
     city: "Liverpool",
@@ -1898,7 +1896,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 139,
+    id: '139',
     title: "Magician Show & Workshop",
     description: "Interactive magic show followed by simple magic trick lessons for kids.",
     city: "London",
@@ -1924,11 +1922,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 260,
+    id: '260',
     title: "Superhero Training Academy",
     description: "Action-packed party with obstacle courses and superhero training.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 140,
     image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
     category: "Kids",
@@ -1950,7 +1948,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 6,
+    id: '6',
     title: "Chocolate Making Workshop",
     description: "Create artisan chocolates with a master chocolatier in this delicious workshop.",
     city: "York",
@@ -1964,7 +1962,7 @@ export const MOCK_ACTIVITIES = [
     groupSize: "6-15",
     features: [
       "Make 3 chocolate varieties",
-      "Professional guidance",
+      "Professional guidan'ce'",
       "Take home creations",
       "Prosecco included"
     ],
@@ -1976,7 +1974,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 8,
+    id: '8',
     title: "Drag Queen Bingo",
     description: "Hilarious bingo night hosted by fabulous drag queens with prizes and cocktails.",
     city: "Brighton",
@@ -2002,7 +2000,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 9,
+    id: '9',
     title: "Aerial Silk Workshop",
     description: "Learn graceful aerial silk techniques with professional instructors.",
     city: "Leeds",
@@ -2028,7 +2026,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 10,
+    id: '10',
     title: "Private Boat Party",
     description: "Exclusive boat hire with DJ, drinks package and city views.",
     city: "London",
@@ -2054,9 +2052,9 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 11,
+    id: '11',
     title: "Mixology Masterclass",
-    description: "Craft creative cocktails with premium spirits under expert guidance.",
+    description: "Craft creative cocktails with premium spirits under expert guidan'ce'.",
     city: "Edinburgh",
     region: "Scotland",
     priceFrom: 40,
@@ -2080,7 +2078,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 13,
+    id: '13',
     title: "Drag Queen Makeover",
     description: "Professional transformation with wigs, makeup and performance coaching.",
     city: "Manchester",
@@ -2098,7 +2096,7 @@ export const MOCK_ACTIVITIES = [
       "Performance tutorial",
       "Champagne reception"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Rainbow Room",
       postcode: "M1 1FN",
@@ -2106,7 +2104,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 17,
+    id: '17',
     title: "Neon Sign Making",
     description: "Design and bend your own custom neon sign to take home.",
     city: "London",
@@ -2132,7 +2130,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 20,
+    id: '20',
     title: "Karaoke Private Booth",
     description: "Private singing room with unlimited songs and drinks package.",
     city: "London",
@@ -2158,7 +2156,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 21,
+    id: '21',
     title: "Vintage Photo Shoot",
     description: "Professional photoshoot with vintage costumes and props.",
     city: "Brighton",
@@ -2176,7 +2174,7 @@ export const MOCK_ACTIVITIES = [
       "5 edited digital photos",
       "Champagne toast"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Vintage Studio",
       postcode: "BN1 1EE",
@@ -2184,7 +2182,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 24,
+    id: '24',
     title: "Improv Comedy Workshop",
     description: "Hilarious improv games and skits with professional comedians.",
     city: "London",
@@ -2202,7 +2200,7 @@ export const MOCK_ACTIVITIES = [
       "Performance showcase",
       "Wine included"
     ],
-    availability: ["Friday-Sunday"],
+    availability: ["Friday'-S'unday"],
     location: {
       address: "The Comedy Cellar",
       postcode: "WC2H 8LA",
@@ -2210,7 +2208,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 25,
+    id: '25',
     title: "Tarot Reading Party",
     description: "Group tarot readings with a professional psychic and cocktails.",
     city: "Manchester",
@@ -2236,7 +2234,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 28,
+    id: '28',
     title: "Escape Room Challenge",
     description: "Solve puzzles to escape from a themed room within 60 minutes.",
     city: "Leeds",
@@ -2262,7 +2260,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 29,
+    id: '29',
     title: "Floral Crown Workshop",
     description: "Create beautiful fresh flower crowns with a florist.",
     city: "Cambridge",
@@ -2276,7 +2274,7 @@ export const MOCK_ACTIVITIES = [
     groupSize: "6-12",
     features: [
       "Fresh flowers",
-      "Florist guidance",
+      "Florist guidan'ce'",
       "Prosecco included",
       "Photo backdrop"
     ],
@@ -2288,7 +2286,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 31,
+    id: '31',
     title: "Private Hot Tub Boat",
     description: "Exclusive floating hot tub with city views and drinks cooler.",
     city: "London",
@@ -2314,11 +2312,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 32,
+    id: '32',
     title: "Luxury Spa Day",
     description: "Full day spa experience with treatments, pool access and champagne lunch.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 85,
     image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
     category: "Hen Do",
@@ -2340,7 +2338,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 33,
+    id: '33',
     title: "Beer Brewing Experience",
     description: "Brew your own craft beer with master brewers and take home your creation.",
     city: "London",
@@ -2366,11 +2364,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 36,
+    id: '36',
     title: "Off-Road Driving",
     description: "4x4 off-road challenge course with professional instructors.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 65,
     image: "https://images.unsplash.com/photo-1541873676-a18131494184",
     category: "Stag Do",
@@ -2392,7 +2390,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 41,
+    id: '41',
     title: "Steak & Whiskey Night",
     description: "Premium steak dinner with whiskey pairing menu.",
     city: "Manchester",
@@ -2410,7 +2408,7 @@ export const MOCK_ACTIVITIES = [
       "Private dining area",
       "Cigar option"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "The Chop House",
       postcode: "M1 1FN",
@@ -2418,7 +2416,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 43,
+    id: '43',
     title: "Private Football Match",
     description: "Book a private pitch with referee and kit provided.",
     city: "Liverpool",
@@ -2444,7 +2442,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 44,
+    id: '44',
     title: "Brewery Tour & Tasting",
     description: "Behind-the-scenes tour with unlimited beer samples.",
     city: "London",
@@ -2459,7 +2457,7 @@ export const MOCK_ACTIVITIES = [
     features: [
       "5 beer samples",
       "Brewery tour",
-      "Expert guidance",
+      "Expert guidan'ce'",
       "Discount on purchases"
     ],
     availability: ["Thursday-Sunday"],
@@ -2470,11 +2468,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 46,
+    id: '46',
     title: "Zombie Survival Experience",
     description: "Airsoft battle against zombie actors in apocalyptic scenario.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 50,
     image: "https://images.unsplash.com/photo-1542751371-adc38448a05e",
     category: "Stag Do",
@@ -2496,7 +2494,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 48,
+    id: '48',
     title: "Ax Throwing",
     description: "Competitive axe throwing with expert coaching.",
     city: "Manchester",
@@ -2522,7 +2520,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 49,
+    id: '49',
     title: "Private Yacht Charter",
     description: "Exclusive yacht hire with skipper and drinks package.",
     city: "Southampton",
@@ -2548,7 +2546,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 51,
+    id: '51',
     title: "Clay Shooting",
     description: "Professional shooting instruction at outdoor range.",
     city: "Leeds",
@@ -2574,7 +2572,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 52,
+    id: '52',
     title: "Steakhouse Dining",
     description: "Premium steak dinner with whiskey pairing menu.",
     city: "Manchester",
@@ -2592,7 +2590,7 @@ export const MOCK_ACTIVITIES = [
       "Private dining area",
       "Cigar option"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "The Chop House",
       postcode: "M1 1FN",
@@ -2600,11 +2598,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 53,
+    id: '53',
     title: "White Water Rafting",
-    description: "Grade 3-4 rapids with professional guides.",
+    description: "Grade 3-4 rapids 'wi'th professional guides.",
     city: "Nottingham",
-    region: "East Midlands",
+    region: "East Midla'nd's",
     priceFrom: 65,
     image: "https://images.unsplash.com/photo-1562184552-b7a1069700fa",
     category: "Stag Do",
@@ -2626,7 +2624,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 54,
+    id: '54',
     title: "VIP Club Experience",
     description: "Skip-the-line access and bottle service at top nightclub.",
     city: "London",
@@ -2644,7 +2642,7 @@ export const MOCK_ACTIVITIES = [
       "Skip-the-line",
       "Dedicated host"
     ],
-    availability: ["Friday-Saturday"],
+    availability: ["Friday'-S'aturday"],
     location: {
       address: "Ministry of Sound",
       postcode: "SE1 1NA",
@@ -2652,7 +2650,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 56,
+    id: '56',
     title: "Beer Bike Tour",
     description: "Pedal-powered bar crawl through city streets.",
     city: "Newcastle",
@@ -2678,7 +2676,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 57,
+    id: '57',
     title: "Comedy Club Night",
     description: "Reserved seating at top comedy club with drinks package.",
     city: "London",
@@ -2704,11 +2702,11 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 58,
+    id: '58',
     title: "Golf Simulator Challenge",
     description: "Virtual golf tournament on world-famous courses.",
     city: "Birmingham",
-    region: "West Midlands",
+    region: "West Midla'nd's",
     priceFrom: 35,
     image: "https://images.unsplash.com/photo-1551632811-561732d1e306",
     category: "Stag Do",
@@ -2730,7 +2728,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 59,
+    id: '59',
     title: "BBQ Masterclass",
     description: "Learn gourmet BBQ techniques from pitmasters.",
     city: "London",
@@ -2756,7 +2754,7 @@ export const MOCK_ACTIVITIES = [
     }
   },
   {
-    id: 60,
+    id: '60',
     title: "Private Sports Box",
     description: "VIP box at premier league stadium with catering.",
     city: "Liverpool",
