@@ -1,2122 +1,2786 @@
 export const MOCK_ACTIVITIES = [
   {
-    id: '1',
-    title: 'Cocktail Making Masterclass',
-    description: 'Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events. Create and enjoy 4 signature cocktails while learning professional techniques and tricks.',
-    city: 'London',
-    region: 'Greater London',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/2531186/pexels-photo-2531186.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '8-15',
-    features: [
-      'Create 4 signature cocktails',
-      'Professional mixologist instruction',
-      'All equipment and ingredients provided',
-      'Take home recipe cards',
-      'Welcome drink on arrival',
-      'Cocktail making certificate',
-      'Photos of your experience'
-    ],
-    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    location: {
-      address: '123 Party Street, Soho',
-      postcode: 'W1F 7HQ',
-      coordinates: { lat: 51.5074, lng: -0.1278 }
-    }
-  },
-  {
-    id: '2',
-    title: 'Beer Tasting Tour',
-    description: 'Sample the finest craft beers with our guided brewery tour. Great for stag dos and team building events.',
-    city: 'Manchester',
-    region: 'Greater Manchester',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/5530171/pexels-photo-5530171.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Food & Drink',
-    rating: 4.6,
-    duration: '3 hours',
-    groupSize: '10-20',
-    features: ['5 beer samples', 'Brewery tour', 'Food pairing'],
-    availability: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '456 Brewery Lane',
-      postcode: 'M1 1AA',
-      coordinates: { lat: 53.4808, lng: -2.2426 }
-    }
-  },
-  {
-    id: '3',
-    title: 'Escape Room Challenge',
-    description: 'Test your problem-solving skills in our themed escape rooms. Perfect for team building and birthday parties.',
-    city: 'Birmingham',
-    region: 'West Midlands',
-    priceFrom: 22,
-    image: 'https://images.pexels.com/photos/4019766/pexels-photo-4019766.jpeg',
-    category: 'Team Building',
-    subcategory: 'Games & Puzzles',
-    rating: 4.9,
-    duration: '1 hour',
-    groupSize: '4-8',
-    features: ['Multiple themes', 'Game master assistance', 'Team photo'],
-    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '789 Puzzle Street',
-      postcode: 'B1 1BB',
-      coordinates: { lat: 52.4862, lng: -1.8904 }
-    }
-  },
-  {
-    id: '4',
-    title: 'Pottery Workshop',
-    description: 'Get creative with clay in our hands-on pottery workshop. Ideal for hen parties and special celebrations.',
-    city: 'Leeds',
-    region: 'West Yorkshire',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/7262997/pexels-photo-7262997.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Arts & Crafts',
-    rating: 4.7,
-    duration: '2.5 hours',
-    groupSize: '6-12',
-    features: ['Materials included', 'Take home creation', 'Expert guidance'],
-    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '101 Creative Avenue',
-      postcode: 'LS1 1AA',
-      coordinates: { lat: 53.8008, lng: -1.5491 }
-    }
-  },
-  {
-    id: '5',
-    title: 'Axe Throwing',
-    description: 'Release your inner viking with our exciting axe throwing activity. Perfect for stag dos and team bonding.',
-    city: 'Liverpool',
-    region: 'Merseyside',
+    id: 42,
+    title: "Escape Room Challenge",
+    description: "Solve puzzles to escape from a themed room within 60 minutes.",
+    city: "Bristol",
+    region: "South West",
     priceFrom: 25,
-    image: 'https://images.pexels.com/photos/8111298/pexels-photo-8111298.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Sports & Adventure',
-    rating: 4.5,
-    duration: '1.5 hours',
-    groupSize: '8-16',
-    features: ['Safety equipment', 'Professional instruction', 'Competition format'],
-    availability: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '202 Viking Road',
-      postcode: 'L1 1BB',
-      coordinates: { lat: 53.4084, lng: -2.9916 }
-    }
-  },
-  {
-    id: '6',
-    title: 'Sushi Making Class',
-    description: 'Learn the art of sushi making from professional chefs. Great for birthdays and corporate events.',
-    city: 'Edinburgh',
-    region: 'Scotland',
-    priceFrom: 40,
-    image: 'https://images.pexels.com/photos/8951999/pexels-photo-8951999.jpeg',
-    category: 'Birthday',
-    subcategory: 'Food & Drink',
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Stag Do",
+    subcategory: "Games",
     rating: 4.8,
-    duration: '2 hours',
-    groupSize: '8-12',
-    features: ['Ingredients provided', 'Take home sushi', 'Recipe booklet'],
-    availability: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    duration: "1.5 hours",
+    groupSize: "4-8",
+    features: [
+      "3 difficulty levels",
+      "Live actor option",
+      "Team photo",
+      "Hint system"
+    ],
+    availability: ["Daily"],
     location: {
-      address: '303 Sushi Street',
-      postcode: 'EH1 1BB',
-      coordinates: { lat: 55.9533, lng: -3.1883 }
-    }
-  },
-  {
-    id: '7',
-    title: 'Wine Tasting Experience',
-    description: 'Sample premium wines with expert guidance. Perfect for sophisticated hen parties and celebrations.',
-    city: 'Bristol',
-    region: 'South West',
-    priceFrom: 38,
-    image: 'https://images.pexels.com/photos/5946975/pexels-photo-5946975.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
-    rating: 4.7,
-    duration: '2 hours',
-    groupSize: '8-20',
-    features: ['6 wine samples', 'Cheese pairing', 'Expert sommelier'],
-    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    location: {
-      address: '404 Wine Lane',
-      postcode: 'BS1 1AA',
+      address: "Puzzle Masters",
+      postcode: "BS1 6WS",
       coordinates: { lat: 51.4545, lng: -2.5879 }
     }
   },
   {
-    id: '8',
-    title: 'Go Karting Grand Prix',
-    description: 'Race against friends on our professional indoor track. Ideal for stag dos and team events.',
-    city: 'Newcastle',
-    region: 'North East',
-    priceFrom: 50,
-    image: 'https://images.pexels.com/photos/9827179/pexels-photo-9827179.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Sports & Adventure',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '10-24',
-    features: ['Race suit & helmet', 'Practice laps', 'Trophy ceremony'],
-    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '505 Racing Circuit',
-      postcode: 'NE1 1BB',
-      coordinates: { lat: 54.9783, lng: -1.6178 }
-    }
-  },
-  {
-    id: '9',
-    title: 'Indoor Rock Climbing',
-    description: 'Challenge yourself on our indoor climbing walls. Great for team building and adventure seekers.',
-    city: 'Glasgow',
-    region: 'Scotland',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/371049/pexels-photo-371049.jpeg',
-    category: 'Team Building',
-    subcategory: 'Sports & Adventure',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '6-12',
-    features: ['Equipment provided', 'Qualified instructors', 'All skill levels'],
-    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '606 Climbing Way',
-      postcode: 'G1 1AA',
-      coordinates: { lat: 55.8642, lng: -4.2518 }
-    }
-  },
-  {
-    id: '10',
-    title: 'Chocolate Making Workshop',
-    description: 'Create your own luxury chocolates with professional chocolatiers. Perfect for birthdays and hen parties.',
-    city: 'Cardiff',
-    region: 'Wales',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/65882/chocolate-dark-coffee-confiserie-65882.jpeg',
-    category: 'Birthday',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '2.5 hours',
-    groupSize: '8-15',
-    features: ['All ingredients provided', 'Take home creations', 'Hot chocolate included'],
-    availability: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '707 Chocolate Lane',
-      postcode: 'CF1 1BB',
-      coordinates: { lat: 51.4816, lng: -3.1791 }
-    }
-  },
-  {
-    id: '11',
-    title: 'Pizza Making Workshop',
-    description: 'Learn the secrets of authentic Italian pizza making from our expert chefs. Perfect for team building or birthday celebrations. Create your own pizzas from scratch using premium ingredients and traditional techniques.',
-    city: 'Manchester',
-    region: 'Greater Manchester',
-    priceFrom: 40,
-    image: 'https://images.pexels.com/photos/905847/pexels-photo-905847.jpeg',
-    category: 'Team Building',
-    subcategory: 'Food & Drink',
-    rating: 4.7,
-    duration: '2.5 hours',
-    groupSize: '8-16',
+    id: 15,
+    title: "Pottery Wheel Workshop",
+    description: "Create ceramic masterpieces with professional potters.",
+    city: "Stoke-on-Trent",
+    region: "West Midlands",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1596357395217-80de13130e92",
+    category: "Hen Do",
+    subcategory: "Creative",
+    rating: 4.6,
+    duration: "2.5 hours",
+    groupSize: "6-12",
     features: [
-      'Make 2 pizzas from scratch',
-      'Professional chef instruction',
-      'All ingredients provided',
-      'Wine or beer included',
-      'Take home recipe guide',
-      'Eat your creations',
-      'Group photo'
+      "Clay provided",
+      "Professional guidance",
+      "Glazing and firing included",
+      "Wine tasting session"
     ],
-    availability: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    availability: ["Wednesday-Sunday"],
     location: {
-      address: '45 Culinary Lane',
-      postcode: 'M1 2WR',
+      address: "The Potter's House",
+      postcode: "ST1 5BQ",
+      coordinates: { lat: 53.0256, lng: -2.1754 }
+    }
+  },
+  {
+    id: 63,
+    title: "Dragon Boat Racing",
+    description: "Outdoor water-based team competition with professional instructors.",
+    city: "Bristol",
+    region: "South West",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018",
+    category: "Team Building",
+    subcategory: "Outdoor",
+    rating: 4.9,
+    duration: "2.5 hours",
+    groupSize: "10-20",
+    features: [
+      "All equipment provided",
+      "Safety briefing",
+      "Friendly competition",
+      "Team photo package"
+    ],
+    availability: ["April-October"],
+    location: {
+      address: "Harbourside Dock",
+      postcode: "BS1 5LL",
+      coordinates: { lat: 51.4485, lng: -2.5994 }
+    }
+  },
+  {
+    id: 27,
+    title: "Chocolate & Wine Pairing",
+    description: "Gourmet chocolate tasting matched with fine wines.",
+    city: "Bath",
+    region: "South West",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "6-12",
+    features: [
+      "5 chocolate varieties",
+      "3 wine pairings",
+      "Expert sommelier",
+      "Take home guide"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "The Chocolate House",
+      postcode: "BA1 1SE",
+      coordinates: { lat: 51.3814, lng: -2.3596 }
+    }
+  },
+  {
+    id: 134,
+    title: "CSI Forensic Challenge",
+    description: "Team-based crime scene investigation with professional analysis.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1581595219315-a187dd40c322",
+    category: "Corporate",
+    subcategory: "Problem Solving",
+    rating: 4.8,
+    duration: "2.5 hours",
+    groupSize: "8-15",
+    features: [
+      "Real forensic techniques",
+      "Professional evaluation",
+      "Team presentations",
+      "Leadership analysis"
+    ],
+    availability: ["Weekdays"],
+    location: {
+      address: "Science Park",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 7,
+    title: "Silent Disco Walking Tour",
+    description: "Dance through the streets with wireless headphones and live DJ sets.",
+    city: "Liverpool",
+    region: "North West",
+    priceFrom: 22,
+    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3",
+    category: "Hen Do",
+    subcategory: "Music",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "10-30",
+    features: [
+      "Wireless headphones",
+      "3 music channels",
+      "Fun dance stops",
+      "Photo opportunities"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Mathew Street",
+      postcode: "L2 6RE",
+      coordinates: { lat: 53.4055, lng: -2.9889 }
+    }
+  },
+  {
+    id: 115,
+    title: "Belly Dancing Class",
+    description: "Learn sensual belly dancing moves with a professional instructor.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Birthday",
+    subcategory: "Dance",
+    rating: 4.6,
+    duration: "1.5 hours",
+    groupSize: "8-15",
+    features: [
+      "Hip scarves provided",
+      "Beginner moves",
+      "Group routine",
+      "Birthday performance"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "The Dance Studio",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 91,
+    title: "Neon Sign Making",
+    description: "Design and bend your own custom neon sign to take home.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 75,
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+    category: "Birthday",
+    subcategory: "Creative",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "6-10",
+    features: [
+      "All materials provided",
+      "Expert instruction",
+      "Personalised design",
+      "Prosecco included"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Shoreditch Workshop",
+      postcode: "E2 7DG",
+      coordinates: { lat: 51.5265, lng: -0.0806 }
+    }
+  },
+  {
+    id: 3,
+    title: "Prosecco Paddleboarding",
+    description: "Stand-up paddleboarding combined with Prosecco tasting on the water.",
+    city: "Bristol",
+    region: "South West",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+    category: "Hen Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "2.5 hours",
+    groupSize: "5-10",
+    features: [
+      "All equipment provided",
+      "Prosecco tasting",
+      "Scenic route",
+      "Safety briefing"
+    ],
+    availability: ["April-September", "Weekends only"],
+    location: {
+      address: "Harbourside",
+      postcode: "BS1 5LL",
+      coordinates: { lat: 51.4485, lng: -2.5994 }
+    }
+  },
+  {
+    id: 55,
+    title: "Supercar Driving",
+    description: "Drive luxury supercars on professional race track.",
+    city: "Silverstone",
+    region: "East Midlands",
+    priceFrom: 120,
+    image: "https://images.unsplash.com/photo-1541873676-a18131494184",
+    category: "Stag Do",
+    subcategory: "Luxury",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "4-8",
+    features: [
+      "3 supercar options",
+      "Professional instruction",
+      "Hot lap with pro driver",
+      "Certificate"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Silverstone Circuit",
+      postcode: "NN12 8TN",
+      coordinates: { lat: 52.0736, lng: -1.0164 }
+    }
+  },
+  {
+    id: 146,
+    title: "Animal Encounter Party",
+    description: "Meet and learn about exotic animals with professional handlers.",
+    city: "Bristol",
+    region: "South West",
+    priceFrom: 175,
+    image: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890",
+    category: "Kids",
+    subcategory: "Animals",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "10-15",
+    features: [
+      "6+ exotic animals",
+      "Handling opportunities",
+      "Educational talk",
+      "Photo souvenirs"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Animal Adventure Center",
+      postcode: "BS1 6WS",
+      coordinates: { lat: 51.4545, lng: -2.5879 }
+    }
+  },
+  {
+    id: 19,
+    title: "Crystal Healing Workshop",
+    description: "Learn about crystal energies and create personal talismans.",
+    city: "Glastonbury",
+    region: "South West",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1605106702734-205df224ecce",
+    category: "Hen Do",
+    subcategory: "Wellness",
+    rating: 4.5,
+    duration: "2 hours",
+    groupSize: "6-15",
+    features: [
+      "Selection of crystals",
+      "Guided meditation",
+      "Personal energy reading",
+      "Herbal tea included"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "The Crystal Cave",
+      postcode: "BA6 9DX",
+      coordinates: { lat: 51.1474, lng: -2.7186 }
+    }
+  },
+  {
+    id: 129,
+    title: "Leadership Survival Challenge",
+    description: "Outdoor team survival experience with leadership coaching.",
+    city: "Lake District",
+    region: "North West",
+    priceFrom: 85,
+    image: "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7",
+    category: "Corporate",
+    subcategory: "Outdoor",
+    rating: 4.9,
+    duration: "4 hours",
+    groupSize: "10-20",
+    features: [
+      "Professional survival experts",
+      "Leadership analysis",
+      "Team role evaluation",
+      "Corporate debrief"
+    ],
+    availability: ["April-October"],
+    location: {
+      address: "Survival Training Camp",
+      postcode: "LA23 3PG",
+      coordinates: { lat: 54.4609, lng: -3.0886 }
+    }
+  },
+  {
+    id: 112,
+    title: "Luxury Spa Day",
+    description: "Full day spa experience with treatments, pool access and champagne lunch.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 85,
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
+    category: "Birthday",
+    subcategory: "Relaxation",
+    rating: 4.9,
+    duration: "6 hours",
+    groupSize: "4-12",
+    features: [
+      "3 treatments included",
+      "Pool and sauna access",
+      "Champagne lunch",
+      "Birthday gift"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "1 Spa Road",
+      postcode: "B1 1SP",
+      coordinates: { lat: 52.4786, lng: -1.9085 }
+    }
+  },
+  {
+    id: 76,
+    title: "Indoor Rock Climbing",
+    description: "Team-based climbing challenges with professional instructors.",
+    city: "Sheffield",
+    region: "Yorkshire",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1545389336-cf090694435e",
+    category: "Team Building",
+    subcategory: "Sport",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "6-15",
+    features: [
+      "All equipment provided",
+      "Safety briefing",
+      "Team challenges",
+      "Belaying training"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "The Climbing Hub",
+      postcode: "S1 2BX",
+      coordinates: { lat: 53.3811, lng: -1.4701 }
+    }
+  },
+  {
+    id: 34,
+    title: "Paintball Battle",
+    description: "Adrenaline-fueled paintball matches across themed battlefields.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1579972668140-f7da53ccc2a6",
+    category: "Stag Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "8-20",
+    features: [
+      "All equipment provided",
+      "5 game scenarios",
+      "BBQ lunch option",
+      "Group photo"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Combat Zone Paintball",
+      postcode: "M3 2PT",
       coordinates: { lat: 53.4808, lng: -2.2426 }
     }
   },
   {
-    id: '12',
-    title: 'Pottery Painting Party',
-    description: 'Get creative with this relaxing pottery painting session. Choose from a wide selection of ceramic pieces and create your own unique masterpiece. Perfect for hen parties and birthday celebrations.',
-    city: 'Brighton',
-    region: 'South East',
+    id: 107,
+    title: "Salsa Dancing Lesson",
+    description: "Professional Latin dance instruction with cocktail break.",
+    city: "London",
+    region: "Greater London",
     priceFrom: 28,
-    image: 'https://images.pexels.com/photos/4992432/pexels-photo-4992432.jpeg',
-    category: 'Birthday',
-    subcategory: 'Arts & Crafts',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '6-12',
-    features: [
-      'Choose from wide range of ceramics',
-      'All paints and materials included',
-      'Expert guidance available',
-      'Glazing and firing included',
-      'Take home your creation',
-      'Complimentary refreshments',
-      'Private party space'
-    ],
-    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '78 Creative Corner',
-      postcode: 'BN1 3XP',
-      coordinates: { lat: 50.8225, lng: -0.1372 }
-    }
-  },
-  {
-    id: '13',
-    title: 'Virtual Reality Experience',
-    description: 'Step into the future with this immersive VR gaming session. Perfect for stag dos and team building events. Compete in various virtual worlds and challenges using state-of-the-art VR equipment.',
-    city: 'Leeds',
-    region: 'Yorkshire',
-    priceFrom: 32,
-    image: 'https://images.pexels.com/photos/8728285/pexels-photo-8728285.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Gaming',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '4-8',
-    features: [
-      'Latest VR equipment',
-      'Multiple game options',
-      'Competitive challenges',
-      'Professional instruction',
-      'Private gaming space',
-      'Scoreboard and prizes',
-      'Photos and videos included'
-    ],
-    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '90 Digital Hub',
-      postcode: 'LS1 5QB',
-      coordinates: { lat: 53.8008, lng: -1.5491 }
-    }
-  },
-  {
-    id: '14',
-    title: 'Afternoon Tea Dance',
-    description: 'Combine a delightful afternoon tea with dance lessons in this unique experience. Learn classic dance moves while enjoying a selection of sandwiches, scones, and cakes. Perfect for hen parties and special celebrations.',
-    city: 'Edinburgh',
-    region: 'Scotland',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/3184183/pexels-photo-3184183.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Dance',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '10-20',
-    features: [
-      'Professional dance instruction',
-      'Full afternoon tea service',
-      'Prosecco reception',
-      'Live music',
-      'Private venue hire',
-      'Photo opportunities',
-      'Take home goodie bag'
-    ],
-    availability: ['Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '123 Royal Mile',
-      postcode: 'EH1 1TH',
-      coordinates: { lat: 55.9533, lng: -3.1883 }
-    }
-  },
-  {
-    id: '15',
-    title: 'Chocolate Truffle Making Workshop',
-    description: 'Indulge in a decadent chocolate-making session guided by master chocolatiers. Craft your own luxury truffles, perfect for gifting or treating yourself.',
-    city: 'Manchester',
-    region: 'Greater Manchester',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/616353/pexels-photo-616353.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '1.5 hours',
-    groupSize: '6-20',
-    features: [
-      'Make 12 luxury truffles',
-      'Expert chocolatier guidance',
-      'Decorating and packaging included',
-      'Take-home gift box',
-      'Glass of prosecco included'
-    ],
-    availability: ['Friday', 'Saturday', 'Sunday'],
-    location: {
-      address: '44 Deansgate, Manchester',
-      postcode: 'M3 2BW',
-      coordinates: { lat: 53.4810, lng: -2.2446 }
-    }
-  },
-  {
-    id: '16',
-    title: 'Afternoon Tea Bus Tour',
-    description: 'Experience the sights of London aboard a vintage double-decker bus while enjoying a classic British afternoon tea with finger sandwiches, scones, and pastries.',
-    city: 'London',
-    region: 'Greater London',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/239581/pexels-photo-239581.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Birthday",
+    subcategory: "Dance",
     rating: 4.7,
-    duration: '1.5 hours',
-    groupSize: '2-30',
+    duration: "2 hours",
+    groupSize: "8-20",
     features: [
-      'Classic afternoon tea',
-      'Vintage double-decker bus ride',
-      'Sightseeing around London landmarks',
-      'Vegetarian and gluten-free options available'
+      "Beginner-friendly",
+      "Partner rotation",
+      "Cocktail break",
+      "Birthday dance showcase"
     ],
-    availability: ['Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availability: ["Friday-Saturday"],
     location: {
-      address: 'Victoria Coach Station, London',
-      postcode: 'SW1W 9RH',
-      coordinates: { lat: 51.4941, lng: -0.1479 }
+      address: "Salsa Central",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
     }
   },
   {
-    id: '17',
-    title: 'Flower Crown Making Workshop',
-    description: 'Unleash your creativity in this relaxed and fun workshop where you will learn to craft beautiful flower crowns with fresh blooms – perfect for bridal showers or festivals.',
-    city: 'Brighton',
-    region: 'East Sussex',
-    priceFrom: 28,
-    image: 'https://images.pexels.com/photos/461940/pexels-photo-461940.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Creative & Crafty',
-    rating: 4.6,
-    duration: '2 hours',
-    groupSize: '5-15',
-    features: [
-      'All materials included',
-      'Guided by professional florists',
-      'Take-home flower crown',
-      'Glass of bubbly included'
-    ],
-    availability: ['Saturday', 'Sunday'],
-    location: {
-      address: 'North Laine Workshop, Brighton',
-      postcode: 'BN1 4GH',
-      coordinates: { lat: 50.8284, lng: -0.1411 }
-    }
-  },
-  {
-    id: '18',
-    title: 'Salsa Dancing Experience',
-    description: 'Get your hips moving with an energetic salsa dance lesson, led by passionate instructors. Ideal for groups looking to have fun, laugh, and learn new moves.',
-    city: 'Birmingham',
-    region: 'West Midlands',
+    id: 61,
+    title: "Escape Room Challenge",
+    description: "Work together to solve puzzles and escape a themed room before time runs out.",
+    city: "London",
+    region: "Greater London",
     priceFrom: 25,
-    image: 'https://images.pexels.com/photos/797949/pexels-photo-797949.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Active & Dance',
-    rating: 4.5,
-    duration: '1 hour',
-    groupSize: '6-20',
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Team Building",
+    subcategory: "Problem Solving",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "4-8",
     features: [
-      'Learn salsa basics',
-      'Fun group choreography',
-      'Professional dance instructor',
-      'No experience needed'
+      "Multiple theme options",
+      "Real-time hint system",
+      "Team photo included",
+      "Difficulty customization"
     ],
-    availability: ['Friday', 'Saturday'],
+    availability: ["Daily"],
     location: {
-      address: '123 Dance Studio, Birmingham',
-      postcode: 'B1 1AA',
-      coordinates: { lat: 52.4786, lng: -1.9080 }
+      address: "12 Escape Street",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
     }
   },
   {
-    id: '19',
-    title: 'Cocktail Making Masterclass',
-    description: 'Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events. Create and enjoy 4 signature cocktails while learning professional techniques and tricks.',
-    city: 'London',
-    region: 'Greater London',
+    id: 23,
+    title: "Gin Distillery Tour",
+    description: "Behind-the-scenes tour with tasting and custom gin blending.",
+    city: "Bristol",
+    region: "South West",
     priceFrom: 35,
-    image: 'https://images.pexels.com/photos/2531186/pexels-photo-2531186.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '8-15',
+    image: "https://images.unsplash.com/photo-1600788886242-5c96aabe3757",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "8-20",
     features: [
-      'Create 4 signature cocktails',
-      'Professional mixologist instruction',
-      'All equipment and ingredients provided',
-      'Take home recipe cards',
-      'Welcome drink on arrival',
-      'Cocktail making certificate',
-      'Photos of your experience'
+      "Distillery tour",
+      "5 gin samples",
+      "Personal blend creation",
+      "Discount on purchases"
     ],
-    availability: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    availability: ["Thursday-Sunday"],
     location: {
-      address: '123 Party Street, Soho',
-      postcode: 'W1F 7HQ',
-      coordinates: { lat: 51.5074, lng: -0.1278 }
+      address: "The Gin Foundry",
+      postcode: "BS1 6WS",
+      coordinates: { lat: 51.4545, lng: -2.5879 }
     }
   },
   {
-    id: '20',
-    title: 'Chocolate Making Workshop',
-    description: 'A delicious hands-on experience where you’ll learn to craft artisanal chocolates with a master chocolatier. Perfect for date nights, birthdays, or team-building events.',
-    city: 'Manchester',
-    region: 'North West',
+    id: 140,
+    title: "Princess Tea Party",
+    description: "Royal-themed party with princess host, crafts and fancy dress.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 120,
+    image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d",
+    category: "Kids",
+    subcategory: "Themed",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-15",
+    features: [
+      "Princess host",
+      "Craft activities",
+      "Tea party snacks",
+      "Photo opportunities"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Royal Party Room",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 50,
+    title: "Virtual Reality Gaming",
+    description: "Cutting-edge VR games in private gaming pods.",
+    city: "London",
+    region: "Greater London",
     priceFrom: 30,
-    image: 'https://images.unsplash.com/photo-1603569283847-aa295f0d016a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80', // High-res chocolate workshop
-    category: 'Team Building',
-    subcategory: 'Food & Drink',
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620",
+    category: "Stag Do",
+    subcategory: "Games",
     rating: 4.7,
-    duration: '1.5 hours',
-    groupSize: '6-12',
+    duration: "1.5 hours",
+    groupSize: "4-8",
     features: [
-      'Handmade truffles & chocolate bars',
-      'Professional chocolatier guidance',
-      'All ingredients provided',
-      'Take-home treats',
-      'Personalized packaging',
-      'Tasting session'
+      "10+ game options",
+      "Multiplayer battles",
+      "High-end VR gear",
+      "Leaderboard tracking"
     ],
-    availability: ['Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availability: ["Daily"],
     location: {
-      address: '45 Sweet Avenue, Northern Quarter',
-      postcode: 'M4 1HQ',
-      coordinates: { lat: 53.4839, lng: -2.2446 }
+      address: "VR World London",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
     }
   },
   {
-    id: '21',
-    title: 'Pottery Painting Experience',
-    description: 'Unleash your creativity in this relaxing pottery painting session. Choose from ceramics like mugs, plates, or vases and decorate them with professional guidance.',
-    city: 'Bristol',
-    region: 'South West',
-    priceFrom: 25,
-    image: 'https://images.pexels.com/photos/442559/pexels-photo-442559.jpeg', // High-res pottery painting
-    category: 'Creative',
-    subcategory: 'Arts & Crafts',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-10',
-    features: [
-      'Selection of bisque pottery',
-      'Unlimited paints & tools',
-      'Expert tips provided',
-      'Kiln firing included',
-      'Take home your masterpiece',
-      'BYOB option available'
-    ],
-    availability: ['Wednesday', 'Saturday', 'Sunday'],
-    location: {
-      address: '22 Artisan Lane, Clifton',
-      postcode: 'BS8 4PD',
-      coordinates: { lat: 51.4545, lng: -2.6226 }
-    }
-  },
-  {
-    id: '22',
-    title: 'Escape Room Challenge',
-    description: 'Test your problem-solving skills in a themed escape room. Work as a team to solve puzzles, crack codes, and escape before time runs out!',
-    city: 'Edinburgh',
-    region: 'Scotland',
-    priceFrom: 20,
-    image: 'https://images.pexels.com/photos/7031723/pexels-photo-7031723.jpeg',
-    category: 'Adventure',
-    subcategory: 'Games',
-    rating: 4.8,
-    duration: '1 hour',
-    groupSize: '2-6',
-    features: [
-      'Multiple themed rooms',
-      'Live hints available',
-      'Private group bookings',
-      'Difficulty levels',
-      'Team photo at the end',
-      'Leaderboard ranking'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: '7 Mystery Close, Old Town',
-      postcode: 'EH1 1RE',
-      coordinates: { lat: 55.9533, lng: -3.1883 }
-    }
-  },
-  {
-    id: '23',
-    title: 'Gin Distillery Tour & Tasting',
-    description: 'Discover the craft behind gin production with a guided distillery tour followed by a tasting session of small-batch gins and cocktails.',
-    city: 'Liverpool',
-    region: 'North West',
-    priceFrom: 40,
-    image: 'https://images.pexels.com/photos/1089932/pexels-photo-1089932.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Tours',
-    rating: 4.9,
-    duration: '2.5 hours',
-    groupSize: '10-20',
-    features: [
-      'Behind-the-scenes tour',
-      'Sample 5 premium gins',
-      'Cocktail demonstration',
-      'Expert-led tasting notes',
-      'Discount on bottle purchases',
-      'Exclusive merch available'
-    ],
-    availability: ['Friday', 'Saturday'],
-    location: {
-      address: '18 Spirit Lane, Baltic Triangle',
-      postcode: 'L1 0AG',
-      coordinates: { lat: 53.4009, lng: -2.9915 }
-    }
-  },
-  {
-    id: '24',
-    title: 'Archery Tag Session',
-    description: 'A thrilling mix of dodgeball and archery! Compete in teams using foam-tipped arrows in a high-energy, safe combat game.',
-    city: 'Birmingham',
-    region: 'West Midlands',
-    priceFrom: 28,
-    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
-    category: 'Adventure',
-    subcategory: 'Sports',
-    rating: 4.6,
-    duration: '1.5 hours',
-    groupSize: '8-16',
-    features: [
-      'All equipment provided',
-      'Safety briefing & training',
-      'Multiple game modes',
-      'Team tournaments',
-      'Indoor/outdoor options',
-      'Photos & videos included'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: '3 Target Road, Digbeth',
-      postcode: 'B5 5RS',
-      coordinates: { lat: 52.4756, lng: -1.8833 }
-    }
-  },
-  {
-    id: '25',
-    title: 'Silent Disco Yoga',
-    description: 'A unique fusion of yoga and silent disco—flow to your own beat with wireless headphones while an instructor guides the session.',
-    city: 'Brighton',
-    region: 'South East',
-    priceFrom: 18,
-    image: 'https://images.pexels.com/photos/8436685/pexels-photo-8436685.jpeg',
-    category: 'Wellness',
-    subcategory: 'Fitness',
-    rating: 4.7,
-    duration: '1 hour',
-    groupSize: '15-30',
-    features: [
-      'Wireless headphones provided',
-      'Choice of music genres',
-      'Beginner-friendly',
-      'Glow-in-the-dark accessories',
-      'Relaxation segment',
-      'BYO mat or rent onsite'
-    ],
-    availability: ['Tuesday', 'Thursday', 'Sunday'],
-    location: {
-      address: '11 Zen Street, North Laine',
-      postcode: 'BN1 1AA',
-      coordinates: { lat: 50.8225, lng: -0.1372 }
-    }
-  },
-  {
-    id: '26',
-    title: 'Foraging & Wild Cooking',
-    description: 'Explore the countryside with an expert forager, then cook your finds over a fire in this immersive outdoor experience.',
-    city: 'Cardiff',
-    region: 'Wales',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/6994982/pexels-photo-6994982.jpeg',
-    category: 'Outdoor',
-    subcategory: 'Adventure',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '6-12',
-    features: [
-      'Guided foraging walk',
-      'Identify edible plants/mushrooms',
-      'Outdoor cooking demo',
-      'Wild tea tasting',
-      'Recipe booklet',
-      'Eco-friendly practices'
-    ],
-    availability: ['Spring-Autumn weekends'],
-    location: {
-      address: 'Forest Retreat, Bute Park',
-      postcode: 'CF10 3ER',
-      coordinates: { lat: 51.4866, lng: -3.1867 }
-    }
-  },
-  {
-    id: '27',
-    title: 'Neon Sign Making',
-    description: 'Design and bend your own LED neon sign with expert guidance—perfect for personalized décor or gifts.',
-    city: 'Leeds',
-    region: 'Yorkshire',
-    priceFrom: 65,
-    image: 'https://images.pexels.com/photos/5721908/pexels-photo-5721908.jpeg',
-    category: 'Creative',
-    subcategory: 'Workshop',
-    rating: 4.8,
-    duration: '3 hours',
-    groupSize: '4-8',
-    features: [
-      'Custom 15cm sign',
-      'Learn tube-bending basics',
-      '10+ color options',
-      'Take home same day',
-      'Aprons & tools provided',
-      'BYOB allowed'
-    ],
-    availability: ['Friday', 'Saturday'],
-    location: {
-      address: '8 Glow Avenue, Kirkgate',
-      postcode: 'LS1 6HA',
-      coordinates: { lat: 53.7965, lng: -1.5479 }
-    }
-  },
-  {
-    id: '28',
-    title: 'Axe Throwing Session',
-    description: 'Channel your inner lumberjack with this adrenaline-pumping axe-throwing experience under expert supervision.',
-    city: 'Newcastle',
-    region: 'North East',
+    id: 96,
+    title: "Silent Disco Walking Tour",
+    description: "Dance through the streets with wireless headphones and live DJ sets.",
+    city: "Liverpool",
+    region: "North West",
     priceFrom: 22,
-    image: 'https://images.pexels.com/photos/6186123/pexels-photo-6186123.jpeg',
-    category: 'Adventure',
-    subcategory: 'Sports',
+    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3",
+    category: "Birthday",
+    subcategory: "Music",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "10-30",
+    features: [
+      "Wireless headphones",
+      "3 music channels",
+      "Fun dance stops",
+      "Birthday playlist option"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Mathew Street",
+      postcode: "L2 6RE",
+      coordinates: { lat: 53.4055, lng: -2.9889 }
+    }
+  },
+  {
+    id: 85,
+    title: "Go Kart Racing",
+    description: "Team-based racing competition with professional timing.",
+    city: "Milton Keynes",
+    region: "South East",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1565992441121-4367c2967103",
+    category: "Team Building",
+    subcategory: "Sport",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "8-20",
+    features: [
+      "Professional karts",
+      "Safety briefing",
+      "Team time trials",
+      "Championship points"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Raceway Park",
+      postcode: "MK9 3XS",
+      coordinates: { lat: 52.0406, lng: -0.7594 }
+    }
+  },
+  {
+    id: 12,
+    title: "Sushi Making Class",
+    description: "Learn authentic sushi rolling techniques from a Japanese chef.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1553621042-f6e147245754",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-16",
+    features: [
+      "All ingredients provided",
+      "Sake tasting included",
+      "Take home sushi mat",
+      "Vegetarian options"
+    ],
+    availability: ["Tuesday-Sunday"],
+    location: {
+      address: "42 Soho Square",
+      postcode: "W1D 3QP",
+      coordinates: { lat: 51.5153, lng: -0.1316 }
+    }
+  },
+  {
+    id: 88,
+    title: "Escape Room Adventure",
+    description: "Solve puzzles to escape from a themed room within 60 minutes.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Birthday",
+    subcategory: "Games",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "4-8",
+    features: [
+      "Multiple theme options",
+      "Live actor option",
+      "Team photo",
+      "Hint system"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Escape Masters",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 144,
+    title: "Pirate Treasure Hunt",
+    description: "Swashbuckling adventure with treasure maps and costume dress-up.",
+    city: "Liverpool",
+    region: "North West",
+    priceFrom: 125,
+    image: "https://images.unsplash.com/photo-1563784462041-5f97ac9523dd",
+    category: "Kids",
+    subcategory: "Themed",
     rating: 4.7,
-    duration: '1 hour',
-    groupSize: '4-10',
+    duration: "2 hours",
+    groupSize: "8-15",
     features: [
-      'Safety training included',
-      'Multiple target games',
-      'Competitive scoring',
-      'Group tournaments',
-      'Photo opportunities',
-      'Licensed bar onsite'
+      "Treasure maps",
+      "Pirate costumes",
+      "Face painting",
+      "Treasure chest prizes"
     ],
-    availability: ['Daily'],
+    availability: ["Weekends"],
     location: {
-      address: '14 Timber Yard, Ouseburn',
-      postcode: 'NE1 2PQ',
-      coordinates: { lat: 54.9783, lng: -1.6174 }
+      address: "Pirate Cove Venue",
+      postcode: "L2 6RE",
+      coordinates: { lat: 53.4055, lng: -2.9889 }
     }
   },
   {
-    id: '29',
-    title: 'Virtual Reality Gaming Party',
-    description: 'Immerse yourself in VR worlds with multiplayer games, from zombie survival to racing and puzzle adventures.',
-    city: 'Glasgow',
-    region: 'Scotland',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/442576/pexels-photo-442576.jpeg',
-    category: 'Gaming',
-    subcategory: 'Tech',
+    id: 37,
+    title: "Whiskey Tasting Masterclass",
+    description: "Premium whiskey sampling with expert guidance.",
+    city: "Edinburgh",
+    region: "Scotland",
+    priceFrom: 40,
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
     rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '4-12',
+    duration: "2 hours",
+    groupSize: "6-12",
     features: [
-      'State-of-the-art VR headsets',
-      '20+ game options',
-      'Private gaming pod',
-      'Leaderboard challenges',
-      'Screen to watch players',
-      'Souvenir digital clips'
+      "5 premium whiskeys",
+      "Expert guidance",
+      "Tasting notes",
+      "Cheese pairing option"
     ],
-    availability: ['Daily'],
+    availability: ["Thursday-Sunday"],
     location: {
-      address: '25 Tech Plaza, Merchant City',
-      postcode: 'G1 1AA',
-      coordinates: { lat: 55.8598, lng: -4.2425 }
+      address: "The Whiskey Vaults",
+      postcode: "EH1 1SG",
+      coordinates: { lat: 55.9496, lng: -3.1883 }
     }
   },
   {
-    id: '30',
-    title: 'Prosecco Painting Party',
-    description: 'Sip prosecco while creating canvas art with friends—guided by a local artist. Perfect for hen parties!',
-    city: 'London',
-    region: 'England',
-    priceFrom: 32,
-    image: 'https://images.pexels.com/photos/3825519/pexels-photo-3825519.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Creative',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '6-20',
+    id: 109,
+    title: "Go Kart Racing",
+    description: "High-speed racing competition with professional timing.",
+    city: "Milton Keynes",
+    region: "South East",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1607860108855-64acf2078ed9",
+    category: "Birthday",
+    subcategory: "Sport",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "8-20",
     features: [
-      'All art supplies provided',
-      '2 glasses of prosecco',
-      'Take-home artwork',
-      'BYOB option',
-      'Private venue'
+      "Professional karts",
+      "Safety briefing",
+      "Team time trials",
+      "Birthday podium ceremony"
     ],
-    availability: ['Weekends'],
+    availability: ["Daily"],
     location: {
-      address: '12 Canvas Lane, Shoreditch',
-      postcode: 'E1 6AB',
+      address: "Raceway Park",
+      postcode: "MK9 3XS",
+      coordinates: { lat: 52.0406, lng: -0.7594 }
+    }
+  },
+  {
+    id: 1,
+    title: "Cocktail Making Masterclass",
+    description: "Learn the art of mixology from expert bartenders in this hands-on cocktail making class. Perfect for hen parties, birthdays, or corporate events.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-15",
+    features: [
+      "Create 4 signature cocktails",
+      "Professional mixologist instruction",
+      "All equipment provided",
+      "Take home recipe cards"
+    ],
+    availability: ["Monday-Saturday"],
+    location: {
+      address: "123 Shoreditch High Street",
+      postcode: "E1 6JE",
       coordinates: { lat: 51.5234, lng: -0.0756 }
     }
   },
   {
-    id: '31',
-    title: 'Belly Dancing Workshop',
-    description: 'Learn sensual belly dancing moves in a fun, inclusive class tailored for hen parties.',
-    city: 'Barcelona',
-    region: 'Spain',
-    priceFrom: 25,
-    image: 'https://images.pexels.com/photos/8951203/pexels-photo-8951203.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Dance',
-    rating: 4.7,
-    duration: '1.5 hours',
-    groupSize: '8-15',
-    features: [
-      'Professional instructor',
-      'Costume accessories',
-      'Group choreography',
-      'Photo session',
-      'Option for private class'
-    ],
-    availability: ['Friday', 'Saturday'],
-    location: {
-      address: '9 Flamenco Street, Gothic Quarter',
-      postcode: '08002',
-      coordinates: { lat: 41.3825, lng: 2.1769 }
-    }
-  },
-  {
-    id: '32',
-    title: 'Sparkly Afternoon Tea',
-    description: 'Glamorous afternoon tea with champagne, bespoke cocktails, and edible glitter desserts.',
-    city: 'Manchester',
-    region: 'England',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/884600/pexels-photo-884600.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-12',
-    features: [
-      '3-tiered dessert stand',
-      'Bottomless prosecco upgrade',
-      'Personalized cupcakes',
-      'Instagrammable décor',
-      'Vegan/GF options'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'The Glitter Café, Deansgate',
-      postcode: 'M3 4EN',
-      coordinates: { lat: 53.4775, lng: -2.2511 }
-    }
-  },
-  {
-    id: '33',
-    title: 'Pole Fitness Class',
-    description: 'A beginner-friendly pole dancing session designed for hen parties—build confidence and laugh together!',
-    city: 'Berlin',
-    region: 'Germany',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/6456159/pexels-photo-6456159.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Fitness',
-    rating: 4.6,
-    duration: '1.5 hours',
-    groupSize: '6-10',
-    features: [
-      'Expert instructor',
-      'Safety mats provided',
-      'Group discounts',
-      'Photo/video package',
-      'Private studio'
-    ],
-    availability: ['Thursday-Sunday'],
-    location: {
-      address: '14 Neon Studio, Mitte',
-      postcode: '10178',
-      coordinates: { lat: 52.5200, lng: 13.4050 }
-    }
-  },
-  {
-    id: '34',
-    title: 'Bridal Makeup Masterclass',
-    description: 'Learn professional bridal makeup techniques with a celebrity artist—ideal for pre-wedding prep.',
-    city: 'Dublin',
-    region: 'Ireland',
-    priceFrom: 55,
-    image: 'https://images.pexels.com/photos/3998418/pexels-photo-3998418.jpeg',
-    category: 'Hen Do',
-    subcategory: 'Beauty',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-8',
-    features: [
-      'Luxury product samples',
-      'Step-by-step demo',
-      'Bride-focused tips',
-      'Goody bags',
-      'Pro photoshoot'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: '5 Glamour Lane, Temple Bar',
-      postcode: 'D02 NX53',
-      coordinates: { lat: 53.3458, lng: -6.2636 }
-    }
-  },
-
-  // STAG DO ACTIVITIES (5)
-  {
-    id: '35',
-    title: 'Tank Driving Experience',
-    description: 'Drive a real military tank over obstacles and fire (blank) rounds—epic stag activity!',
-    city: 'Prague',
-    region: 'Czech Republic',
-    priceFrom: 120,
-    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Adventure',
-    rating: 5.0,
-    duration: '3 hours',
-    groupSize: '4-10',
-    features: [
-      '30 mins tank driving',
-      'Safety briefing',
-      'Army-style challenges',
-      'BBQ lunch included',
-      'Photos/videos'
-    ],
-    availability: ['April-October'],
-    location: {
-      address: 'Tank Base, Prague 9',
-      postcode: '19000',
-      coordinates: { lat: 50.1264, lng: 14.5164 }
-    }
-  },
-
-  {
-    id: '36',
-    title: 'Whiskey & Cigar Tasting',
-    description: 'Sample rare whiskeys paired with premium cigars in a private members’ club.',
-    city: 'Belfast',
-    region: 'Northern Ireland',
+    id: 78,
+    title: "Robot Wars Competition",
+    description: "Build and battle remote-controlled robots in team competition.",
+    city: "Bristol",
+    region: "South West",
     priceFrom: 60,
-    image: 'https://images.pexels.com/photos/4825701/pexels-photo-4825701.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Food & Drink',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '6-12',
-    features: [
-      '5 premium whiskeys',
-      'Hand-rolled cigars',
-      'Expert sommelier',
-      'Private lounge',
-      'Stag trophy'
-    ],
-    availability: ['Thursday-Saturday'],
-    location: {
-      address: '8 Distillery Road',
-      postcode: 'BT1 5AB',
-      coordinates: { lat: 54.5973, lng: -5.9301 }
-    }
-  },
-  {
-    id: '37',
-    title: 'White Water Rafting',
-    description: 'Tackle Grade IV rapids with your crew—includes wetsuits and safety gear.',
-    city: 'Cardiff',
-    region: 'Wales',
-    priceFrom: 65,
-    image: 'https://images.pexels.com/photos/7527846/pexels-photo-7527846.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Extreme',
+    image: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789",
+    category: "Team Building",
+    subcategory: "Technology",
     rating: 4.9,
-    duration: 'Half-day',
-    groupSize: '8-16',
+    duration: "3 hours",
+    groupSize: "6-12",
     features: [
-      'Professional guides',
-      'Transport from city',
-      'Post-rafting pub lunch',
-      'GoPro footage',
-      'Min age: 18'
+      "Pre-built robot kits",
+      "Battle arena",
+      "Engineering support",
+      "Tournament structure"
     ],
-    availability: ['May-September'],
+    availability: ["Weekdays"],
     location: {
-      address: 'River Taff Rafting Centre',
-      postcode: 'CF10 1AA',
-      coordinates: { lat: 51.4733, lng: -3.1759 }
+      address: "Robot Arena",
+      postcode: "BS1 6WS",
+      coordinates: { lat: 51.4545, lng: -2.5879 }
     }
   },
   {
-    id: '38',
-    title: 'Casino Night Package',
-    description: 'Private casino night with poker, blackjack, and roulette—fake money, real fun!',
-    city: 'Amsterdam',
-    region: 'Netherlands',
-    priceFrom: 40,
-    image: 'https://images.pexels.com/photos/269948/pexels-photo-269948.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Games',
-    rating: 4.7,
-    duration: '3 hours',
-    groupSize: '10-20',
-    features: [
-      'Dealers & tables provided',
-      'Stag-themed prizes',
-      'Cocktail package upgrade',
-      'VIP area',
-      'BYOB allowed'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: '22 Casino Street, Red Light District',
-      postcode: '1012 LA',
-      coordinates: { lat: 52.3702, lng: 4.8952 }
-    }
-  },
-  {
-    id: '39',
-    title: 'Combat Archery Battle',
-    description: 'Like paintball but with bows and foam-tipped arrows—intense team battles!',
-    city: 'Glasgow',
-    region: 'Scotland',
-    priceFrom: 28,
-    image: 'https://images.pexels.com/photos/6180797/pexels-photo-6180797.jpeg',
-    category: 'Stag Do',
-    subcategory: 'Sports',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '8-16',
-    features: [
-      'All equipment provided',
-      '3 game modes',
-      'Stag team branding',
-      'Indoor arena',
-      'Photos included'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: 'Battle Arena, Govan',
-      postcode: 'G51 1EA',
-      coordinates: { lat: 55.8617, lng: -4.3106 }
-    }
-  },
-
-  // TEAM BUILDING (5)
-  {
-    id: '40',
-    title: 'MasterChef Challenge',
-    description: 'Teams compete to cook a 3-course meal under time pressure—judged by a pro chef.',
-    city: 'Liverpool',
-    region: 'England',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/1267320/pexels-photo-1267320.jpeg',
-    category: 'Team Building',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '10-30',
-    features: [
-      'Ingredients provided',
-      'Teamwork challenges',
-      'Winning team prize',
-      'Recipe booklet',
-      'Dietary accommodations'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: 'The Cookhouse, Baltic Triangle',
-      postcode: 'L1 0AH',
-      coordinates: { lat: 53.4009, lng: -2.9915 }
-    }
-  },
-  {
-    id: '41',
-    title: 'Escape the Office',
-    description: 'Custom escape room designed for corporate teams—solve puzzles to "escape work".',
-    city: 'Leeds',
-    region: 'England',
+    id: 30,
+    title: "Belly Dancing Class",
+    description: "Learn sensual belly dancing moves with a professional instructor.",
+    city: "London",
+    region: "Greater London",
     priceFrom: 25,
-    image: 'https://images.pexels.com/photos/7031723/pexels-photo-7031723.jpeg',
-    category: 'Team Building',
-    subcategory: 'Games',
-    rating: 4.7,
-    duration: '1 hour',
-    groupSize: '4-8',
-    features: [
-      'Work-themed puzzles',
-      'Debrief session',
-      'Team scoring',
-      'Private bookings',
-      'Difficulty levels'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: '12 Puzzle Lane, City Centre',
-      postcode: 'LS1 4BR',
-      coordinates: { lat: 53.7997, lng: -1.5492 }
-    }
-  },
-  {
-    id: '42',
-    title: 'Robot Wars Workshop',
-    description: 'Build and battle robots with your team—STEM-focused and hilariously competitive.',
-    city: 'Bristol',
-    region: 'England',
-    priceFrom: 50,
-    image: 'https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg',
-    category: 'Team Building',
-    subcategory: 'Tech',
-    rating: 4.8,
-    duration: '2.5 hours',
-    groupSize: '8-20',
-    features: [
-      'Kits provided',
-      'Engineering mentor',
-      'Tournament finale',
-      'Prizes for winners',
-      'No experience needed'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: 'Tech Hub, Temple Quay',
-      postcode: 'BS1 6DG',
-      coordinates: { lat: 51.4526, lng: -2.5824 }
-    }
-  },
-  {
-    id: '43',
-    title: 'Drum Circle Experience',
-    description: 'Boost team synergy with rhythmic drumming—led by a professional percussionist.',
-    city: 'Birmingham',
-    region: 'England',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg',
-    category: 'Team Building',
-    subcategory: 'Music',
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Hen Do",
+    subcategory: "Dance",
     rating: 4.6,
-    duration: '1.5 hours',
-    groupSize: '10-50',
+    duration: "1.5 hours",
+    groupSize: "8-15",
     features: [
-      'All instruments provided',
-      'Collaborative compositions',
-      'Energy-building exercises',
-      'Outdoor/indoor options',
-      'Recording of your performance'
+      "Hip scarves provided",
+      "Beginner moves",
+      "Group routine",
+      "Photo session"
     ],
-    availability: ['Weekdays'],
+    availability: ["Friday-Sunday"],
     location: {
-      address: 'Rhythm Studio, Digbeth',
-      postcode: 'B5 5RS',
-      coordinates: { lat: 52.4756, lng: -1.8833 }
+      address: "The Dance Studio",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
     }
   },
   {
-    id: '44',
-    title: 'Survival Skills Workshop',
-    description: 'Learn wilderness survival as a team—fire-making, shelter-building, and navigation.',
-    city: 'Newcastle',
-    region: 'England',
+    id: 141,
+    title: "Dinosaur Adventure Party",
+    description: "Paleontology-themed party with fossil digs and dinosaur activities.",
+    city: "Bristol",
+    region: "South West",
+    priceFrom: 135,
+    image: "https://images.unsplash.com/photo-1574786577759-aebe5a5973ab",
+    category: "Kids",
+    subcategory: "Themed",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "10-20",
+    features: [
+      "Fossil dig activity",
+      "Dinosaur crafts",
+      "Educational games",
+      "Take-home fossils"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Dino Discovery Center",
+      postcode: "BS1 5LL",
+      coordinates: { lat: 51.4485, lng: -2.5994 }
+    }
+  },
+  {
+    id: 47,
+    title: "Whiskey & Cigar Pairing",
+    description: "Premium whiskey and cigar tasting with expert guidance.",
+    city: "Edinburgh",
+    region: "Scotland",
     priceFrom: 55,
-    image: 'https://images.pexels.com/photos/6214378/pexels-photo-6214378.jpeg',
-    category: 'Team Building',
-    subcategory: 'Outdoor',
-    rating: 4.9,
-    duration: '4 hours',
-    groupSize: '8-15',
-    features: [
-      'Expert survivalist',
-      'Team challenges',
-      'Outdoor location',
-      'Basic first aid training',
-      'Certificate of completion'
-    ],
-    availability: ['April-October'],
-    location: {
-      address: 'Wilderness Camp, Northumberland',
-      postcode: 'NE65 7PX',
-      coordinates: { lat: 55.3289, lng: -1.8881 }
-    }
-  },
-
-  // BIRTHDAY (5)
-  {
-    id: '45',
-    title: 'Private Karaoke Lounge',
-    description: 'Sing your heart out in a private karaoke room with unlimited song choices.',
-    city: 'London',
-    region: 'England',
-    priceFrom: 20,
-    image: 'https://images.pexels.com/photos/167491/pexels-photo-167491.jpeg',
-    category: 'Birthday',
-    subcategory: 'Music',
-    rating: 4.7,
-    duration: '2 hours',
-    groupSize: '4-12',
-    features: [
-      'Private soundproof room',
-      'Unlimited songs',
-      'Disco lighting',
-      'BYOB allowed',
-      'Snack menu'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'K-Star Karaoke, Soho',
-      postcode: 'W1D 4NG',
-      coordinates: { lat: 51.5139, lng: -0.1313 }
-    }
-  },
-  {
-    id: '46',
-    title: 'VIP Cinema Screening',
-    description: 'Rent a luxury cinema for a private screening of your favorite film.',
-    city: 'Dublin',
-    region: 'Ireland',
-    priceFrom: 150,
-    image: 'https://images.pexels.com/photos/436413/pexels-photo-436413.jpeg',
-    category: 'Birthday',
-    subcategory: 'Entertainment',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '10-30',
-    features: [
-      '4K projector & surround sound',
-      'Film of your choice',
-      'Complimentary popcorn',
-      'Bar service available',
-      'Red carpet entry'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'The Premiere Cinema, Temple Bar',
-      postcode: 'D02 NX53',
-      coordinates: { lat: 53.3458, lng: -6.2636 }
-    }
-  },
-  {
-    id: '47',
-    title: 'Chocolate Fountain Party',
-    description: 'Unlimited chocolate fountain with dippable treats—perfect for sweet-toothed celebrations.',
-    city: 'Brighton',
-    region: 'England',
-    priceFrom: 18,
-    image: 'https://images.pexels.com/photos/6605313/pexels-photo-6605313.jpeg',
-    category: 'Birthday',
-    subcategory: 'Food & Drink',
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
     rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '6-15',
+    duration: "1.5 hours",
+    groupSize: "6-10",
     features: [
-      '3 chocolate flavors',
-      'Fruit, marshmallows, pretzels',
-      'Personalized birthday cake',
-      'Vegan options',
-      'Themed decorations'
+      "3 premium whiskeys",
+      "2 Cuban cigars",
+      "Expert guidance",
+      "Private lounge"
     ],
-    availability: ['Weekends'],
+    availability: ["Friday-Sunday"],
     location: {
-      address: 'Sweet Tooth Café, The Lanes',
-      postcode: 'BN1 1AA',
+      address: "The Highland Vault",
+      postcode: "EH1 1SG",
+      coordinates: { lat: 55.9496, lng: -3.1883 }
+    }
+  },
+  {
+    id: 119,
+    title: "Treasure Hunt Adventure",
+    description: "City-wide treasure hunt using GPS and puzzle-solving skills.",
+    city: "Edinburgh",
+    region: "Scotland",
+    priceFrom: 28,
+    image: "https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1",
+    category: "Birthday",
+    subcategory: "Adventure",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "5-8",
+    features: [
+      "Mobile app provided",
+      "Birthday surprises",
+      "Live leaderboard",
+      "Team photo challenges"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Royal Mile Start Point",
+      postcode: "EH1 1SG",
+      coordinates: { lat: 55.9496, lng: -3.1883 }
+    }
+  },
+  {
+    id: 16,
+    title: "Murder Mystery Dinner",
+    description: "Interactive theatrical dining experience with actors and costumes.",
+    city: "York",
+    region: "Yorkshire",
+    priceFrom: 55,
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Hen Do",
+    subcategory: "Themed",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "10-25",
+    features: [
+      "3-course meal",
+      "Costume props provided",
+      "Professional actors",
+      "Group photo package"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "The Grand Old Hall",
+      postcode: "YO1 9WD",
+      coordinates: { lat: 53.9599, lng: -1.0873 }
+    }
+  },
+  {
+    id: 94,
+    title: "Murder Mystery Dinner",
+    description: "Interactive theatrical dining experience with actors and costumes.",
+    city: "York",
+    region: "Yorkshire",
+    priceFrom: 55,
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Birthday",
+    subcategory: "Themed",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "10-25",
+    features: [
+      "3-course meal",
+      "Costume props provided",
+      "Professional actors",
+      "Birthday cake option"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "The Grand Old Hall",
+      postcode: "YO1 9WD",
+      coordinates: { lat: 53.9599, lng: -1.0873 }
+    }
+  },
+  {
+    id: 72,
+    title: "Corporate Olympics",
+    description: "Series of fun physical challenges in team-based competition.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1543351611-58f69d7c1781",
+    category: "Team Building",
+    subcategory: "Sport",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "10-30",
+    features: [
+      "5 challenge stations",
+      "Medal ceremony",
+      "Customizable activities",
+      "Team branding options"
+    ],
+    availability: ["Weekdays"],
+    location: {
+      address: "Sports Arena",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 38,
+    title: "Clay Pigeon Shooting",
+    description: "Professional shooting instruction at outdoor range.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1600861195091-690c92f1d2cc",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "6-12",
+    features: [
+      "50 clays per person",
+      "Safety equipment",
+      "Competition format",
+      "BBQ lunch option"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Yorkshire Shooting Ground",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
+    }
+  },
+  {
+    id: 101,
+    title: "Secret Cinema Experience",
+    description: "Immersive movie night with actors, costumes and themed cocktails.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c",
+    category: "Birthday",
+    subcategory: "Themed",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "10-30",
+    features: [
+      "Costume suggestions",
+      "Themed cocktails",
+      "Interactive elements",
+      "Birthday surprises"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Secret Location",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 22,
+    title: "Secret Cinema Experience",
+    description: "Immersive movie night with actors, costumes and themed cocktails.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c",
+    category: "Hen Do",
+    subcategory: "Themed",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "10-30",
+    features: [
+      "Costume suggestions",
+      "Themed cocktails",
+      "Interactive elements",
+      "Group photo ops"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Secret Location",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 143,
+    title: "Science Madness Party",
+    description: "Interactive science experiments and explosive demonstrations.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 160,
+    image: "https://images.unsplash.com/photo-1575505586569-646b2ca898fc",
+    category: "Kids",
+    subcategory: "Educational",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "10-20",
+    features: [
+      "10+ experiments",
+      "Lab coats provided",
+      "Take-home science kit",
+      "Slime making"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Science Fun Lab",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
+    }
+  },
+  {
+    id: 5,
+    title: "Life Drawing Class",
+    description: "Fun and creative life drawing session with a nude male model (optional).",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 28,
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
+    category: "Hen Do",
+    subcategory: "Creative",
+    rating: 4.5,
+    duration: "2 hours",
+    groupSize: "10-25",
+    features: [
+      "All materials provided",
+      "Professional model",
+      "Wine included",
+      "Take home artwork"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "27a Brick Lane",
+      postcode: "E1 6PU",
+      coordinates: { lat: 51.5215, lng: -0.0716 }
+    }
+  },
+  {
+    id: 98,
+    title: "Life Drawing Class",
+    description: "Fun and creative life drawing session with a nude model.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 28,
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
+    category: "Birthday",
+    subcategory: "Creative",
+    rating: 4.5,
+    duration: "2 hours",
+    groupSize: "10-25",
+    features: [
+      "All materials provided",
+      "Professional model",
+      "Wine included",
+      "Take home artwork"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "27a Brick Lane",
+      postcode: "E1 6PU",
+      coordinates: { lat: 51.5215, lng: -0.0716 }
+    }
+  },
+  {
+    id: 45,
+    title: "Casino Night",
+    description: "Private casino tables with professional croupiers.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1596838132731-3301c3fd4317",
+    category: "Stag Do",
+    subcategory: "Games",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "8-15",
+    features: [
+      "Roulette & blackjack",
+      "Professional croupiers",
+      "Chip package included",
+      "VIP area"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "The Mayfair Club",
+      postcode: "W1J 7NE",
+      coordinates: { lat: 51.5074, lng: -0.1478 }
+    }
+  },
+  {
+    id: 117,
+    title: "Cocktail Making Masterclass",
+    description: "Learn the art of mixology from expert bartenders.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b",
+    category: "Birthday",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-15",
+    features: [
+      "Create 4 cocktails",
+      "Professional instruction",
+      "Birthday toast",
+      "Recipe cards"
+    ],
+    availability: ["Monday-Saturday"],
+    location: {
+      address: "123 Shoreditch High Street",
+      postcode: "E1 6JE",
+      coordinates: { lat: 51.5234, lng: -0.0756 }
+    }
+  },
+  {
+    id: 152,
+    title: "Farmyard Friends Party",
+    description: "Meet and pet friendly farm animals with educational activities.",
+    city: "Cambridge",
+    region: "East Anglia",
+    priceFrom: 125,
+    image: "https://images.unsplash.com/photo-1470114716159-e389f8712fda",
+    category: "Kids",
+    subcategory: "Animals",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "10-15",
+    features: [
+      "6+ farm animals",
+      "Pony rides",
+      "Animal feeding",
+      "Farm crafts"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Happy Farm Venue",
+      postcode: "CB2 1TN",
+      coordinates: { lat: 52.2006, lng: 0.1181 }
+    }
+  },
+  {
+    id: 35,
+    title: "Poker Tournament",
+    description: "Private Texas Hold'em tournament with professional dealer.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1593510987185-1ec2256148a3",
+    category: "Stag Do",
+    subcategory: "Games",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "6-12",
+    features: [
+      "Professional dealer",
+      "Chips and cards provided",
+      "Prize for winner",
+      "Whiskey tasting option"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "The Card Room",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 80,
+    title: "Corporate Art Workshop",
+    description: "Collaborative art creation with professional guidance.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 40,
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
+    category: "Team Building",
+    subcategory: "Creative",
+    rating: 4.6,
+    duration: "2.5 hours",
+    groupSize: "8-20",
+    features: [
+      "Professional artist guidance",
+      "Large-scale collaboration",
+      "All materials provided",
+      "Take home artwork"
+    ],
+    availability: ["Weekdays"],
+    location: {
+      address: "The Art Studio",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 14,
+    title: "Indoor Skydiving",
+    description: "Experience freefall in a safe indoor wind tunnel with instructors.",
+    city: "Milton Keynes",
+    region: "South East",
+    priceFrom: 65,
+    image: "https://images.unsplash.com/photo-1541873676-a18131494184",
+    category: "Hen Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "4-10",
+    features: [
+      "2 flight sessions",
+      "All equipment provided",
+      "Certified instructors",
+      "Group photo package"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Xscape Building",
+      postcode: "MK9 3XS",
+      coordinates: { lat: 52.0406, lng: -0.7594 }
+    }
+  },
+  {
+    id: 104,
+    title: "Indoor Skydiving",
+    description: "Experience freefall in a safe indoor wind tunnel with instructors.",
+    city: "Milton Keynes",
+    region: "South East",
+    priceFrom: 65,
+    image: "https://images.unsplash.com/photo-1541873676-a18131494184",
+    category: "Birthday",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "4-10",
+    features: [
+      "2 flight sessions",
+      "All equipment provided",
+      "Certified instructors",
+      "Group photo package"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Xscape Building",
+      postcode: "MK9 3XS",
+      coordinates: { lat: 52.0406, lng: -0.7594 }
+    }
+  },
+  {
+    id: 40,
+    title: "Go Karting Grand Prix",
+    description: "High-speed kart racing with championship scoring.",
+    city: "Milton Keynes",
+    region: "South East",
+    priceFrom: 40,
+    image: "https://images.unsplash.com/photo-1541873676-a18131494184",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "6-15",
+    features: [
+      "Professional karts",
+      "3 race formats",
+      "Podium ceremony",
+      "Safety briefing"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Grand Prix Karting",
+      postcode: "MK9 3XS",
+      coordinates: { lat: 52.0406, lng: -0.7594 }
+    }
+  },
+  {
+    id: 100,
+    title: "Rage Room Experience",
+    description: "Smash and destroy items in a safe controlled environment.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1621451537084-482c73073a0f",
+    category: "Birthday",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "1 hour",
+    groupSize: "4-8",
+    features: [
+      "Protective gear provided",
+      "Variety of smashing tools",
+      "Custom playlist option",
+      "Photo package"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "The Smash House",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 18,
+    title: "Rage Room Experience",
+    description: "Smash and destroy items in a safe controlled environment.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9",
+    category: "Hen Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "1 hour",
+    groupSize: "4-8",
+    features: [
+      "Protective gear provided",
+      "Variety of smashing tools",
+      "Custom playlist option",
+      "Photo package"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "The Smash House",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 39,
+    title: "Rage Room Experience",
+    description: "Smash electronics and glass in a safe controlled environment.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1622372738946-62e02505feb3",
+    category: "Stag Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "1 hour",
+    groupSize: "4-8",
+    features: [
+      "Protective gear",
+      "Variety of smashing tools",
+      "Custom playlist",
+      "Slow-mo video package"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Smash Palace",
+      postcode: "E2 7DG",
+      coordinates: { lat: 51.5265, lng: -0.0806 }
+    }
+  },
+  {
+    id: 116,
+    title: "Pole Dancing Class",
+    description: "Beginner-friendly pole dancing lesson in a private studio.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Birthday",
+    subcategory: "Dance",
+    rating: 4.7,
+    duration: "1.5 hours",
+    groupSize: "6-12",
+    features: [
+      "Champagne on arrival",
+      "Private studio",
+      "Beginner moves",
+      "Birthday photos"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "45 Deansgate",
+      postcode: "M3 2PT",
+      coordinates: { lat: 53.4808, lng: -2.2426 }
+    }
+  },
+  {
+    id: 2,
+    title: "Pole Dancing Class",
+    description: "Beginner-friendly pole dancing lesson with a professional instructor in a private studio.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Hen Do",
+    subcategory: "Dance",
+    rating: 4.7,
+    duration: "1.5 hours",
+    groupSize: "6-12",
+    features: [
+      "Champagne on arrival",
+      "Private studio",
+      "Beginner moves",
+      "Photo opportunities"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "45 Deansgate",
+      postcode: "M3 2PT",
+      coordinates: { lat: 53.4808, lng: -2.2426 }
+    }
+  },
+  {
+    id: 4,
+    title: "Burlesque Dance Workshop",
+    description: "Learn seductive burlesque moves with professional dancers in a glamorous setting.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819",
+    category: "Hen Do",
+    subcategory: "Dance",
+    rating: 4.6,
+    duration: "2 hours",
+    groupSize: "8-20",
+    features: [
+      "Feather boa props",
+      "Champagne reception",
+      "Group performance",
+      "Photo session"
+    ],
+    availability: ["Wednesday-Sunday"],
+    location: {
+      address: "88 Soho Square",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 99,
+    title: "Burlesque Dance Workshop",
+    description: "Learn seductive burlesque moves with professional dancers.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Birthday",
+    subcategory: "Dance",
+    rating: 4.6,
+    duration: "2 hours",
+    groupSize: "8-20",
+    features: [
+      "Feather boa props",
+      "Champagne reception",
+      "Group performance",
+      "Photo session"
+    ],
+    availability: ["Wednesday-Sunday"],
+    location: {
+      address: "88 Soho Square",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 26,
+    title: "Salsa Dancing Lesson",
+    description: "Professional Latin dance instruction with cocktail break.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 28,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Hen Do",
+    subcategory: "Dance",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "8-20",
+    features: [
+      "Beginner-friendly",
+      "Partner rotation",
+      "Cocktail break",
+      "Dance showcase"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Salsa Central",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 154,
+    title: "Dance Party Extravaganza",
+    description: "High-energy dance party with professional instructor.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 110,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Kids",
+    subcategory: "Dance",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "10-20",
+    features: [
+      "Dance instructor",
+      "Glow sticks",
+      "Disco lights",
+      "Dance-off competition"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Disco Party Room",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 148,
+    title: "Circus Skills Workshop",
+    description: "Learn juggling, plate spinning and circus tricks.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 140,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Kids",
+    subcategory: "Active",
+    rating: 4.7,
+    duration: "1.5 hours",
+    groupSize: "10-20",
+    features: [
+      "Professional instructor",
+      "Juggling equipment",
+      "Circus performance",
+      "Diabolo workshop"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Big Top Party Venue",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 150,
+    title: "Ninja Warrior Party",
+    description: "Obstacle course challenge inspired by ninja training.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 155,
+    image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2",
+    category: "Kids",
+    subcategory: "Active",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "10-15",
+    features: [
+      "5 obstacle courses",
+      "Ninja headbands",
+      "Certificates",
+      "Professional instructors"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Ninja Academy",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 142,
+    title: "Superhero Training Academy",
+    description: "Action-packed party with obstacle courses and superhero training.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 140,
+    image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
+    category: "Kids",
+    subcategory: "Active",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "10-15",
+    features: [
+      "Obstacle course",
+      "Cape decorating",
+      "Superhero certificate",
+      "Photo booth"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Hero Headquarters",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 156,
+    title: "Mini Olympics Party",
+    description: "Sports day with races, challenges and medals.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 130,
+    image: "https://images.unsplash.com/photo-1543351611-58f69d7c1781",
+    category: "Kids",
+    subcategory: "Active",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "10-20",
+    features: [
+      "5+ sporting events",
+      "Team competitions",
+      "Medal ceremony",
+      "Sports certificates"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Olympic Party Venue",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 151,
+    title: "Space Explorer Party",
+    description: "Interactive space adventure with planetarium show.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 165,
+    image: "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986",
+    category: "Kids",
+    subcategory: "Educational",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "10-20",
+    features: [
+      "Portable planetarium",
+      "Rocket building",
+      "Astronaut training",
+      "Glow-in-the-dark crafts"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Space Center Venue",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 258,
+    title: "Science of Slime Party",
+    description: "Interactive slime-making with different textures and colors.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 110,
+    image: "https://images.unsplash.com/photo-1575505586569-646b2ca898fc",
+    category: "Kids",
+    subcategory: "Science",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "8-12",
+    features: [
+      "5 slime varieties",
+      "Glitter & color options",
+      "Take-home containers",
+      "Slime experiments"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Slime Laboratory",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
+    }
+  },
+  {
+    id: 145,
+    title: "Mini Masterchef Party",
+    description: "Junior cooking party with professional chef guidance.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 145,
+    image: "https://images.unsplash.com/photo-1556911220-bff31c812dba",
+    category: "Kids",
+    subcategory: "Food",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-12",
+    features: [
+      "Chef hats provided",
+      "3 recipe creations",
+      "Judging session",
+      "Take-home recipes"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Little Cooks Kitchen",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 147,
+    title: "Lego Engineering Party",
+    description: "Creative building challenges with thousands of Lego pieces.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 130,
+    image: "https://images.unsplash.com/photo-1587654780291-39c9404d746b",
+    category: "Kids",
+    subcategory: "Creative",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-12",
+    features: [
+      "10,000+ Lego pieces",
+      "Building challenges",
+      "Take-home creation",
+      "Lego certificate"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Brick Builders Studio",
+      postcode: "M3 2PT",
+      coordinates: { lat: 53.4808, lng: -2.2426 }
+    }
+  },
+  {
+    id: 153,
+    title: "Art Studio Party",
+    description: "Creative painting party with professional artist guidance.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 120,
+    image: "https://images.unsplash.com/photo-1547036967-23d11aacaee0",
+    category: "Kids",
+    subcategory: "Creative",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "8-12",
+    features: [
+      "Canvas painting",
+      "All materials provided",
+      "Artist guidance",
+      "Take-home artwork"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Little Artists Studio",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 155,
+    title: "Puppet Making Party",
+    description: "Create and perform with custom puppets.",
+    city: "Bristol",
+    region: "South West",
+    priceFrom: 115,
+    image: "https://images.unsplash.com/photo-1608889825205-eebdb9fc5806",
+    category: "Kids",
+    subcategory: "Creative",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "8-12",
+    features: [
+      "Puppet making",
+      "Mini theater",
+      "Performance time",
+      "Take-home puppet"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Puppet Workshop",
+      postcode: "BS1 5LL",
+      coordinates: { lat: 51.4485, lng: -2.5994 }
+    }
+  },
+  {
+    id: 149,
+    title: "Fairy Tale Party",
+    description: "Enchanted storytime with fairy tale characters and crafts.",
+    city: "Edinburgh",
+    region: "Scotland",
+    priceFrom: 110,
+    image: "https://images.unsplash.com/photo-1589998059171-988d887df646",
+    category: "Kids",
+    subcategory: "Themed",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "8-15",
+    features: [
+      "Storytelling session",
+      "Fairy craft making",
+      "Wand decorating",
+      "Magical photo booth"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Enchanted Castle",
+      postcode: "EH1 1SG",
+      coordinates: { lat: 55.9496, lng: -3.1883 }
+    }
+  },
+  {
+    id: 259,
+    title: "Jungle Safari Party",
+    description: "Animal-themed adventure with explorer activities.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 140,
+    image: "https://images.unsplash.com/photo-1452570053594-1b985d6ea890",
+    category: "Kids",
+    subcategory: "Themed",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "10-15",
+    features: [
+      "Jungle decorations",
+      "Safari hat craft",
+      "Animal tracking game",
+      "Explorer certificates"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Jungle Adventure Venue",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 157,
+    title: "Pirate Ship Adventure",
+    description: "Themed party on a pirate ship with treasure hunt.",
+    city: "Liverpool",
+    region: "North West",
+    priceFrom: 195,
+    image: "https://images.unsplash.com/photo-1563784462041-5f97ac9523dd",
+    category: "Kids",
+    subcategory: "Themed",
+    rating: 4.9,
+    duration: "2.5 hours",
+    groupSize: "12-20",
+    features: [
+      "Real pirate ship",
+      "Costume dress-up",
+      "Treasure hunt",
+      "Cannon ball games"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Albert Dock",
+      postcode: "L3 4AA",
+      coordinates: { lat: 53.4009, lng: -2.9916 }
+    }
+  },
+  {
+    id: 139,
+    title: "Magician Show & Workshop",
+    description: "Interactive magic show followed by simple magic trick lessons for kids.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 150,
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b",
+    category: "Kids",
+    subcategory: "Entertainment",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "10-25",
+    features: [
+      "45-minute magic show",
+      "Trick workshop",
+      "Take-home magic kit",
+      "Balloon animals"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Magic Castle Venue",
+      postcode: "W1D 3QB",
+      coordinates: { lat: 51.5152, lng: -0.1312 }
+    }
+  },
+  {
+    id: 260,
+    title: "Superhero Training Academy",
+    description: "Action-packed party with obstacle courses and superhero training.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 140,
+    image: "https://images.unsplash.com/photo-1547891654-e66ed7ebb968",
+    category: "Kids",
+    subcategory: "Active",
+    rating: 4.8,
+    duration: "2 hours",
+    groupSize: "10-15",
+    features: [
+      "Obstacle course",
+      "Cape decorating",
+      "Superhero certificate",
+      "Photo booth"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Hero Headquarters",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 6,
+    title: "Chocolate Making Workshop",
+    description: "Create artisan chocolates with a master chocolatier in this delicious workshop.",
+    city: "York",
+    region: "Yorkshire",
+    priceFrom: 32,
+    image: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "6-15",
+    features: [
+      "Make 3 chocolate varieties",
+      "Professional guidance",
+      "Take home creations",
+      "Prosecco included"
+    ],
+    availability: ["Tuesday-Sunday"],
+    location: {
+      address: "15 Chocolate Lane",
+      postcode: "YO1 7DT",
+      coordinates: { lat: 53.9597, lng: -1.0829 }
+    }
+  },
+  {
+    id: 8,
+    title: "Drag Queen Bingo",
+    description: "Hilarious bingo night hosted by fabulous drag queens with prizes and cocktails.",
+    city: "Brighton",
+    region: "South East",
+    priceFrom: 20,
+    image: "https://images.unsplash.com/photo-1575517111478-7f6afd0973db",
+    category: "Hen Do",
+    subcategory: "Games",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "8-25",
+    features: [
+      "Professional drag host",
+      "3 rounds of bingo",
+      "Cocktail on arrival",
+      "Prize for winner"
+    ],
+    availability: ["Thursday-Saturday"],
+    location: {
+      address: "Kensington Street",
+      postcode: "BN1 4AJ",
       coordinates: { lat: 50.8225, lng: -0.1372 }
     }
   },
   {
-    id: '48',
-    title: 'Laser Tag Party',
-    description: 'High-energy laser tag battles in a futuristic arena—great for all ages.',
-    city: 'Edinburgh',
-    region: 'Scotland',
-    priceFrom: 15,
-    image: 'https://images.pexels.com/photos/2740956/pexels-photo-2740956.jpeg',
-    category: 'Birthday',
-    subcategory: 'Games',
-    rating: 4.7,
-    duration: '1 hour',
-    groupSize: '6-20',
+    id: 9,
+    title: "Aerial Silk Workshop",
+    description: "Learn graceful aerial silk techniques with professional instructors.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 38,
+    image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2",
+    category: "Hen Do",
+    subcategory: "Adventure",
+    rating: 4.6,
+    duration: "1.5 hours",
+    groupSize: "6-12",
     features: [
-      'Vest & gun rental',
-      'Team-based missions',
-      'Score tracking',
-      'Party room add-on',
-      'Glow-in-the-dark mode'
+      "All equipment provided",
+      "Beginner-friendly",
+      "Photos included",
+      "Champagne toast"
     ],
-    availability: ['Daily'],
+    availability: ["Weekends"],
     location: {
-      address: 'Laser Zone, Leith',
-      postcode: 'EH6 6LU',
-      coordinates: { lat: 55.9753, lng: -3.1693 }
+      address: "The Aerial Studio",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
     }
   },
   {
-    id: '49',
-    title: 'Pottery Wheel Workshop',
-    description: 'Create ceramic masterpieces on a wheel—relaxing and creative birthday activity.',
-    city: 'Barcelona',
-    region: 'Spain',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/4240497/pexels-photo-4240497.jpeg',
-    category: 'Birthday',
-    subcategory: 'Creative',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-8',
-    features: [
-      'Expert potter guidance',
-      '2 pieces to take home',
-      'Glazing & firing included',
-      'BYOB option',
-      'Aprons provided'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: 'Clay Studio, El Born',
-      postcode: '08003',
-      coordinates: { lat: 41.3851, lng: 2.1734 }
-    }
-  },
-
-  // CORPORATE (5)
-  {
-    id: '50',
-    title: 'Executive Whiskey Tasting',
-    description: 'Premium whiskey tasting led by a master distiller—ideal for client entertainment.',
-    city: 'London',
-    region: 'England',
-    priceFrom: 75,
-    image: 'https://images.pexels.com/photos/4825701/pexels-photo-4825701.jpeg',
-    category: 'Corporate',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '6-12',
-    features: [
-      'Rare whiskey selection',
-      'Pairing with artisan chocolates',
-      'Private tasting room',
-      'Branded gift bags',
-      'Custom engraving option'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: 'The Whiskey Library, Mayfair',
-      postcode: 'W1K 4HR',
-      coordinates: { lat: 51.5099, lng: -0.1476 }
-    }
-  },
-  {
-    id: '51',
-    title: 'Luxury Yacht Networking',
-    description: 'Host clients on a private yacht cruise with catering and city views.',
-    city: 'Amsterdam',
-    region: 'Netherlands',
-    priceFrom: 200,
-    image: 'https://images.pexels.com/photos/843633/pexels-photo-843633.jpeg',
-    category: 'Corporate',
-    subcategory: 'Networking',
-    rating: 5.0,
-    duration: '3 hours',
-    groupSize: '10-25',
-    features: [
-      'Private yacht rental',
-      'Champagne & canapés',
-      'Skyline photo ops',
-      'Dedicated steward',
-      'Custom branding'
-    ],
-    availability: ['April-September'],
-    location: {
-      address: 'Amstel River Dock',
-      postcode: '1018 AB',
-      coordinates: { lat: 52.3676, lng: 4.9041 }
-    }
-  },
-  {
-    id: '52',
-    title: 'AI Innovation Workshop',
-    description: 'Hands-on session exploring AI tools for business—led by tech experts.',
-    city: 'Berlin',
-    region: 'Germany',
-    priceFrom: 90,
-    image: 'https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg',
-    category: 'Corporate',
-    subcategory: 'Tech',
-    rating: 4.8,
-    duration: '4 hours',
-    groupSize: '10-30',
-    features: [
-      'Case studies',
-      'Team ideation exercises',
-      'Actionable strategies',
-      'Post-workshop resources',
-      'Lunch included'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: 'Tech Hub Berlin, Mitte',
-      postcode: '10178',
-      coordinates: { lat: 52.5200, lng: 13.4050 }
-    }
-  },
-  {
-    id: '53',
-    title: 'Golf Tournament Package',
-    description: 'Corporate golf day with scoring, prizes, and post-game drinks.',
-    city: 'Dublin',
-    region: 'Ireland',
-    priceFrom: 120,
-    image: 'https://images.pexels.com/photos/863006/pexels-photo-863006.jpeg',
-    category: 'Corporate',
-    subcategory: 'Sports',
-    rating: 4.7,
-    duration: '6 hours',
-    groupSize: '12-48',
-    features: [
-      '18-hole course',
-      'Golf cart rental',
-      'Post-game dinner',
-      'Custom trophies',
-      'Photographer'
-    ],
-    availability: ['April-October'],
-    location: {
-      address: 'Elm Green Golf Club',
-      postcode: 'D18 XW25',
-      coordinates: { lat: 53.2866, lng: -6.2144 }
-    }
-  },
-  {
-    id: '54',
-    title: 'Mindfulness Retreat',
-    description: 'Half-day retreat with meditation, yoga, and stress-management workshops.',
-    city: 'Bristol',
-    region: 'England',
+    id: 10,
+    title: "Private Boat Party",
+    description: "Exclusive boat hire with DJ, drinks package and city views.",
+    city: "London",
+    region: "Greater London",
     priceFrom: 65,
-    image: 'https://images.pexels.com/photos/3825507/pexels-photo-3825507.jpeg',
-    category: 'Corporate',
-    subcategory: 'Wellness',
+    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206",
+    category: "Hen Do",
+    subcategory: "Boat Party",
     rating: 4.9,
-    duration: '4 hours',
-    groupSize: '10-20',
+    duration: "3 hours",
+    groupSize: "15-30",
     features: [
-      'Guided meditation',
-      'Breathwork session',
-      'Healthy lunch',
-      'Take-home journal',
-      'Nature walk'
+      "Private boat charter",
+      "DJ and sound system",
+      "Welcome drinks",
+      "Thames river views"
     ],
-    availability: ['Weekdays'],
+    availability: ["April-October"],
     location: {
-      address: 'Serenity Spa, Clifton',
-      postcode: 'BS8 4PD',
-      coordinates: { lat: 51.4545, lng: -2.6226 }
-    }
-  },
-
-  // KIDS (5)
-  {
-    id: '55',
-    title: 'Dinosaur Fossil Dig',
-    description: 'Kids uncover replica fossils and learn about prehistoric life from a paleontologist.',
-    city: 'London',
-    region: 'England',
-    priceFrom: 18,
-    image: 'https://images.pexels.com/photos/162389/lost-places-old-decay-ruin-162389.jpeg',
-    category: 'Kids',
-    subcategory: 'Educational',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '10-15',
-    features: [
-      'Dig site simulation',
-      'Take-home fossil',
-      'Dino quiz',
-      'Age 5-12',
-      'Parent participation'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: 'Natural History Museum, Kensington',
-      postcode: 'SW7 5BD',
-      coordinates: { lat: 51.4967, lng: -0.1764 }
+      address: "Embankment Pier",
+      postcode: "WC2N 6NU",
+      coordinates: { lat: 51.5076, lng: -0.1223 }
     }
   },
   {
-    id: '56',
-    title: 'Pirate Adventure Cruise',
-    description: 'Interactive boat trip where kids solve pirate puzzles and hunt for treasure.',
-    city: 'Liverpool',
-    region: 'England',
-    priceFrom: 12,
-    image: 'https://images.pexels.com/photos/1637122/pexels-photo-1637122.jpeg',
-    category: 'Kids',
-    subcategory: 'Adventure',
-    rating: 4.9,
-    duration: '1 hour',
-    groupSize: '15-30',
-    features: [
-      'Costumed pirate guide',
-      'Treasure map',
-      'Small prizes',
-      'Life jackets provided',
-      'Age 4-10'
-    ],
-    availability: ['Summer weekends'],
-    location: {
-      address: 'Albert Dock Pier',
-      postcode: 'L3 4AA',
-      coordinates: { lat: 53.4009, lng: -2.9915 }
-    }
-  },
-  {
-    id: '57',
-    title: 'Magic Workshop',
-    description: 'Learn beginner magic tricks with props to take home—taught by a professional magician.',
-    city: 'Birmingham',
-    region: 'England',
-    priceFrom: 15,
-    image: 'https://images.pexels.com/photos/356147/pexels-photo-356147.jpeg',
-    category: 'Kids',
-    subcategory: 'Entertainment',
-    rating: 4.7,
-    duration: '1 hour',
-    groupSize: '8-12',
-    features: [
-      '5 tricks to learn',
-      'Magic kit included',
-      'Performance showcase',
-      'Age 6-12',
-      'Parent viewing area'
-    ],
-    availability: ['Saturday'],
-    location: {
-      address: 'Wonder Theatre, Bullring',
-      postcode: 'B5 4BU',
-      coordinates: { lat: 52.4778, lng: -1.8944 }
-    }
-  },
-  {
-    id: '58',
-    title: 'Mini MasterChef Junior',
-    description: 'Kids cook a 3-course meal with chef supervision—suitable for tiny foodies!',
-    city: 'Glasgow',
-    region: 'Scotland',
-    priceFrom: 22,
-    image: 'https://images.pexels.com/photos/699524/pexels-photo-699524.jpeg',
-    category: 'Kids',
-    subcategory: 'Food & Drink',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '6-10',
-    features: [
-      'Kid-safe utensils',
-      'Apron & chef hat',
-      'Recipe booklet',
-      'Age 7-12',
-      'Dietary accommodations'
-    ],
-    availability: ['Sunday'],
-    location: {
-      address: 'Little Cooks Kitchen, West End',
-      postcode: 'G12 8RR',
-      coordinates: { lat: 55.8746, lng: -4.2919 }
-    }
-  },
-  {
-    id: '59',
-    title: 'Superhero Training Camp',
-    description: 'Obstacle course, "strength" challenges, and capes—kids become heroes for a day!',
-    city: 'Cardiff',
-    region: 'Wales',
-    priceFrom: 14,
-    image: 'https://images.pexels.com/photos/1078973/pexels-photo-1078973.jpeg',
-    category: 'Kids',
-    subcategory: 'Active',
-    rating: 4.9,
-    duration: '1.5 hours',
-    groupSize: '10-20',
-    features: [
-      'Cape & mask provided',
-      'Certified instructors',
-      'Photo ops',
-      'Age 4-10',
-      'Parent participation'
-    ],
-    availability: ['Weekends'],
-    location: {
-      address: 'Hero HQ, Cardiff Bay',
-      postcode: 'CF10 5AL',
-      coordinates: { lat: 51.4645, lng: -3.1649 }
-    }
-  },
-
-  {
-    id: '60',
-    title: 'Flamenco Dance Class',
-    description: 'Authentic flamenco lesson with live guitar—learn the basics of this passionate art form.',
-    city: 'Barcelona',
-    region: 'Spain',
-    priceFrom: 25,
-    image: 'https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg',
-    category: 'Cultural',
-    subcategory: 'Dance',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '6-12',
-    features: [
-      'Professional dancer',
-      'Skirt rental included',
-      'Beginner-friendly',
-      'Video recording',
-      'Tapas & sangria option'
-    ],
-    availability: ['Tuesday', 'Thursday', 'Saturday'],
-    location: {
-      address: 'Flamenco Studio, El Raval',
-      postcode: '08001',
-      coordinates: { lat: 41.3809, lng: 2.1734 }
-    }
-  },
-  {
-    id: '61',
-    title: 'Paella Cooking Class',
-    description: 'Master the art of authentic Valencian paella with a local chef in a seaside setting.',
-    city: 'Valencia',
-    region: 'Spain',
+    id: 11,
+    title: "Mixology Masterclass",
+    description: "Craft creative cocktails with premium spirits under expert guidance.",
+    city: "Edinburgh",
+    region: "Scotland",
     priceFrom: 40,
-    image: 'https://images.pexels.com/photos/5949888/pexels-photo-5949888.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Cooking',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '8-15',
-    features: [
-      'Fresh ingredients',
-      'Wine pairing',
-      'Beachfront location',
-      'Recipe booklet',
-      'Vegetarian option'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'La Paellera, Malvarrosa Beach',
-      postcode: '46011',
-      coordinates: { lat: 39.4699, lng: -0.3263 }
-    }
-  },
-  {
-    id: '62',
-    title: 'Hot Air Balloon Ride',
-    description: 'Sunrise flight over Catalonia’s countryside with cava toast upon landing.',
-    city: 'Barcelona',
-    region: 'Spain',
-    priceFrom: 150,
-    image: 'https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg',
-    category: 'Adventure',
-    subcategory: 'Outdoor',
-    rating: 5.0,
-    duration: '4 hours',
-    groupSize: '2-8',
-    features: [
-      '1-hour flight',
-      'Breakfast picnic',
-      'Flight certificate',
-      'Photo package',
-      'Weight restrictions apply'
-    ],
-    availability: ['April-October'],
-    location: {
-      address: 'Balloon Base, Vic',
-      postcode: '08500',
-      coordinates: { lat: 41.9307, lng: 2.2549 }
-    }
-  },
-  {
-    id: '63',
-    title: 'Gaudi Architecture Tour',
-    description: 'Guided walkthrough of Barcelona’s iconic Gaudi landmarks, including Sagrada Família.',
-    city: 'Barcelona',
-    region: 'Spain',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
-    category: 'Cultural',
-    subcategory: 'Tours',
-    rating: 4.8,
-    duration: '3 hours',
-    groupSize: '10-20',
-    features: [
-      'Skip-the-line tickets',
-      'Expert art historian',
-      'Small group',
-      'Audio headsets',
-      'Local tapas stop'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'Plaça de Gaudí, Eixample',
-      postcode: '08025',
-      coordinates: { lat: 41.4036, lng: 2.1744 }
-    }
-  },
-  {
-    id: '64',
-    title: 'Ibiza Beach Yoga',
-    description: 'Sunrise/sunset yoga sessions on a secluded Ibiza beach—pure relaxation.',
-    city: 'Ibiza',
-    region: 'Spain',
-    priceFrom: 20,
-    image: 'https://images.pexels.com/photos/1812964/pexels-photo-1812964.jpeg',
-    category: 'Wellness',
-    subcategory: 'Fitness',
-    rating: 4.9,
-    duration: '1 hour',
-    groupSize: '5-15',
-    features: [
-      'Oceanfront mats',
-      'All levels welcome',
-      'Fresh coconut water',
-      'Sound bath option',
-      'Towels provided'
-    ],
-    availability: ['May-September'],
-    location: {
-      address: 'Cala Salada Beach',
-      postcode: '07820',
-      coordinates: { lat: 38.9931, lng: 1.2345 }
-    }
-  },
-
-  // REGIONS: GERMANY (5)
-  {
-    id: '65',
-    title: 'Beer Brewery Tour',
-    description: 'Behind-the-scenes tour of a traditional Bavarian brewery with tasting flight.',
-    city: 'Berlin',
-    region: 'Germany',
-    priceFrom: 28,
-    image: 'https://images.pexels.com/photos/1267701/pexels-photo-1267701.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Tours',
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Hen Do",
+    subcategory: "Food & Drink",
     rating: 4.7,
-    duration: '2 hours',
-    groupSize: '8-20',
+    duration: "2.5 hours",
+    groupSize: "6-12",
     features: [
-      '5 beer samples',
-      'History of brewing',
-      'Pretzel snack',
-      'Souvenir glass',
-      'English/German guides'
+      "5 cocktail creations",
+      "Premium ingredients",
+      "Molecular mixology techniques",
+      "Personalised recipe book"
     ],
-    availability: ['Daily'],
+    availability: ["Thursday-Sunday"],
     location: {
-      address: 'Berliner Berg Brewery, Kreuzberg',
-      postcode: '10999',
-      coordinates: { lat: 52.4996, lng: 13.4224 }
+      address: "15 Royal Mile",
+      postcode: "EH1 1SG",
+      coordinates: { lat: 55.9496, lng: -3.1883 }
     }
   },
   {
-    id: '66',
-    title: 'Cold War Bunker Tour',
-    description: 'Explore a preserved Cold War bunker with stories of Berlin’s divided history.',
-    city: 'Berlin',
-    region: 'Germany',
-    priceFrom: 18,
-    image: 'https://images.pexels.com/photos/3990355/pexels-photo-3990355.jpeg',
-    category: 'Historical',
-    subcategory: 'Tours',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '6-15',
-    features: [
-      'Original bunker artifacts',
-      'Expert historian guide',
-      'Audio recordings',
-      'Not wheelchair accessible',
-      'Age 12+'
-    ],
-    availability: ['Wednesday-Sunday'],
-    location: {
-      address: 'Bunker Museum, Mitte',
-      postcode: '10117',
-      coordinates: { lat: 52.5186, lng: 13.4081 }
-    }
-  },
-  {
-    id: '67',
-    title: 'Black Forest Hiking',
-    description: 'Guided hike through fairy-tale forests with waterfall stops and local folklore.',
-    city: 'Munich',
-    region: 'Germany',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg',
-    category: 'Outdoor',
-    subcategory: 'Adventure',
-    rating: 4.9,
-    duration: '5 hours',
-    groupSize: '4-12',
-    features: [
-      'Picnic lunch',
-      'Scenic viewpoints',
-      'Wildlife spotting',
-      'Hiking poles provided',
-      'Transport from Munich'
-    ],
-    availability: ['May-October'],
-    location: {
-      address: 'Black Forest Trailhead',
-      postcode: '79117',
-      coordinates: { lat: 47.9333, lng: 7.9000 }
-    }
-  },
-  {
-    id: '68',
-    title: 'VW Beetle Road Trip',
-    description: 'Drive a classic VW Beetle through scenic routes with a curated playlist.',
-    city: 'Hamburg',
-    region: 'Germany',
-    priceFrom: 90,
-    image: 'https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg',
-    category: 'Adventure',
-    subcategory: 'Driving',
-    rating: 4.8,
-    duration: '4 hours',
-    groupSize: '2 (per car)',
-    features: [
-      '1970s Beetle rental',
-      'Scenic route map',
-      'Polaroid camera',
-      'Picnic blanket & basket',
-      'Insurance included'
-    ],
-    availability: ['April-November'],
-    location: {
-      address: 'Retro Rides, Altona',
-      postcode: '22767',
-      coordinates: { lat: 53.5500, lng: 9.9333 }
-    }
-  },
-  {
-    id: '69',
-    title: 'Christmas Market Tour',
-    description: 'Guided tasting tour of Germany’s famous Christmas markets (seasonal).',
-    city: 'Berlin',
-    region: 'Germany',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/5731874/pexels-photo-5731874.jpeg',
-    category: 'Cultural',
-    subcategory: 'Food & Drink',
-    rating: 4.9,
-    duration: '3 hours',
-    groupSize: '6-12',
-    features: [
-      '6 food/drink samples',
-      'Local guide',
-      'Market history',
-      'Souvenir mug',
-      'Glühwein included'
-    ],
-    availability: ['November-December'],
-    location: {
-      address: 'Gendarmenmarkt, Mitte',
-      postcode: '10117',
-      coordinates: { lat: 52.5139, lng: 13.3927 }
-    }
-  },
-
-  // REGIONS: NETHERLANDS (5)
-  {
-    id: '70',
-    title: 'Canal Pizza Cruise',
-    description: 'Evening cruise through Amsterdam’s canals with unlimited pizza and drinks.',
-    city: 'Amsterdam',
-    region: 'Netherlands',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/672532/pexels-photo-672532.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Tours',
-    rating: 4.8,
-    duration: '2 hours',
-    groupSize: '10-30',
-    features: [
-      '5 pizza varieties',
-      'Open bar (beer/wine)',
-      'Sunset views',
-      'Indoor/outdoor seating',
-      'DJ on weekends'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'Prins Hendrikkade Dock',
-      postcode: '1012 TM',
-      coordinates: { lat: 52.3758, lng: 4.8976 }
-    }
-  },
-  {
-    id: '71',
-    title: 'Van Gogh Bike Tour',
-    description: 'Cycle to Van Gogh’s inspirations with stops at hidden art spots.',
-    city: 'Amsterdam',
-    region: 'Netherlands',
-    priceFrom: 30,
-    image: 'https://images.pexels.com/photos/7249213/pexels-photo-7249213.jpeg',
-    category: 'Cultural',
-    subcategory: 'Tours',
-    rating: 4.7,
-    duration: '3 hours',
-    groupSize: '6-12',
-    features: [
-      'Bike rental included',
-      'Art historian guide',
-      'Sketchbook & pencils',
-      'Coffee stop',
-      'Small group'
-    ],
-    availability: ['April-October'],
-    location: {
-      address: 'Museumplein Bike Hub',
-      postcode: '1071 DJ',
-      coordinates: { lat: 52.3584, lng: 4.8811 }
-    }
-  },
-  {
-    id: '72',
-    title: 'Cheese Tasting Workshop',
-    description: 'Sample Dutch cheeses paired with wines and jenever in a 17th-century cellar.',
-    city: 'Amsterdam',
-    region: 'Netherlands',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/821365/pexels-photo-821365.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Tasting',
-    rating: 4.9,
-    duration: '1.5 hours',
-    groupSize: '6-15',
-    features: [
-      '8 cheese varieties',
-      'Wine/jenever pairings',
-      'Cheese-making demo',
-      'Discount on purchases',
-      'Vegetarian-friendly'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'Old Amsterdam Cheese House',
-      postcode: '1012 JS',
-      coordinates: { lat: 52.3731, lng: 4.8925 }
-    }
-  },
-  {
-    id: '73',
-    title: 'Windmill Kayaking',
-    description: 'Paddle through Dutch waterways past historic windmills with a guide.',
-    city: 'Rotterdam',
-    region: 'Netherlands',
-    priceFrom: 40,
-    image: 'https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg',
-    category: 'Outdoor',
-    subcategory: 'Adventure',
-    rating: 4.8,
-    duration: '2.5 hours',
-    groupSize: '4-10',
-    features: [
-      'Double kayaks',
-      'Safety briefing',
-      'Windmill interior visit',
-      'Local snack pack',
-      'Waterproof bags'
-    ],
-    availability: ['May-September'],
-    location: {
-      address: 'Kinderdijk Kayak Center',
-      postcode: '2961 AT',
-      coordinates: { lat: 51.8853, lng: 4.6361 }
-    }
-  },
-  {
-    id: '74',
-    title: 'Delft Pottery Workshop',
-    description: 'Paint traditional Delft blue pottery in a historic studio.',
-    city: 'Delft',
-    region: 'Netherlands',
-    priceFrom: 50,
-    image: 'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg',
-    category: 'Creative',
-    subcategory: 'Arts',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-8',
-    features: [
-      'Authentic Delftware',
-      'Master painter guidance',
-      'Kiln firing included',
-      'Shipping available',
-      '300-year-old studio'
-    ],
-    availability: ['Wednesday-Sunday'],
-    location: {
-      address: 'Royal Delft Workshop',
-      postcode: '2628 AR',
-      coordinates: { lat: 52.0116, lng: 4.3571 }
-    }
-  },
-
-  // REGIONS: CZECH REPUBLIC (5)
-  {
-    id: '75',
-    title: 'Prague Ghost Tour',
-    description: 'Spooky evening walk through Prague’s haunted alleys with a storyteller guide.',
-    city: 'Prague',
-    region: 'Czech Republic',
-    priceFrom: 18,
-    image: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg',
-    category: 'Historical',
-    subcategory: 'Tours',
-    rating: 4.7,
-    duration: '1.5 hours',
-    groupSize: '8-20',
-    features: [
-      'Dark history tales',
-      'Lanterns provided',
-      'Medieval torture exhibit',
-      'Age 12+',
-      'English/Czech guides'
-    ],
-    availability: ['Nightly'],
-    location: {
-      address: 'Old Town Square',
-      postcode: '11000',
-      coordinates: { lat: 50.0875, lng: 14.4213 }
-    }
-  },
-  {
-    id: '76',
-    title: 'Beer Spa Relaxation',
-    description: 'Soak in a beer-infused tub with unlimited Czech beer on tap beside you.',
-    city: 'Prague',
-    region: 'Czech Republic',
-    priceFrom: 60,
-    image: 'https://images.pexels.com/photos/1267354/pexels-photo-1267354.jpeg',
-    category: 'Wellness',
-    subcategory: 'Spa',
-    rating: 4.9,
-    duration: '1 hour',
-    groupSize: '2-4',
-    features: [
-      'Private beer bath',
-      'Unlimited Pilsner',
-      'Herbal compress',
-      'Relaxation room',
-      'Towels & robes'
-    ],
-    availability: ['Daily'],
-    location: {
-      address: 'Bernard Beer Spa, Old Town',
-      postcode: '11000',
-      coordinates: { lat: 50.0865, lng: 14.4206 }
-    }
-  },
-  {
-    id: '77',
-    title: 'Bohemian Glassblowing',
-    description: 'Watch a master glassblower craft Czech crystal, then try it yourself.',
-    city: 'Prague',
-    region: 'Czech Republic',
-    priceFrom: 45,
-    image: 'https://images.pexels.com/photos/6152252/pexels-photo-6152252.jpeg',
-    category: 'Cultural',
-    subcategory: 'Workshop',
-    rating: 4.8,
-    duration: '1.5 hours',
-    groupSize: '4-8',
-    features: [
-      'Live demonstration',
-      'Hands-on ornament making',
-      'Take-home creation',
-      'Age 10+',
-      'Cooling/finishing service'
-    ],
-    availability: ['Weekdays'],
-    location: {
-      address: 'Bohemia Crystal Studio',
-      postcode: '11800',
-      coordinates: { lat: 50.0755, lng: 14.4378 }
-    }
-  },
-  {
-    id: '78',
-    title: 'Castle Night Tour',
-    description: 'Exclusive after-hours access to Prague Castle with a historian.',
-    city: 'Prague',
-    region: 'Czech Republic',
+    id: 13,
+    title: "Drag Queen Makeover",
+    description: "Professional transformation with wigs, makeup and performance coaching.",
+    city: "Manchester",
+    region: "North West",
     priceFrom: 55,
-    image: 'https://images.pexels.com/photos/164336/pexels-photo-164336.jpeg',
-    category: 'Historical',
-    subcategory: 'Tours',
-    rating: 5.0,
-    duration: '2 hours',
-    groupSize: '6-12',
+    image: "https://images.unsplash.com/photo-1575517111478-7f6afd0973db",
+    category: "Hen Do",
+    subcategory: "Beauty",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "4-8",
     features: [
-      'Skip-the-line entry',
-      'Secret corridors',
-      'Crown jewels replica',
-      'Ghost stories',
-      'Small group only'
+      "Full glam makeover",
+      "Professional photoshoot",
+      "Performance tutorial",
+      "Champagne reception"
     ],
-    availability: ['Friday', 'Saturday'],
+    availability: ["Friday-Sunday"],
     location: {
-      address: 'Prague Castle Gate',
-      postcode: '11908',
-      coordinates: { lat: 50.0900, lng: 14.4000 }
+      address: "The Rainbow Room",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
     }
   },
   {
-    id: '79',
-    title: 'Trufa Chocolate Workshop',
-    description: 'Learn to make Czech trufa chocolates with a pastry chef in a boutique kitchen.',
-    city: 'Prague',
-    region: 'Czech Republic',
-    priceFrom: 35,
-    image: 'https://images.pexels.com/photos/6605313/pexels-photo-6605313.jpeg',
-    category: 'Food & Drink',
-    subcategory: 'Cooking',
-    rating: 4.9,
-    duration: '2 hours',
-    groupSize: '4-10',
+    id: 17,
+    title: "Neon Sign Making",
+    description: "Design and bend your own custom neon sign to take home.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 75,
+    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+    category: "Hen Do",
+    subcategory: "Creative",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "6-10",
     features: [
-      '5 truffle varieties',
-      'Personalized packaging',
-      'Coffee/tea pairing',
-      'Recipe cards',
-      'Dietary options'
+      "All materials provided",
+      "Expert instruction",
+      "Personalised design",
+      "Prosecco included"
     ],
-    availability: ['Daily'],
+    availability: ["Weekends"],
     location: {
-      address: 'Sweet Prague Kitchen',
-      postcode: '12000',
-      coordinates: { lat: 50.0830, lng: 14.4256 }
+      address: "Shoreditch Workshop",
+      postcode: "E2 7DG",
+      coordinates: { lat: 51.5265, lng: -0.0806 }
+    }
+  },
+  {
+    id: 20,
+    title: "Karaoke Private Booth",
+    description: "Private singing room with unlimited songs and drinks package.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1496293455970-f8581aae0e3b",
+    category: "Hen Do",
+    subcategory: "Music",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "6-12",
+    features: [
+      "Unlimited songs",
+      "Disco lighting",
+      "Drinks package options",
+      "Photo booth"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Soho Karaoke Bar",
+      postcode: "W1D 4NG",
+      coordinates: { lat: 51.5139, lng: -0.1314 }
+    }
+  },
+  {
+    id: 21,
+    title: "Vintage Photo Shoot",
+    description: "Professional photoshoot with vintage costumes and props.",
+    city: "Brighton",
+    region: "South East",
+    priceFrom: 40,
+    image: "https://images.unsplash.com/photo-1554080353-a576cf803bda",
+    category: "Hen Do",
+    subcategory: "Photography",
+    rating: 4.8,
+    duration: "1.5 hours",
+    groupSize: "4-8",
+    features: [
+      "Costume wardrobe",
+      "Professional photographer",
+      "5 edited digital photos",
+      "Champagne toast"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "The Vintage Studio",
+      postcode: "BN1 1EE",
+      coordinates: { lat: 50.8214, lng: -0.1476 }
+    }
+  },
+  {
+    id: 24,
+    title: "Improv Comedy Workshop",
+    description: "Hilarious improv games and skits with professional comedians.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Hen Do",
+    subcategory: "Entertainment",
+    rating: 4.6,
+    duration: "2 hours",
+    groupSize: "8-15",
+    features: [
+      "Professional coaches",
+      "Team building games",
+      "Performance showcase",
+      "Wine included"
+    ],
+    availability: ["Friday-Sunday"],
+    location: {
+      address: "The Comedy Cellar",
+      postcode: "WC2H 8LA",
+      coordinates: { lat: 51.5138, lng: -0.1284 }
+    }
+  },
+  {
+    id: 25,
+    title: "Tarot Reading Party",
+    description: "Group tarot readings with a professional psychic and cocktails.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1605106702734-205df224ecce",
+    category: "Hen Do",
+    subcategory: "Mystical",
+    rating: 4.5,
+    duration: "1.5 hours",
+    groupSize: "6-12",
+    features: [
+      "Personal readings",
+      "Group energy reading",
+      "Cocktail pairing",
+      "Take home notes"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "The Mystic Lounge",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 28,
+    title: "Escape Room Challenge",
+    description: "Solve puzzles to escape from a themed room within 60 minutes.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf",
+    category: "Hen Do",
+    subcategory: "Games",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "4-8",
+    features: [
+      "3 difficulty levels",
+      "Live actor option",
+      "Team photo",
+      "Hint system"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Escape Masters",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
+    }
+  },
+  {
+    id: 29,
+    title: "Floral Crown Workshop",
+    description: "Create beautiful fresh flower crowns with a florist.",
+    city: "Cambridge",
+    region: "East Anglia",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9",
+    category: "Hen Do",
+    subcategory: "Creative",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "6-12",
+    features: [
+      "Fresh flowers",
+      "Florist guidance",
+      "Prosecco included",
+      "Photo backdrop"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "The Flower Studio",
+      postcode: "CB2 1TN",
+      coordinates: { lat: 52.2006, lng: 0.1181 }
+    }
+  },
+  {
+    id: 31,
+    title: "Private Hot Tub Boat",
+    description: "Exclusive floating hot tub with city views and drinks cooler.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 120,
+    image: "https://images.unsplash.com/photo-1600566752225-3f0871a0f724",
+    category: "Hen Do",
+    subcategory: "Luxury",
+    rating: 4.9,
+    duration: "1.5 hours",
+    groupSize: "6-8",
+    features: [
+      "Private boat",
+      "Chilled drinks",
+      "Towels provided",
+      "Music system"
+    ],
+    availability: ["April-October"],
+    location: {
+      address: "Canary Wharf Marina",
+      postcode: "E14 9SH",
+      coordinates: { lat: 51.5045, lng: -0.0187 }
+    }
+  },
+  {
+    id: 32,
+    title: "Luxury Spa Day",
+    description: "Full day spa experience with treatments, pool access and champagne lunch.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 85,
+    image: "https://images.unsplash.com/photo-1544161515-4ab6ce6db874",
+    category: "Hen Do",
+    subcategory: "Relaxation",
+    rating: 4.9,
+    duration: "6 hours",
+    groupSize: "4-12",
+    features: [
+      "3 treatments included",
+      "Pool and sauna access",
+      "Champagne lunch",
+      "Robes and slippers provided"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "1 Spa Road",
+      postcode: "B1 1SP",
+      coordinates: { lat: 52.4786, lng: -1.9085 }
+    }
+  },
+  {
+    id: 33,
+    title: "Beer Brewing Experience",
+    description: "Brew your own craft beer with master brewers and take home your creation.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1600788886242-5c96aabe3757",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "6-15",
+    features: [
+      "Hands-on brewing",
+      "Beer tasting session",
+      "Personalised labels",
+      "Take home 6 bottles"
+    ],
+    availability: ["Saturday-Sunday"],
+    location: {
+      address: "The Brewery Tap",
+      postcode: "E1 6JE",
+      coordinates: { lat: 51.5234, lng: -0.0756 }
+    }
+  },
+  {
+    id: 36,
+    title: "Off-Road Driving",
+    description: "4x4 off-road challenge course with professional instructors.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 65,
+    image: "https://images.unsplash.com/photo-1541873676-a18131494184",
+    category: "Stag Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "4-8",
+    features: [
+      "Land Rover Defenders",
+      "Mud challenge course",
+      "Photo finish",
+      "Safety briefing"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Mud Masters Offroad",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 41,
+    title: "Steak & Whiskey Night",
+    description: "Premium steak dinner with whiskey pairing menu.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 55,
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "6-12",
+    features: [
+      "3-course meal",
+      "4 whiskey pairings",
+      "Private dining area",
+      "Cigar option"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "The Chop House",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 43,
+    title: "Private Football Match",
+    description: "Book a private pitch with referee and kit provided.",
+    city: "Liverpool",
+    region: "North West",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "10-22",
+    features: [
+      "Full-size pitch",
+      "Kit provided",
+      "Professional referee",
+      "Trophy for winners"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Anfield Sports Centre",
+      postcode: "L2 6RE",
+      coordinates: { lat: 53.4055, lng: -2.9889 }
+    }
+  },
+  {
+    id: 44,
+    title: "Brewery Tour & Tasting",
+    description: "Behind-the-scenes tour with unlimited beer samples.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1600788886242-5c96aabe3757",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.7,
+    duration: "2 hours",
+    groupSize: "8-20",
+    features: [
+      "5 beer samples",
+      "Brewery tour",
+      "Expert guidance",
+      "Discount on purchases"
+    ],
+    availability: ["Thursday-Sunday"],
+    location: {
+      address: "London Beer Factory",
+      postcode: "SE16 7FU",
+      coordinates: { lat: 51.5033, lng: -0.0495 }
+    }
+  },
+  {
+    id: 46,
+    title: "Zombie Survival Experience",
+    description: "Airsoft battle against zombie actors in apocalyptic scenario.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 50,
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e",
+    category: "Stag Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "8-16",
+    features: [
+      "Airsoft guns provided",
+      "Professional zombie actors",
+      "Multiple scenarios",
+      "Survival certificate"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Apocalypse Zone",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 48,
+    title: "Ax Throwing",
+    description: "Competitive axe throwing with expert coaching.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 25,
+    image: "https://images.pexels.com/photos/7045185/pexels-photo-7045185.jpeg",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.7,
+    duration: "1.5 hours",
+    groupSize: "6-12",
+    features: [
+      "Safety briefing",
+      "Competition format",
+      "Score tracking",
+      "Beer option"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Urban Axe Throwing",
+      postcode: "M3 2PT",
+      coordinates: { lat: 53.4808, lng: -2.2426 }
+    }
+  },
+  {
+    id: 49,
+    title: "Private Yacht Charter",
+    description: "Exclusive yacht hire with skipper and drinks package.",
+    city: "Southampton",
+    region: "South East",
+    priceFrom: 150,
+    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206",
+    category: "Stag Do",
+    subcategory: "Luxury",
+    rating: 4.9,
+    duration: "4 hours",
+    groupSize: "8-12",
+    features: [
+      "Professional skipper",
+      "Drinks package",
+      "Sound system",
+      "Coastal cruise"
+    ],
+    availability: ["April-October"],
+    location: {
+      address: "Ocean Village Marina",
+      postcode: "SO14 3QT",
+      coordinates: { lat: 50.9026, lng: -1.4041 }
+    }
+  },
+  {
+    id: 51,
+    title: "Clay Shooting",
+    description: "Professional shooting instruction at outdoor range.",
+    city: "Leeds",
+    region: "Yorkshire",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1601758003122-53c40e686a19",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.9,
+    duration: "2 hours",
+    groupSize: "6-12",
+    features: [
+      "50 clays per person",
+      "Safety equipment",
+      "Competition format",
+      "BBQ lunch option"
+    ],
+    availability: ["Weekends"],
+    location: {
+      address: "Yorkshire Shooting Ground",
+      postcode: "LS1 4AP",
+      coordinates: { lat: 53.7974, lng: -1.5438 }
+    }
+  },
+  {
+    id: 52,
+    title: "Steakhouse Dining",
+    description: "Premium steak dinner with whiskey pairing menu.",
+    city: "Manchester",
+    region: "North West",
+    priceFrom: 55,
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.8,
+    duration: "3 hours",
+    groupSize: "6-12",
+    features: [
+      "3-course meal",
+      "4 whiskey pairings",
+      "Private dining area",
+      "Cigar option"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "The Chop House",
+      postcode: "M1 1FN",
+      coordinates: { lat: 53.4775, lng: -2.2404 }
+    }
+  },
+  {
+    id: 53,
+    title: "White Water Rafting",
+    description: "Grade 3-4 rapids with professional guides.",
+    city: "Nottingham",
+    region: "East Midlands",
+    priceFrom: 65,
+    image: "https://images.unsplash.com/photo-1562184552-b7a1069700fa",
+    category: "Stag Do",
+    subcategory: "Adventure",
+    rating: 4.9,
+    duration: "3 hours",
+    groupSize: "8-12",
+    features: [
+      "Full safety gear",
+      "Professional guides",
+      "Photo package",
+      "Changing facilities"
+    ],
+    availability: ["April-October"],
+    location: {
+      address: "National Water Sports Centre",
+      postcode: "NG12 2LU",
+      coordinates: { lat: 52.8978, lng: -1.1094 }
+    }
+  },
+  {
+    id: 54,
+    title: "VIP Club Experience",
+    description: "Skip-the-line access and bottle service at top nightclub.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 75,
+    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3",
+    category: "Stag Do",
+    subcategory: "Nightlife",
+    rating: 4.8,
+    duration: "4 hours",
+    groupSize: "6-12",
+    features: [
+      "VIP table",
+      "2 premium bottles",
+      "Skip-the-line",
+      "Dedicated host"
+    ],
+    availability: ["Friday-Saturday"],
+    location: {
+      address: "Ministry of Sound",
+      postcode: "SE1 1NA",
+      coordinates: { lat: 51.5039, lng: -0.0997 }
+    }
+  },
+  {
+    id: 56,
+    title: "Beer Bike Tour",
+    description: "Pedal-powered bar crawl through city streets.",
+    city: "Newcastle",
+    region: "North East",
+    priceFrom: 25,
+    image: "https://images.unsplash.com/photo-1600788886242-5c96aabe3757",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.7,
+    duration: "1.5 hours",
+    groupSize: "8-15",
+    features: [
+      "Unlimited beer",
+      "Sound system",
+      "Local route",
+      "Photo stops"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "The Bigg Market",
+      postcode: "NE1 1EE",
+      coordinates: { lat: 54.9696, lng: -1.6159 }
+    }
+  },
+  {
+    id: 57,
+    title: "Comedy Club Night",
+    description: "Reserved seating at top comedy club with drinks package.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 30,
+    image: "https://images.unsplash.com/photo-1547153760-18fc86324498",
+    category: "Stag Do",
+    subcategory: "Entertainment",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "6-12",
+    features: [
+      "Reserved seating",
+      "3-drink package",
+      "Professional comedians",
+      "Late license"
+    ],
+    availability: ["Thursday-Saturday"],
+    location: {
+      address: "The Comedy Store",
+      postcode: "W1D 4EE",
+      coordinates: { lat: 51.5139, lng: -0.1314 }
+    }
+  },
+  {
+    id: 58,
+    title: "Golf Simulator Challenge",
+    description: "Virtual golf tournament on world-famous courses.",
+    city: "Birmingham",
+    region: "West Midlands",
+    priceFrom: 35,
+    image: "https://images.unsplash.com/photo-1551632811-561732d1e306",
+    category: "Stag Do",
+    subcategory: "Sport",
+    rating: 4.6,
+    duration: "2 hours",
+    groupSize: "4-8",
+    features: [
+      "3 course options",
+      "Competition mode",
+      "Beer package option",
+      "Prizes"
+    ],
+    availability: ["Daily"],
+    location: {
+      address: "Urban Golf Club",
+      postcode: "B5 5SE",
+      coordinates: { lat: 52.4755, lng: -1.8837 }
+    }
+  },
+  {
+    id: 59,
+    title: "BBQ Masterclass",
+    description: "Learn gourmet BBQ techniques from pitmasters.",
+    city: "London",
+    region: "Greater London",
+    priceFrom: 45,
+    image: "https://images.unsplash.com/photo-1551751299-1b51cab2694c",
+    category: "Stag Do",
+    subcategory: "Food & Drink",
+    rating: 4.7,
+    duration: "3 hours",
+    groupSize: "6-12",
+    features: [
+      "5 meat cuts",
+      "Signature rubs",
+      "Beer pairing",
+      "Take home recipes"
+    ],
+    availability: ["Saturday-Sunday"],
+    location: {
+      address: "Smokehouse London",
+      postcode: "E1 6JE",
+      coordinates: { lat: 51.5234, lng: -0.0756 }
+    }
+  },
+  {
+    id: 60,
+    title: "Private Sports Box",
+    description: "VIP box at premier league stadium with catering.",
+    city: "Liverpool",
+    region: "North West",
+    priceFrom: 150,
+    image: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2",
+    category: "Stag Do",
+    subcategory: "Luxury",
+    rating: 4.9,
+    duration: "5 hours",
+    groupSize: "10-15",
+    features: [
+      "VIP box access",
+      "3-course meal",
+      "Open bar",
+      "Match tickets"
+    ],
+    availability: ["Match days"],
+    location: {
+      address: "Anfield Stadium",
+      postcode: "L4 0TH",
+      coordinates: { lat: 53.4308, lng: -2.9608 }
     }
   }
-
-
 ];
 
 export const CATEGORIES = [
@@ -2126,7 +2790,7 @@ export const CATEGORIES = [
     description: 'Unforgettable celebrations for brides-to-be',
     image: 'https://images.pexels.com/photos/7551658/pexels-photo-7551658.jpeg',
     icon: 'champagne',
-    subcategories: ['Activities', 'Spa & Beauty', 'Food & Drink', 'Dance Classes', 'Crafts']
+    subcategories: ['Cocktail Making', 'Spa & Beauty', 'Dance Classes', 'Afternoon Tea', 'Wine Tasting', 'Crafts & Workshops']
   },
   {
     id: 'stag-do',
@@ -2134,7 +2798,7 @@ export const CATEGORIES = [
     description: 'Action-packed adventures for the groom-to-be',
     image: 'https://images.pexels.com/photos/5935232/pexels-photo-5935232.jpeg',
     icon: 'beer',
-    subcategories: ['Activities', 'Sports', 'Racing', 'Shooting', 'Water Sports']
+    subcategories: ['Beer Tasting', 'Go Karting', 'Paintball', 'Adventure Sports', 'Gaming', 'Bar Crawls']
   },
   {
     id: 'team-building',
@@ -2142,7 +2806,7 @@ export const CATEGORIES = [
     description: 'Engaging activities to strengthen team bonds',
     image: 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg',
     icon: 'users',
-    subcategories: ['Indoor', 'Outdoor', 'Challenges', 'Workshops', 'Games']
+    subcategories: ['Escape Rooms', 'Cooking Classes', 'Outdoor Activities', 'Indoor Games', 'Creative Workshops']
   },
   {
     id: 'birthday',
@@ -2150,7 +2814,7 @@ export const CATEGORIES = [
     description: 'Memorable celebrations for all ages',
     image: 'https://images.pexels.com/photos/7180795/pexels-photo-7180795.jpeg',
     icon: 'cake',
-    subcategories: ['Activities', 'Parties', 'Dining', 'Entertainment']
+    subcategories: ['Party Packages', 'Dining Experiences', 'Activity Days', 'Entertainment', 'Adventure Activities']
   },
   {
     id: 'corporate',
@@ -2158,7 +2822,7 @@ export const CATEGORIES = [
     description: 'Professional events and team activities',
     image: 'https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg',
     icon: 'briefcase',
-    subcategories: ['Meetings', 'Conferences', 'Team Building', 'Workshops']
+    subcategories: ['Conferences', 'Team Building', 'Workshops', 'Networking Events', 'Awards Ceremonies']
   },
   {
     id: 'kids',
@@ -2166,7 +2830,7 @@ export const CATEGORIES = [
     description: 'Fun activities for younger groups',
     image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg',
     icon: 'snowflake',
-    subcategories: ['Parties', 'Activities', 'Education', 'Entertainment']
+    subcategories: ['Party Packages', 'Educational Activities', 'Sports & Games', 'Arts & Crafts', 'Entertainment']
   }
 ];
 

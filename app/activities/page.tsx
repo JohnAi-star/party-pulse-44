@@ -141,7 +141,7 @@ export default function ActivitiesPage() {
         </div>
 
         <div className="lg:col-span-3">
-          <ActivityGrid activities={activities} />
+          <ActivityGrid activities={activities.map(activity => ({ ...activity, id: activity.id.toString() }))} />
         </div>
       </div>
     </div>

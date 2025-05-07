@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
-import { Menu, Search, X, PartyPopper, UserCircle2, Shield, MapPin } from 'lucide-react';
+import { Menu, Search, X, PartyPopper, UserCircle2, Shield } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,19 +17,28 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { useUser, SignInButton, SignOutButton, useClerk } from "@clerk/nextjs";
-import { REGIONS, CITIES } from '@/lib/constants';
+import { REGIONS, CITIES, MOCK_ACTIVITIES } from '@/lib/constants';
 
-const navLinks = [
+const mainNavLinks = [
   { href: '/activities', label: 'Activities' },
   { href: '/locations', label: 'Locations' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
+];
+
+const categoryNavLinks = [
+  { href: '/activities?category=hen-do', label: 'Hen Do', category: 'Hen Do' },
+  { href: '/activities?category=stag-do', label: 'Stag Do', category: 'Stag Do' },
+  { href: '/activities?category=team-building', label: 'Team Building', category: 'Team Building' },
+  { href: '/activities?category=birthday', label: 'Birthday', category: 'Birthday' },
+  { href: '/activities?category=corporate', label: 'Corporate', category: 'Corporate' },
+  { href: '/activities?category=kids', label: 'Kids', category: 'Kids' },
 ];
 
 export default function Navbar() {
@@ -39,6 +48,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border">
+      {/* Main Navigation */}
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         {/* Mobile menu button */}
         <Sheet>
@@ -50,11 +60,7 @@ export default function Navbar() {
           </SheetTrigger>
           <SheetContent side="left" className="w-[250px] sm:w-[300px]">
             <nav className="flex flex-col gap-4 mt-8">
-              <Link href="/activities" className="flex items-center text-lg font-medium">
-                <MapPin className="h-4 w-4 mr-2" />
-                Select a destination
-              </Link>
-              {navLinks.map((link) => (
+              {mainNavLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -63,6 +69,17 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <div className="border-t pt-4 mt-4">
+                {categoryNavLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
           </SheetContent>
         </Sheet>
@@ -77,58 +94,9 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Desktop nav links */}
+        {/* Desktop main nav */}
         <nav className="hidden lg:flex items-center space-x-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent">
-                  <MapPin className="h-4 w-4 mr-2" />
-                  Select a destination
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid grid-cols-2 gap-3 p-4 w-[600px] max-h-[400px] overflow-y-auto">
-                    <div>
-                      <h3 className="font-medium mb-2 px-2">Popular Destinations</h3>
-                      <div className="grid gap-1">
-                        {CITIES.slice(0, 31).map((city) => (
-                          <Link
-                            key={city.id}
-                            href={`/activities?location=${city.id}`}
-                            className="block px-2 py-1 hover:bg-muted rounded-md"
-                          >
-                            {city.name}
-                            <span className="text-sm text-muted-foreground ml-2">
-                              ({city.activities})
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="font-medium mb-2 px-2">Regions</h3>
-                      <div className="grid gap-1">
-                        {REGIONS.map((region) => (
-                          <Link
-                            key={region.id}
-                            href={`/activities?region=${region.id}`}
-                            className="block px-2 py-1 hover:bg-muted rounded-md"
-                          >
-                            {region.name}
-                            <span className="text-sm text-muted-foreground ml-2">
-                              ({region.activities})
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          {navLinks.map((link) => (
+          {mainNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -214,6 +182,70 @@ export default function Navbar() {
               </Button>
             </SignInButton>
           )}
+        </div>
+      </div>
+
+      {/* Category Navigation */}
+      <div className="hidden lg:block border-t bg-black h-16">
+        <div className="container mx-auto px-4 flex items-center justify-center">
+          <NavigationMenu>
+            <NavigationMenuList className="space-x-2">
+              {categoryNavLinks.map((link) => (
+                <NavigationMenuItem key={link.href}>
+                  <NavigationMenuTrigger className="bg-transparent flex items-center justify-center mt-3 mr-10 ml-4 text-[1rem] text-white">
+                    {link.label}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid grid-cols-2 gap-3 p-4 w-[600px]">
+                      {MOCK_ACTIVITIES
+                        .filter(activity => activity.category === link.category)
+                        .slice(0, 6)
+                        .map((activity) => (
+                          <Link
+                            key={activity.id}
+                            href={`/activities/${activity.id}`}
+                            className="flex items-start gap-3 p-2 hover:bg-muted rounded-md"
+                          >
+                            <div className="relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0">
+                              <img
+                                src={activity.image}
+                                alt={activity.title}
+                                className="object-cover"
+                              />
+                            </div>
+                            <div>
+                              <h3 className="font-medium">{activity.title}</h3>
+                              <p className="text-sm text-muted-foreground line-clamp-2">
+                                {activity.description}
+                              </p>
+                              <p className="text-sm font-medium mt-1">
+                                From £{activity.priceFrom}
+                              </p>
+                            </div>
+                          </Link>
+                        ))}
+                      <div className="col-span-2 mt-2 text-center">
+                        <Link
+                          href={link.href}
+                          className="text-sm text-purple-600 hover:text-purple-700"
+                        >
+                          View all {link.label} activities →
+                        </Link>
+                      </div>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+
+          {/* Book a Party Button */}
+          <Link
+            href="/activities"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap mt-3 ml-4"
+          >
+            Book a Party
+          </Link>
         </div>
       </div>
     </header>
