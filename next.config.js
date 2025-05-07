@@ -5,7 +5,7 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    domains: ['images.pexels.com'],
+    domains: ['images.pexels.com', 'images.unsplash.com'],
   },
   trailingSlash: true,
 };
