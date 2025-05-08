@@ -87,19 +87,19 @@ export default function Footer() {
         {/* Social and copyright */}
         <div className="pt-8 mt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-slate-300">
               <Facebook className="h-5 w-5" />
               <span className="sr-only">Facebook</span>
             </Button>
-            <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-slate-300">
               <Twitter className="h-5 w-5" />
               <span className="sr-only">Twitter</span>
             </Button>
-            <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-slate-300">
               <Instagram className="h-5 w-5" />
               <span className="sr-only">Instagram</span>
             </Button>
-            <Button variant="ghost" size="icon" className="text-slate-300 hover:text-white">
+            <Button variant="ghost" size="icon" className="text-slate-300">
               <Linkedin className="h-5 w-5" />
               <span className="sr-only">LinkedIn</span>
             </Button>
