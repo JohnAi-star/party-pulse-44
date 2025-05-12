@@ -45,6 +45,8 @@ export default function Navbar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
+  
+  const isAdmin = user?.publicMetadata?.role === "admin";
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border">
@@ -139,7 +141,7 @@ export default function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
-                  {user.organizationMemberships?.length > 0 ? (
+                  {isAdmin ? (
                     <Shield className="h-5 w-5 text-purple-600" />
                   ) : (
                     <UserCircle2 className="h-5 w-5" />
@@ -152,7 +154,7 @@ export default function Navbar() {
                   <span className="text-xs text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                {user.organizationMemberships?.length > 0 && (
+                {isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link href="/admin" className="cursor-pointer">
                       <Shield className="mr-2 h-4 w-4" />

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Star, MapPin, Clock, Users } from 'lucide-react';
+import { Star, MapPin, Clock, Users, Heart } from 'lucide-react';
 
 interface ActivityCardProps {
   activity: {
@@ -19,10 +19,13 @@ interface ActivityCardProps {
     rating: number;
     duration: string;
     groupSize: string;
+    reviewCount?: number;
+    isFavorite?: boolean;
   };
+  onFavoriteToggle?: (id: string) => void;
 }
 
-export default function ActivityCard({ activity }: ActivityCardProps) {
+export default function ActivityCard({ activity, onFavoriteToggle }: ActivityCardProps) {
   return (
     <Link href={`/activities/${activity.id}`} className="group">
       <Card className="overflow-hidden h-full flex flex-col transition-transform group-hover:scale-[1.02] group-hover:shadow-lg">
@@ -37,10 +40,29 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             <Badge className="bg-gradient-to-r from-purple-600 to-pink-600">
               {activity.category}
             </Badge>
-            <Badge variant="outline" className="bg-white/80">
-              {activity.subcategory}
-            </Badge>
+            {activity.subcategory && (
+              <Badge variant="outline" className="bg-white/80">
+                {activity.subcategory}
+              </Badge>
+            )}
           </div>
+          {onFavoriteToggle && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute top-3 right-3 bg-white/80 hover:bg-white"
+              onClick={(e) => {
+                e.preventDefault();
+                onFavoriteToggle(activity.id);
+              }}
+            >
+              <Heart
+                className={`h-5 w-5 ${
+                  activity.isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
+                }`}
+              />
+            </Button>
+          )}
         </div>
 
         <CardContent className="py-5 flex-grow">
@@ -52,6 +74,9 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
             <div className="flex items-center">
               <Star className="h-4 w-4 text-yellow-400 mr-1" />
               <span>{activity.rating}</span>
+              {activity.reviewCount && (
+                <span className="ml-1">({activity.reviewCount})</span>
+              )}
             </div>
             <div className="flex items-center">
               <Clock className="h-4 w-4 mr-1" />
@@ -67,7 +92,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
           <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
             {activity.description}
           </p>
-          <p className="font-semibold">From £{activity.priceFrom}</p>
+          <p className="font-semibold">From £{activity.priceFrom}pp</p>
         </CardContent>
 
         <CardFooter className="pt-0">

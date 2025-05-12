@@ -48,6 +48,8 @@ export default function ActivitiesPage() {
     region: '',
     priceRange: [0, 100],
     groupSize: '',
+    date: null,
+    sortBy: '',
   });
 
   useEffect(() => {

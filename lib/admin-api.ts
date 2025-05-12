@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -44,6 +44,10 @@ export const bookings = {
   },
   getUserBookings: async () => {
     const response = await apiClient.get('/bookings');
+    return response.data;
+  },
+  getBooking: async (id: string) => {
+    const response = await apiClient.get(`/bookings/${id}`);
     return response.data;
   },
 };
