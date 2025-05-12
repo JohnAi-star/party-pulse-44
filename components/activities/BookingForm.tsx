@@ -12,14 +12,14 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import { bookings, payments } from '@/lib/api-client';
 import { loadStripe } from '@stripe/stripe-js';
-import AuthModal from '@/components/auth/AuthModal';
-import { useToast } from '@/hooks/use-toast';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from '@/hooks/use-toast';
+import AuthModal from '../auth/AuthModal';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
