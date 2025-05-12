@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 const apiClient = axios.create({
   baseURL: API_URL,
@@ -37,6 +37,68 @@ apiClient.interceptors.response.use(
   }
 );
 
+// ADMIN ENDPOINTS
+export const activities = {
+  getAll: async () => {
+    const response = await apiClient.get('/admin/activities');
+    return response.data;
+  },
+  create: async (data: any) => {
+    const response = await apiClient.post('/admin/activities', data);
+    return response.data;
+  },
+  update: async (id: string, data: any) => {
+    const response = await apiClient.patch(`/admin/activities/${id}`, data);
+    return response.data;
+  },
+  delete: async (id: string) => {
+    const response = await apiClient.delete(`/admin/activities/${id}`);
+    return response.data;
+  }
+};
+
+export const reviews = {
+  getAll: async () => {
+    const response = await apiClient.get('/admin/reviews');
+    return response.data;
+  },
+  approve: async (id: string) => {
+    const response = await apiClient.patch(`/admin/reviews/${id}/approve`);
+    return response.data;
+  },
+  delete: async (id: string) => {
+    const response = await apiClient.delete(`/admin/reviews/${id}`);
+    return response.data;
+  }
+};
+
+export const users = {
+  getAll: async () => {
+    const response = await apiClient.get('/admin/users');
+    return response.data;
+  },
+  updateRole: async (userId: string, role: string) => {
+    const response = await apiClient.patch(`/admin/users/${userId}/role`, { role });
+    return response.data;
+  },
+  deactivate: async (userId: string) => {
+    const response = await apiClient.patch(`/admin/users/${userId}/deactivate`);
+    return response.data;
+  }
+};
+
+export const analytics = {
+  getStats: async () => {
+    const response = await apiClient.get('/admin/analytics');
+    return response.data;
+  },
+  getRecentActivity: async () => {
+    const response = await apiClient.get('/admin/analytics/recent-activity');
+    return response.data;
+  }
+};
+
+// EXISTING BOOKINGS AND PAYMENTS EXPORTS
 export const bookings = {
   create: async (data: { activityId: string; date: string; groupSize: number }) => {
     const response = await apiClient.post('/bookings', data);
