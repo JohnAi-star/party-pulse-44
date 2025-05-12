@@ -29,7 +29,9 @@ export default function AnalyticsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const analyticsData = await analytics.getAll();
+        const stats = await analytics.getStats();
+        const recentActivity = await analytics.getRecentActivity();
+        const analyticsData = { stats, recentBookings: recentActivity };
         setData(analyticsData);
       } catch (error) {
         toast({

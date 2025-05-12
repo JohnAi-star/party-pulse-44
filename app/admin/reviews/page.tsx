@@ -51,7 +51,11 @@ export default function ReviewManagementPage() {
 
   const handleStatusChange = async (reviewId: string, newStatus: string) => {
     try {
-      await reviews.updateStatus(reviewId, newStatus);
+      if (newStatus === 'approved') {
+        await reviews.approve(reviewId);
+      } else if (newStatus === 'rejected') {
+        await reviews.delete(reviewId);
+      }
       fetchReviews();
       toast({
         title: "Success",

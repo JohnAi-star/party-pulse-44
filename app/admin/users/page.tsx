@@ -51,7 +51,7 @@ export default function UserManagementPage() {
 
   const handleRoleUpdate = async (userId: string, role: string) => {
     try {
-      await users.update(userId, { role });
+      await users.updateRole(userId, role);
       fetchUsers();
       toast({
         title: "Success",
