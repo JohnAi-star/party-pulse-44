@@ -166,5 +166,21 @@ export const bookings = {
 
     if (error) throw error;
     return data;
+  },
+
+  getBooking: async (id: string) => {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        user:profiles(*),
+        activity:activities(*)
+      `)
+      .eq('id', id)
+      .single();
+
+    if (error) throw error;
+    return data;
   }
 };
+
