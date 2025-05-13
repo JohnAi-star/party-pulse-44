@@ -3,6 +3,7 @@ import { Database } from '@/lib/database.types';
 
 const supabase = createClientComponentClient<Database>();
 
+// Activities
 export const activities = {
   getAll: async () => {
     const { data, error } = await supabase
@@ -51,6 +52,7 @@ export const activities = {
   }
 };
 
+// Reviews
 export const reviews = {
   getAll: async () => {
     const { data, error } = await supabase
@@ -87,6 +89,7 @@ export const reviews = {
   }
 };
 
+// Users
 export const users = {
   getAll: async () => {
     const { data, error } = await supabase
@@ -126,6 +129,7 @@ export const users = {
   }
 };
 
+// Analytics
 export const analytics = {
   getStats: async () => {
     const { data, error } = await supabase
@@ -142,6 +146,23 @@ export const analytics = {
       .select('*')
       .order('date', { ascending: false })
       .limit(30);
+
+    if (error) throw error;
+    return data;
+  }
+};
+
+// Bookings (Newly added)
+export const bookings = {
+  getAll: async () => {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        user:profiles(*),
+        activity:activities(*)
+      `)
+      .order('created_at', { ascending: false });
 
     if (error) throw error;
     return data;
