@@ -21,7 +21,7 @@ import { users } from '@/lib/admin-api';
 import { useToast } from '@/hooks/use-toast';
 
 export default function UserManagementPage() {
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState<{ id: string; name: string; email: string; role: string; bookings: { count: number }; stats?: { total_spent: number } }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();

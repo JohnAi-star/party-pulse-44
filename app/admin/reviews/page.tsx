@@ -20,7 +20,7 @@ import { reviews } from '@/lib/admin-api';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ReviewManagementPage() {
-  const [reviewList, setReviewList] = useState([]);
+  const [reviewList, setReviewList] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedReview, setSelectedReview] = useState<any>(null);
   const [loading, setLoading] = useState(true);
