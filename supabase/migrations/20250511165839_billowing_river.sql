@@ -1,18 +1,9 @@
-/*
-  # Add Admin Features and Analytics
+-- ========================
+-- Add Admin Features and Analytics
+-- ========================
 
-  1. New Tables
-    - user_stats
-      - User activity metrics and engagement data
-    - activity_analytics
-      - Detailed analytics for activities including revenue
-    - admin_settings
-      - System-wide configuration for admin features
-
-  2. Security
-    - Enable RLS on all new tables
-    - Add admin-specific policies
-*/
+-- 1. New Tables
+-- ----------------
 
 -- User Stats Table
 CREATE TABLE user_stats (
@@ -47,31 +38,51 @@ CREATE TABLE admin_settings (
   updated_at timestamptz DEFAULT now()
 );
 
--- Enable RLS
+-- 2. Enable Row Level Security (RLS)
+-- ----------------
 ALTER TABLE user_stats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE activity_analytics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_settings ENABLE ROW LEVEL SECURITY;
 
+-- 3. RLS Policies (using Clerk's JWT structure)
+-- ----------------
+
 -- User Stats Policies
-CREATE POLICY "Users can view their own stats"
+CREATE POLICY "Users can view their own stats or admins can view all"
   ON user_stats FOR SELECT
   TO authenticated
-  USING (user_id = auth.uid() OR EXISTS (
-    SELECT 1 FROM auth.users
-    WHERE id = auth.uid()
-    AND raw_user_meta_data->>'role' = 'admin'
-  ));
+  USING (
+    user_id = auth.uid()
+    OR (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
+  );
+
+CREATE POLICY "Admins can insert user stats"
+  ON user_stats FOR INSERT
+  TO authenticated
+  USING (
+    (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
+  );
+
+CREATE POLICY "Admins can update user stats"
+  ON user_stats FOR UPDATE
+  TO authenticated
+  USING (
+    (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
+  );
 
 -- Activity Analytics Policies
 CREATE POLICY "Only admins can access analytics"
-  ON activity_analytics FOR ALL
+  ON activity_analytics FOR SELECT
   TO authenticated
   USING (
-    EXISTS (
-      SELECT 1 FROM auth.users
-      WHERE id = auth.uid()
-      AND raw_user_meta_data->>'role' = 'admin'
-    )
+    (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
+  );
+
+CREATE POLICY "Only admins can insert analytics"
+  ON activity_analytics FOR INSERT
+  TO authenticated
+  USING (
+    (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
   );
 
 -- Admin Settings Policies
@@ -79,14 +90,11 @@ CREATE POLICY "Only admins can manage settings"
   ON admin_settings FOR ALL
   TO authenticated
   USING (
-    EXISTS (
-      SELECT 1 FROM auth.users
-      WHERE id = auth.uid()
-      AND raw_user_meta_data->>'role' = 'admin'
-    )
+    (auth.jwt() -> 'publicMetadata' ->> 'role') = 'admin'
   );
 
--- Add indexes
+-- 4. Indexes
+-- ----------------
 CREATE INDEX idx_user_stats_user_id ON user_stats(user_id);
 CREATE INDEX idx_activity_analytics_activity_id ON activity_analytics(activity_id);
 CREATE INDEX idx_activity_analytics_date ON activity_analytics(date);
