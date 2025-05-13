@@ -1,124 +1,149 @@
-import axios, { AxiosError } from 'axios';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/lib/database.types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const supabase = createClientComponentClient<Database>();
 
-const apiClient = axios.create({
-  baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
-  timeout: 10000,
-});
-
-// Add auth token to requests if available
-apiClient.interceptors.request.use(async (config) => {
-  if (typeof window !== 'undefined') {
-    const { getToken }: any = await import('@clerk/nextjs');
-    const token = await getToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-  }
-  return config;
-});
-
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error: AxiosError) => {
-    if (error.code === 'ERR_NETWORK') {
-      console.error('Network Error - Backend server may be offline:', error.message);
-      error.message = 'Unable to connect to the server. Please ensure the backend server is running.';
-    } else if (error.code === 'ECONNABORTED') {
-      console.error('Request timeout:', error.message);
-      error.message = 'Request timed out. Please try again.';
-    }
-    return Promise.reject(error);
-  }
-);
-
-// ADMIN ENDPOINTS
 export const activities = {
   getAll: async () => {
-    const response = await apiClient.get('/admin/activities');
-    return response.data;
+    const { data, error } = await supabase
+      .from('activities')
+      .select(`
+        *,
+        location:locations(*),
+        category:categories(*),
+        packages(*),
+        reviews(*)
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data;
   },
   create: async (data: any) => {
-    const response = await apiClient.post('/admin/activities', data);
-    return response.data;
+    const { data: newActivity, error } = await supabase
+      .from('activities')
+      .insert(data)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return newActivity;
   },
   update: async (id: string, data: any) => {
-    const response = await apiClient.patch(`/admin/activities/${id}`, data);
-    return response.data;
+    const { data: updatedActivity, error } = await supabase
+      .from('activities')
+      .update(data)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return updatedActivity;
   },
   delete: async (id: string) => {
-    const response = await apiClient.delete(`/admin/activities/${id}`);
-    return response.data;
+    const { error } = await supabase
+      .from('activities')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    return { success: true };
   }
 };
 
 export const reviews = {
   getAll: async () => {
-    const response = await apiClient.get('/admin/reviews');
-    return response.data;
+    const { data, error } = await supabase
+      .from('reviews')
+      .select(`
+        *,
+        activity:activities(*),
+        user:profiles(*)
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data;
   },
   approve: async (id: string) => {
-    const response = await apiClient.patch(`/admin/reviews/${id}/approve`);
-    return response.data;
+    const { data, error } = await supabase
+      .from('reviews')
+      .update({ status: 'approved', moderated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   },
   delete: async (id: string) => {
-    const response = await apiClient.delete(`/admin/reviews/${id}`);
-    return response.data;
+    const { error } = await supabase
+      .from('reviews')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    return { success: true };
   }
 };
 
 export const users = {
   getAll: async () => {
-    const response = await apiClient.get('/admin/users');
-    return response.data;
+    const { data, error } = await supabase
+      .from('profiles')
+      .select(`
+        *,
+        stats:user_stats(*),
+        bookings:bookings(count),
+        reviews:reviews(count)
+      `)
+      .order('created_at', { ascending: false });
+
+    if (error) throw error;
+    return data;
   },
   updateRole: async (userId: string, role: string) => {
-    const response = await apiClient.patch(`/admin/users/${userId}/role`, { role });
-    return response.data;
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({ role })
+      .eq('id', userId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   },
   deactivate: async (userId: string) => {
-    const response = await apiClient.patch(`/admin/users/${userId}/deactivate`);
-    return response.data;
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({ status: 'inactive' })
+      .eq('id', userId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
   }
 };
 
 export const analytics = {
   getStats: async () => {
-    const response = await apiClient.get('/admin/analytics');
-    return response.data;
+    const { data, error } = await supabase
+      .from('activity_stats')
+      .select('*')
+      .order('views_count', { ascending: false });
+
+    if (error) throw error;
+    return data;
   },
   getRecentActivity: async () => {
-    const response = await apiClient.get('/admin/analytics/recent-activity');
-    return response.data;
+    const { data, error } = await supabase
+      .from('activity_analytics')
+      .select('*')
+      .order('date', { ascending: false })
+      .limit(30);
+
+    if (error) throw error;
+    return data;
   }
 };
-
-// EXISTING BOOKINGS AND PAYMENTS EXPORTS
-export const bookings = {
-  create: async (data: { activityId: string; date: string; groupSize: number }) => {
-    const response = await apiClient.post('/bookings', data);
-    return response.data;
-  },
-  getUserBookings: async () => {
-    const response = await apiClient.get('/bookings');
-    return response.data;
-  },
-  getBooking: async (id: string) => {
-    const response = await apiClient.get(`/bookings/${id}`);
-    return response.data;
-  },
-};
-
-export const payments = {
-  createCheckoutSession: async (bookingId: string) => {
-    const response = await apiClient.post('/stripe/create-checkout-session', { bookingId });
-    return response.data;
-  },
-};
-
-export default apiClient;
