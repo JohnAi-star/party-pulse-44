@@ -45,7 +45,7 @@ export default function Navbar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
-  
+
   const isAdmin = user?.publicMetadata?.role === "admin";
 
   return (
@@ -187,67 +187,120 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Category Navigation */}
-      <div className="hidden lg:block border-t bg-black h-16">
-        <div className="container mx-auto px-4 flex items-center justify-center">
-          <NavigationMenu>
-            <NavigationMenuList className="space-x-2">
-              {categoryNavLinks.map((link) => (
-                <NavigationMenuItem key={link.href}>
-                  <NavigationMenuTrigger className="bg-transparent flex items-center justify-center mt-3 mr-10 ml-4 text-[1rem] text-white">
-                    {link.label}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid grid-cols-2 gap-3 p-4 w-[600px]">
-                      {MOCK_ACTIVITIES
-                        .filter(activity => activity.category === link.category)
-                        .slice(0, 6)
-                        .map((activity) => (
-                          <Link
-                            key={activity.id}
-                            href={`/activities/${activity.id}`}
-                            className="flex items-start gap-3 p-2 hover:bg-muted rounded-md"
-                          >
-                            <div className="relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0">
-                              <img
-                                src={activity.image}
-                                alt={activity.title}
-                                className="object-cover"
-                              />
-                            </div>
-                            <div>
-                              <h3 className="font-medium">{activity.title}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-2">
-                                {activity.description}
-                              </p>
-                              <p className="text-sm font-medium mt-1">
+      {/* Category Navigation - Responsive */}
+      <div className="border-t bg-black h-16">
+        <div className="container mx-auto px-4 h-full flex items-center justify-between">
+          {/* Mobile dropdown (shown on small screens) */}
+          <div className="lg:hidden w-full">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" className="w-full justify-between text-white hover:bg-gray-800">
+                  <span>Browse Categories</span>
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="top" className="w-full h-[80vh] overflow-y-auto">
+                <div className="grid gap-4 py-4">
+                  {categoryNavLinks.map((link) => (
+                    <div key={link.href} className="space-y-2">
+                      <Link
+                        href={link.href}
+                        className="block text-lg font-medium hover:text-primary"
+                      >
+                        {link.label}
+                      </Link>
+                      <div className="grid grid-cols-2 gap-3">
+                        {MOCK_ACTIVITIES
+                          .filter(activity => activity.category === link.category)
+                          .slice(0, 4)
+                          .map((activity) => (
+                            <Link
+                              key={activity.id}
+                              href={`/activities/${activity.id}`}
+                              className="flex flex-col gap-2 p-2 hover:bg-muted rounded-md"
+                            >
+                              <div className="relative w-full aspect-square rounded-md overflow-hidden">
+                                <img
+                                  src={activity.image}
+                                  alt={activity.title}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <h3 className="font-medium text-sm">{activity.title}</h3>
+                              <p className="text-sm font-medium">
                                 From £{activity.priceFrom}
                               </p>
-                            </div>
-                          </Link>
-                        ))}
-                      <div className="col-span-2 mt-2 text-center">
-                        <Link
-                          href={link.href}
-                          className="text-sm text-purple-600 hover:text-purple-700"
-                        >
-                          View all {link.label} activities →
-                        </Link>
+                            </Link>
+                          ))}
                       </div>
                     </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
 
-          {/* Book a Party Button */}
-          <Link
-            href="/activities"
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap mt-3 ml-4"
-          >
-            Book a Party
-          </Link>
+          {/* Desktop navigation (shown on larger screens) */}
+          <div className="hidden lg:flex items-center justify-center w-full">
+            <NavigationMenu>
+              <NavigationMenuList className="space-x-2">
+                {categoryNavLinks.map((link) => (
+                  <NavigationMenuItem key={link.href}>
+                    <NavigationMenuTrigger className="bg-transparent flex items-center justify-center text-[1rem] text-white hover:bg-gray-800 mr-10 ml-4">
+                      {link.label}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="grid grid-cols-2 gap-3 p-4 w-[600px]">
+                        {MOCK_ACTIVITIES
+                          .filter(activity => activity.category === link.category)
+                          .slice(0, 6)
+                          .map((activity) => (
+                            <Link
+                              key={activity.id}
+                              href={`/activities/${activity.id}`}
+                              className="flex items-start gap-3 p-2 hover:bg-muted rounded-md"
+                            >
+                              <div className="relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0">
+                                <img
+                                  src={activity.image}
+                                  alt={activity.title}
+                                  className="object-cover w-full h-full"
+                                />
+                              </div>
+                              <div>
+                                <h3 className="font-medium">{activity.title}</h3>
+                                <p className="text-sm text-muted-foreground line-clamp-2">
+                                  {activity.description}
+                                </p>
+                                <p className="text-sm font-medium mt-1">
+                                  From £{activity.priceFrom}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        <div className="col-span-2 mt-2 text-center">
+                          <Link
+                            href={link.href}
+                            className="text-sm text-purple-600 hover:text-purple-700"
+                          >
+                            View all {link.label} activities →
+                          </Link>
+                        </div>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
+
+            {/* Book a Party Button */}
+            <Link
+              href="/activities"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
+            >
+              Book a Party
+            </Link>
+          </div>
         </div>
       </div>
     </header>
