@@ -39,7 +39,11 @@ export default function BookingDetailsPage() {
       try {
         try {
           const data = await bookings.getBooking(params.id as string);
-          setBooking(data);
+          if (data && typeof data === 'object' && 'id' in data && 'date' in data && 'groupSize' in data) {
+            setBooking(data as Booking);
+          } else {
+            console.error('Invalid booking data:', data);
+          }
         } catch (error) {
           console.error('Failed to fetch booking:', error);
         } finally {

@@ -291,6 +291,10 @@ export const bookings = {
     return data;
   },
 
+  getBooking: async (id: string): Promise<Booking | null> => {
+    return bookings.getById(id);
+  },
+
   create: async (bookingData: Omit<Booking, 'id' | 'created_at'>): Promise<Booking> => {
     const { data, error } = await supabase
       .from('bookings')
