@@ -33,7 +33,13 @@ export default function UserManagementPage() {
   const fetchUsers = async () => {
     try {
       const data = await users.getAll();
-      setUserList(data);
+      setUserList(
+        data.map((user: any) => ({
+          ...user,
+          bookings: { count: user.bookings.length },
+          stats: user.stats ? { total_spent: user.stats.total_spent || 0 } : undefined,
+        }))
+      );
     } catch (error) {
       toast({
         variant: "destructive",
