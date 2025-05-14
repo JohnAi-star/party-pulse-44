@@ -9,98 +9,25 @@ export async function GET() {
     const { data: activities, error } = await supabase
       .from('activities')
       .select(`
-        *,
-        location:locations(*),
-        category:categories(*),
-        packages(*),
-        reviews(*)
-      `)
-      .order('created_at', { ascending: false });
+        id,
+        title,
+        description,
+        price_from,
+        image,
+        duration,
+        group_size,
+        location:locations(city),
+        category:categories(name)
+      `);
 
     if (error) {
+      console.error('Supabase error:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(activities);
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function POST(request: Request) {
-  try {
-    const supabase = createRouteHandlerClient({ cookies });
-    const json = await request.json();
-
-    const { data, error } = await supabase
-      .from('activities')
-      .insert(json)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(request: Request) {
-  try {
-    const supabase = createRouteHandlerClient({ cookies });
-    const json = await request.json();
-    const { id, ...updates } = json;
-
-    const { data, error } = await supabase
-      .from('activities')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function DELETE(request: Request) {
-  try {
-    const supabase = createRouteHandlerClient({ cookies });
-    const url = new URL(request.url);
-    const id = url.searchParams.get('id');
-
-    if (!id) {
-      return NextResponse.json({ error: 'ID is required' }, { status: 400 });
-    }
-
-    const { error } = await supabase
-      .from('activities')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
+    console.error('Server error:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
