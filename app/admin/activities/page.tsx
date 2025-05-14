@@ -22,7 +22,7 @@ import { Edit, Trash2, Plus, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ActivityManagementPage() {
-  const [activityList, setActivityList] = useState([]);
+  const [activityList, setActivityList] = useState<{ id: string; title: string; description: string; category?: { name: string }; location?: { city: string }; price_from: number }[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
@@ -34,7 +34,12 @@ export default function ActivityManagementPage() {
   const fetchActivities = async () => {
     try {
       const data = await activities.getAll();
-      setActivityList(data);
+      setActivityList(
+        data.map((activity: any) => ({
+          ...activity,
+          category: activity.category ? { name: activity.category.name } : undefined,
+        }))
+      );
     } catch (error) {
       toast({
         variant: "destructive",
