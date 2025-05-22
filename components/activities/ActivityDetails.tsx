@@ -79,9 +79,8 @@ export default function ActivityDetails({
             {activity.images.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full ${
-                  index === currentImageIndex ? 'bg-white' : 'bg-white/50'
-                }`}
+                className={`w-2 h-2 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                  }`}
                 onClick={() => setCurrentImageIndex(index)}
               />
             ))}
@@ -137,7 +136,7 @@ export default function ActivityDetails({
             <TabsContent value="description" className="mt-6">
               <div className="prose max-w-none">
                 <p className="text-muted-foreground">{activity.description}</p>
-                
+
                 <h3 className="text-lg font-semibold mt-6 mb-4">Features</h3>
                 <ul className="grid grid-cols-2 gap-2">
                   {activity.features.map((feature, index) => (
@@ -199,20 +198,24 @@ export default function ActivityDetails({
                 reviews={[
                   {
                     id: '1',
-                    userId: '1',
-                    userName: 'John Doe',
+                    user: {
+                      id: '1',
+                      name: 'John Doe',
+                      avatar_url: '/path/to/avatar.jpg'
+                    },
                     rating: 5,
                     title: 'Amazing experience!',
                     content: 'Had a fantastic time, would definitely recommend!',
-                    createdAt: new Date().toISOString(),
+                    created_at: new Date().toISOString(),
                     helpful: 12,
                     verified: true,
+                    status: 'approved',
                   },
                 ]}
-                onHelpful={() => {}}
+                onHelpful={() => { }}
               />
               <div className="mt-8">
-                <ReviewForm onSubmit={() => {}} />
+                <ReviewForm onSubmit={() => { }} />
               </div>
             </TabsContent>
           </Tabs>
@@ -250,11 +253,10 @@ export default function ActivityDetails({
                     {activity.packages.map((pkg) => (
                       <Card
                         key={pkg.id}
-                        className={`cursor-pointer transition-colors ${
-                          selectedPackage === pkg.id
+                        className={`cursor-pointer transition-colors ${selectedPackage === pkg.id
                             ? 'border-purple-600'
                             : 'hover:border-purple-600/50'
-                        }`}
+                          }`}
                         onClick={() => setSelectedPackage(pkg.id)}
                       >
                         <CardContent className="p-4">

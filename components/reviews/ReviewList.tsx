@@ -25,6 +25,7 @@ interface Review {
 
 interface ReviewListProps {
   activityId?: string;
+  reviews?: Review[];  
   showAll?: boolean;
   onHelpful?: (reviewId: string) => void;
 }
