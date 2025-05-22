@@ -26,6 +26,7 @@ import { REGIONS, CITIES, MOCK_ACTIVITIES } from '@/lib/constants';
 
 const mainNavLinks = [
   { href: '/activities', label: 'Activities' },
+  { href: '/venues', label: 'Venues' },
   { href: '/locations', label: 'Locations' },
   { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
@@ -111,31 +112,15 @@ export default function Navbar() {
 
         {/* Search and Auth */}
         <div className="flex items-center space-x-4">
-          <div className={`${searchVisible ? 'flex' : 'hidden'} absolute inset-x-0 top-0 h-16 bg-background lg:static lg:inset-auto lg:h-auto lg:w-[260px] lg:flex`}>
-            <Input
-              placeholder="Search activities or locations..."
-              className="h-10 w-full border-0 bg-muted px-4 lg:border lg:bg-background"
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-2 top-3 lg:right-0 lg:top-0"
-              onClick={() => setSearchVisible(false)}
-            >
-              <X className="h-5 w-5 lg:hidden" />
-              <span className="sr-only">Close search</span>
-            </Button>
-          </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`${searchVisible ? 'hidden' : 'flex'} lg:hidden`}
-            onClick={() => setSearchVisible(true)}
-          >
-            <Search className="h-5 w-5" />
-            <span className="sr-only">Search</span>
-          </Button>
+          <div>
+            <Link
+              href="/party-planning"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
+            >
+              Plan a Party
+            </Link>
+          </div>
 
           {isSignedIn ? (
             <DropdownMenu>
@@ -292,15 +277,16 @@ export default function Navbar() {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
-
-            {/* Book a Party Button */}
-            <Link
-              href="/activities"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
-            >
-              Book a Party
-            </Link>
           </div>
+
+          {/* Book a Party Button */}
+          <Link
+            href="/gift-cards"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
+          >
+            Buy a Gift
+          </Link>
+
         </div>
       </div>
     </header>

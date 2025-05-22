@@ -1,61 +1,43 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { clerkClient } from '@clerk/nextjs/server';
+import { auth } from '@clerk/nextjs/server';
 
 export async function GET() {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
-
-    const { data: users, error } = await supabase
-      .from('profiles')
-      .select(`
-        *,
-        stats:user_stats(*),
-        bookings:bookings(count),
-        reviews:reviews(count)
-      `)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    const { userId } = auth();
+    
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    return NextResponse.json(users);
-  } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function PATCH(request: Request) {
-  try {
-    const supabase = createRouteHandlerClient({ cookies });
-    const { id, ...updates } = await request.json();
-
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('id', id)
-      .select()
-      .single();
-
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    // Check if the current user is an admin
+    const currentUser = await clerkClient.users.getUser(userId);
+    if (currentUser.publicMetadata?.role !== 'admin') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    // Log the user update
-    await supabase.from('admin_logs').insert({
-      admin_id: (await supabase.auth.getUser()).data.user?.id,
-      action: 'user_update',
-      entity_type: 'user',
-      entity_id: id,
-      details: updates
+    // Get all users with pagination
+    const users = await clerkClient.users.getUserList({
+      limit: 100, // Adjust based on your needs
+      orderBy: '-created_at',
     });
 
-    return NextResponse.json(data);
+    // Format the response
+    const formattedUsers = users.data.map(user => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailAddresses: user.emailAddresses,
+      imageUrl: user.imageUrl,
+      publicMetadata: user.publicMetadata,
+      createdAt: user.createdAt,
+      lastSignInAt: user.lastSignInAt,
+      banned: user.banned,
+    }));
+
+    return NextResponse.json(formattedUsers);
   } catch (error) {
+    console.error('Error fetching users:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }

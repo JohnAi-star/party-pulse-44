@@ -42,14 +42,19 @@ export default function ActivitiesPage() {
 
   const [activities, setActivities] = useState(MOCK_ACTIVITIES);
   const [filters, setFilters] = useState({
+    searchQuery: '',
     category: '',
     subcategory: '',
     location: '',
     region: '',
     priceRange: [0, 100],
     groupSize: '',
-    date: null,
+    date: null as Date | null,
     sortBy: '',
+    amenities: [] as string[],
+    duration: '',
+    rating: 0,
+    availability: [] as string[],
   });
 
   useEffect(() => {

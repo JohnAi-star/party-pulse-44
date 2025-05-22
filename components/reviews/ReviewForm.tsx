@@ -1,38 +1,76 @@
+"use client";
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Star } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface ReviewFormProps {
-  onSubmit: (review: {
-    rating: number;
-    title: string;
-    content: string;
-  }) => void;
+  activityId?: string;
+  onSubmit?: () => void;
 }
 
-export default function ReviewForm({ onSubmit }: ReviewFormProps) {
+export default function ReviewForm({ activityId, onSubmit }: ReviewFormProps) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (rating === 0) return;
+    if (rating === 0) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a rating",
+      });
+      return;
+    }
 
-    onSubmit({
-      rating,
-      title,
-      content,
-    });
+    setLoading(true);
+    try {
+      const response = await fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          activityId,
+          rating,
+          title,
+          content,
+        }),
+      });
 
-    // Reset form
-    setRating(0);
-    setTitle('');
-    setContent('');
+      if (!response.ok) throw new Error('Failed to submit review');
+
+      toast({
+        title: "Success",
+        description: "Your review has been submitted for approval",
+      });
+
+      // Reset form
+      setRating(0);
+      setTitle('');
+      setContent('');
+      
+      if (onSubmit) {
+        onSubmit();
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to submit review. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -96,9 +134,9 @@ export default function ReviewForm({ onSubmit }: ReviewFormProps) {
           <Button
             type="submit"
             className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
-            disabled={rating === 0}
+            disabled={loading || rating === 0}
           >
-            Submit Review
+            {loading ? 'Submitting...' : 'Submit Review'}
           </Button>
         </form>
       </CardContent>

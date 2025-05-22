@@ -72,18 +72,11 @@ export default function ReviewManagementPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="animate-pulse space-y-8">
-          <div className="h-8 bg-gray-200 rounded w-1/4"></div>
-          <div className="space-y-4">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-20 bg-gray-200 rounded"></div>
-            ))}
-          </div>
-        </div>
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
       </div>
     );
-  }
+  };
 
   const filteredReviews = reviewList.filter((review: any) =>
     review.activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -147,7 +140,7 @@ export default function ReviewManagementPage() {
               {filteredReviews.map((review: any) => (
                 <TableRow key={review.id}>
                   <TableCell className="font-medium">{review.activity.title}</TableCell>
-                  <TableCell>{review.user.name}</TableCell>
+                  <TableCell>{review.user ? review.user.name : <span className="text-gray-400 italic">Unknown User</span>}</TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <Star className="h-4 w-4 text-yellow-400 fill-current" />
@@ -212,7 +205,7 @@ export default function ReviewManagementPage() {
               </div>
               <div>
                 <h3 className="font-semibold">User</h3>
-                <p>{selectedReview.user.name}</p>
+                <p>{selectedReview.user ? selectedReview.user.name : <span className="text-gray-400 italic">Unknown User</span>}</p>
               </div>
               <div>
                 <h3 className="font-semibold">Rating</h3>
@@ -224,7 +217,7 @@ export default function ReviewManagementPage() {
               </div>
               <div>
                 <h3 className="font-semibold">Review Content</h3>
-                <p>{selectedReview.content}</p>
+                <p>{selectedReview.comment}</p>
               </div>
               <div>
                 <h3 className="font-semibold">Date</h3>

@@ -14,25 +14,60 @@ import {
 } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Edit, Trash2, Plus, Search } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import ActivityDialog from '@/components/admin/ActivityDialog';
+import { MOCK_ACTIVITIES } from '@/lib/constants';
 
 interface Activity {
   id: string;
   title: string;
   description: string;
   price_from: number;
-  status?: string; // Made optional to handle cases where it might not exist
+  status?: string;
   category?: { name: string } | null;
   location?: { city: string } | null;
 }
+
+// Helper function to normalize activity data
+const normalizeActivity = (activity: any): Activity => {
+  // Handle location
+  let locationCity = 'N/A';
+  if (activity.location) {
+    if (typeof activity.location === 'string') {
+      locationCity = activity.location;
+    } else if (activity.location.city) {
+      locationCity = activity.location.city;
+    }
+  } else if (activity.city) {
+    locationCity = activity.city;
+  }
+
+  // Handle category
+  let categoryName = null;
+  if (activity.category) {
+    categoryName = typeof activity.category === 'string' 
+      ? { name: activity.category }
+      : { name: activity.category?.name || 'Uncategorized' };
+  }
+
+  return {
+    id: activity.id,
+    title: activity.title,
+    description: activity.description,
+    price_from: activity.priceFrom || activity.price_from || 0,
+    status: activity.status || 'active',
+    category: categoryName,
+    location: { city: locationCity }
+  };
+};
 
 export default function ActivityManagementPage() {
   const [activityList, setActivityList] = useState<Activity[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -42,10 +77,29 @@ export default function ActivityManagementPage() {
   const fetchActivities = async () => {
     setLoading(true);
     try {
-      const data = await activities.getAll();
-      console.log('Fetched activities:', data); // Debug log
-      
-      if (!data || data.length === 0) {
+      // Get activities from localStorage
+      const localActivities = JSON.parse(localStorage.getItem('activities') || '[]');
+
+      // Get activities from API
+      let apiActivities = [];
+      try {
+        apiActivities = await activities.getAll();
+      } catch (apiError) {
+        console.log("Using mock data as fallback");
+        apiActivities = MOCK_ACTIVITIES;
+      }
+
+      // Combine and deduplicate activities
+      const combinedActivities = [...localActivities, ...apiActivities];
+      const uniqueActivities = combinedActivities.reduce((acc: any[], current) => {
+        const exists = acc.some(item => item.id === current.id);
+        if (!exists) {
+          return [...acc, current];
+        }
+        return acc;
+      }, []);
+
+      if (uniqueActivities.length === 0) {
         toast({
           title: "Info",
           description: "No activities found",
@@ -53,18 +107,15 @@ export default function ActivityManagementPage() {
         return;
       }
 
-      setActivityList(data.map(activity => ({
-        id: activity.id,
-        title: activity.title,
-        description: activity.description,
-        price_from: activity.price_from,
-        status: activity.status || 'active',
-        category: activity.category ? { name: activity.category.name } : undefined,
-        location: activity.location ? { city: activity.location.city } : undefined
-      })));
-      
+      // Normalize all activities
+      const normalizedActivities = uniqueActivities.map(normalizeActivity);
+      setActivityList(normalizedActivities);
+
+      // Update localStorage with normalized data
+      localStorage.setItem('activities', JSON.stringify(normalizedActivities));
+
     } catch (error: any) {
-      console.error('Error fetching activities:', error); // Detailed error log
+      console.error('Error fetching activities:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -79,20 +130,36 @@ export default function ActivityManagementPage() {
     setSearchQuery(query);
   };
 
-  // ... (keep your existing handleCreate, handleEdit, handleDelete functions)
+  const handleAddActivity = (newActivity: any) => {
+    try {
+      // Normalize the new activity
+      const normalizedActivity = normalizeActivity({
+        ...newActivity,
+        id: newActivity.id || Math.random().toString(36).substr(2, 9),
+        status: 'active'
+      });
 
-  const filteredActivities = activityList.filter(activity =>
-    activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    activity.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+      // Update localStorage
+      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
+      const updatedActivities = [...currentActivities, normalizedActivity];
+      localStorage.setItem('activities', JSON.stringify(updatedActivities));
 
-  if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
-      </div>
-    );
-  }
+      // Update state
+      setActivityList(prev => [...prev, normalizedActivity]);
+
+      toast({
+        title: "Success",
+        description: "Activity added successfully",
+      });
+    } catch (error) {
+      console.error("Error adding activity:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save activity",
+      });
+    }
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this activity?")) {
@@ -100,8 +167,21 @@ export default function ActivityManagementPage() {
     }
 
     try {
-      await activities.delete(id);
-      setActivityList((prev) => prev.filter((activity) => activity.id !== id));
+      // Delete from localStorage
+      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
+      const updatedActivities = currentActivities.filter((activity: any) => activity.id !== id);
+      localStorage.setItem('activities', JSON.stringify(updatedActivities));
+
+      // Try to delete from API if exists
+      try {
+        await activities.delete(id);
+      } catch (apiError) {
+        console.log("Activity not found in API, only removing from local storage");
+      }
+
+      // Update state
+      setActivityList(prev => prev.filter(activity => activity.id !== id));
+
       toast({
         title: "Success",
         description: "Activity deleted successfully",
@@ -116,19 +196,61 @@ export default function ActivityManagementPage() {
     }
   };
 
-  const handleEdit = (id: string, activity: Activity) => {
-    // Open a dialog or navigate to an edit page with the activity details
-    console.log(`Editing activity with ID: ${id}`, activity);
-    toast({
-      title: "Edit Activity",
-      description: `Editing activity: ${activity.title}`,
-    });
-    // You can implement navigation or dialog logic here
+  const handleEdit = async (id: string, updatedData: Partial<Activity>) => {
+    try {
+      // Update in localStorage
+      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
+      const updatedActivities = currentActivities.map((activity: any) =>
+        activity.id === id ? normalizeActivity({ ...activity, ...updatedData }) : activity
+      );
+      localStorage.setItem('activities', JSON.stringify(updatedActivities));
+
+      // Update state
+      setActivityList(prev =>
+        prev.map(activity =>
+          activity.id === id ? normalizeActivity({ ...activity, ...updatedData }) : activity
+        )
+      );
+
+      toast({
+        title: "Success",
+        description: "Activity updated successfully",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update activity",
+      });
+    }
   };
+
+  const filteredActivities = activityList.filter(activity =>
+    activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    activity.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (activity.location?.city.toLowerCase().includes(searchQuery.toLowerCase()))
+  );
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Header and Add Activity button (keep existing) */}
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">Activity Management</h1>
+        <Button
+          onClick={() => setIsDialogOpen(true)}
+          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          Add Activity
+        </Button>
+      </div>
 
       <Card className="mb-8">
         <CardHeader>
@@ -151,7 +273,17 @@ export default function ActivityManagementPage() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                {/* Add dynamic categories if needed */}
+                {Array.from(
+                  new Set(
+                    activityList
+                      .map(activity => activity.category?.name)
+                      .filter(Boolean)
+                  )
+                ).map(category => (
+                  <SelectItem key={category} value={category || ''}>
+                    {category}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -176,17 +308,15 @@ export default function ActivityManagementPage() {
                 filteredActivities.map((activity) => (
                   <TableRow key={activity.id}>
                     <TableCell className="font-medium">{activity.title}</TableCell>
-                    <TableCell>
-                      {activity.category?.name || 'Uncategorized'}
-                    </TableCell>
-                    <TableCell>
-                      {activity.location?.city || 'N/A'}
-                    </TableCell>
+                    <TableCell>{activity.category?.name || 'Uncategorized'}</TableCell>
+                    <TableCell>{activity.location?.city || 'N/A'}</TableCell>
                     <TableCell>£{activity.price_from.toFixed(2)}</TableCell>
                     <TableCell>
-                      <Badge 
+                      <Badge
                         variant={activity.status === 'active' ? 'default' : 'destructive'}
-                        className={activity.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}
+                        className={activity.status === 'active'
+                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                          : 'bg-red-100 text-red-800 hover:bg-red-200'}
                       >
                         {activity.status}
                       </Badge>
@@ -195,15 +325,25 @@ export default function ActivityManagementPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleEdit(activity.id, activity)}
+                        onClick={() => {
+                          const newTitle = prompt("Enter new title", activity.title);
+                          const newDesc = prompt("Enter new description", activity.description);
+                          if (newTitle !== null || newDesc !== null) {
+                            handleEdit(activity.id, {
+                              title: newTitle || activity.title,
+                              description: newDesc || activity.description
+                            });
+                          }
+                        }}
+                        className="hover:bg-gray-100"
                       >
-                        <Edit className="h-4 w-4" />
+                        <Edit className="h-4 w-4 text-blue-600" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => handleDelete(activity.id)}
-                        className="text-red-500 hover:text-red-700"
+                        className="hover:bg-gray-100 text-red-600 hover:text-red-700"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -221,6 +361,12 @@ export default function ActivityManagementPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <ActivityDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleAddActivity}
+      />
     </div>
   );
 }

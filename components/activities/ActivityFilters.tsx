@@ -9,9 +9,12 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DatePicker } from '../ui/date-picker';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 interface ActivityFiltersProps {
   filters: {
+    searchQuery: string | number | readonly string[] | undefined;
     category: string;
     subcategory: string;
     location: string;
@@ -20,6 +23,10 @@ interface ActivityFiltersProps {
     groupSize: string;
     date: Date | null;
     sortBy: string;
+    amenities: string[];
+    duration: string;
+    rating: number;
+    availability: string[];
   };
   updateFilters: (newFilters: any) => void;
 }
@@ -35,6 +42,7 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
 
   const resetFilters = () => {
     const resetValues = {
+      searchQuery: '',
       category: '',
       subcategory: '',
       location: '',
@@ -42,130 +50,114 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
       priceRange: [0, 1000],
       groupSize: '',
       date: null,
-      sortBy: 'recommended'
+      sortBy: 'recommended',
+      amenities: [],
+      duration: '',
+      rating: 0,
+      availability: []
     };
     setLocalFilters(resetValues);
     updateFilters(resetValues);
   };
 
-  const selectedCategory = CATEGORIES.find(cat => cat.id === localFilters.category);
-  const subcategories = selectedCategory?.subcategories || [];
+  const amenitiesList = [
+    'Parking',
+    'Wheelchair Accessible',
+    'Food Included',
+    'Drinks Included',
+    'Equipment Provided',
+    'Indoor Activity',
+    'Outdoor Activity'
+  ];
+
+  const durationOptions = [
+    '1-2 hours',
+    '2-4 hours',
+    'Half Day',
+    'Full Day'
+  ];
 
   return (
     <div className="space-y-6">
-      <Accordion type="multiple" defaultValue={['category', 'location', 'price', 'date', 'group-size', 'sort']} className="space-y-4">
-        {/* Date Filter */}
-        <AccordionItem value="date" className="border rounded-lg">
-          <AccordionTrigger className="px-4">Date</AccordionTrigger>
-          <AccordionContent className="px-4 pb-4">
-            <DatePicker
-              date={localFilters.date}
-              onChange={(date: any) => handleUpdate('date', date)}
-            />
-          </AccordionContent>
-        </AccordionItem>
+      <div className="flex items-center gap-2 mb-4">
+        <Input
+          placeholder="Search activities..."
+          className="flex-1"
+          value={localFilters.searchQuery}
+          onChange={(e) => handleUpdate('searchQuery', e.target.value)}
+        />
+        <Button variant="outline" onClick={resetFilters}>
+          Reset
+        </Button>
+      </div>
 
-        {/* Category Filter */}
+      <Accordion type="multiple" defaultValue={['category', 'location', 'price', 'amenities', 'duration']} className="space-y-4">
+        {/* Existing Category Filter */}
         <AccordionItem value="category" className="border rounded-lg">
           <AccordionTrigger className="px-4">Categories</AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <ScrollArea className="h-[300px] pr-4">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  {CATEGORIES.map((category) => (
-                    <div key={category.id} className="flex items-center space-x-2">
-                      <Checkbox 
-                        id={`category-${category.id}`} 
-                        checked={localFilters.category === category.id}
-                        onCheckedChange={(checked) => {
-                          handleUpdate('category', checked ? category.id : '');
-                          handleUpdate('subcategory', '');
-                        }}
-                      />
-                      <Label htmlFor={`category-${category.id}`}>{category.title}</Label>
-                    </div>
-                  ))}
-                </div>
-
-                {subcategories.length > 0 && (
-                  <div>
-                    <h4 className="text-sm font-medium mb-2">Subcategories</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {subcategories.map((subcategory) => (
-                        <Badge
-                          key={subcategory}
-                          variant={localFilters.subcategory === subcategory ? "default" : "outline"}
-                          className="cursor-pointer"
-                          onClick={() => handleUpdate('subcategory', 
-                            localFilters.subcategory === subcategory ? '' : subcategory
-                          )}
-                        >
-                          {subcategory}
-                        </Badge>
-                      ))}
-                    </div>
+              <div className="space-y-2">
+                {CATEGORIES.map((category) => (
+                  <div key={category.id} className="flex items-center space-x-2">
+                    <Checkbox 
+                      id={`category-${category.id}`} 
+                      checked={localFilters.category === category.id}
+                      onCheckedChange={(checked) => {
+                        handleUpdate('category', checked ? category.id : '');
+                      }}
+                    />
+                    <Label htmlFor={`category-${category.id}`}>{category.title}</Label>
                   </div>
-                )}
+                ))}
               </div>
             </ScrollArea>
           </AccordionContent>
         </AccordionItem>
 
-        {/* Location Filter */}
-        <AccordionItem value="location" className="border rounded-lg">
-          <AccordionTrigger className="px-4">Location</AccordionTrigger>
+        {/* New Amenities Filter */}
+        <AccordionItem value="amenities" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Amenities</AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
-            <ScrollArea className="h-[400px] pr-4">
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium mb-2">Regions</h4>
-                  <div className="space-y-2">
-                    {REGIONS.map((region) => (
-                      <div key={region.id} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`region-${region.id}`} 
-                          checked={localFilters.region === region.id}
-                          onCheckedChange={(checked) => {
-                            handleUpdate('region', checked ? region.id : '');
-                            handleUpdate('location', '');
-                          }}
-                        />
-                        <Label htmlFor={`region-${region.id}`}>
-                          {region.name} ({region.activities} activities)
-                        </Label>
-                      </div>
-                    ))}
-                  </div>
+            <div className="space-y-2">
+              {amenitiesList.map((amenity) => (
+                <div key={amenity} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={`amenity-${amenity}`}
+                    checked={localFilters.amenities?.includes(amenity)}
+                    onCheckedChange={(checked) => {
+                      const newAmenities = checked 
+                        ? [...(localFilters.amenities || []), amenity]
+                        : localFilters.amenities?.filter(a => a !== amenity);
+                      handleUpdate('amenities', newAmenities);
+                    }}
+                  />
+                  <Label htmlFor={`amenity-${amenity}`}>{amenity}</Label>
                 </div>
-
-                <div>
-                  <h4 className="text-sm font-medium mb-2">Cities</h4>
-                  <div className="space-y-2">
-                    {CITIES
-                      .filter(city => !localFilters.region || 
-                        REGIONS.find(r => r.id === localFilters.region)?.cities.includes(city.name))
-                      .map((city) => (
-                        <div key={city.id} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`city-${city.id}`} 
-                            checked={localFilters.location === city.id}
-                            onCheckedChange={(checked) => {
-                              handleUpdate('location', checked ? city.id : '');
-                            }}
-                          />
-                          <Label htmlFor={`city-${city.id}`}>
-                            {city.name} ({city.activities} activities)
-                          </Label>
-                        </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </ScrollArea>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
 
-        {/* Price Range Filter */}
+        {/* New Duration Filter */}
+        <AccordionItem value="duration" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Duration</AccordionTrigger>
+          <AccordionContent className="px-4 pb-4">
+            <RadioGroup 
+              value={localFilters.duration}
+              onValueChange={(value) => handleUpdate('duration', value)}
+            >
+              {durationOptions.map((duration) => (
+                <div key={duration} className="flex items-center space-x-2">
+                  <RadioGroupItem value={duration} id={`duration-${duration}`} />
+                  <Label htmlFor={`duration-${duration}`}>{duration}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </AccordionContent>
+        </AccordionItem>
+
+        {/* Existing and Enhanced Filters */}
         <AccordionItem value="price" className="border rounded-lg">
           <AccordionTrigger className="px-4">Price Range</AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
@@ -185,69 +177,53 @@ export default function ActivityFilters({ filters, updateFilters }: ActivityFilt
           </AccordionContent>
         </AccordionItem>
 
-        {/* Group Size Filter */}
-        <AccordionItem value="group-size" className="border rounded-lg">
-          <AccordionTrigger className="px-4">Group Size</AccordionTrigger>
+        <AccordionItem value="rating" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Rating</AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
             <RadioGroup 
-              value={localFilters.groupSize}
-              onValueChange={(value) => handleUpdate('groupSize', value)}
+              value={localFilters.rating.toString()}
+              onValueChange={(value) => handleUpdate('rating', parseInt(value))}
             >
-              {GROUP_SIZES.map((size) => (
-                <div key={size.id} className="flex items-center space-x-2">
-                  <RadioGroupItem value={size.id} id={`group-${size.id}`} />
-                  <Label htmlFor={`group-${size.id}`}>{size.name} ({size.range})</Label>
+              {[5, 4, 3, 2, 1].map((rating) => (
+                <div key={rating} className="flex items-center space-x-2">
+                  <RadioGroupItem value={rating.toString()} id={`rating-${rating}`} />
+                  <Label htmlFor={`rating-${rating}`}>{rating}+ Stars</Label>
                 </div>
               ))}
             </RadioGroup>
           </AccordionContent>
         </AccordionItem>
 
-        {/* Sort By */}
-        <AccordionItem value="sort" className="border rounded-lg">
-          <AccordionTrigger className="px-4">Sort By</AccordionTrigger>
+        <AccordionItem value="availability" className="border rounded-lg">
+          <AccordionTrigger className="px-4">Availability</AccordionTrigger>
           <AccordionContent className="px-4 pb-4">
-            <RadioGroup 
-              value={localFilters.sortBy}
-              onValueChange={(value) => handleUpdate('sortBy', value)}
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="recommended" id="sort-recommended" />
-                <Label htmlFor="sort-recommended">Recommended</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="price-low" id="sort-price-low" />
-                <Label htmlFor="sort-price-low">Price: Low to High</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="price-high" id="sort-price-high" />
-                <Label htmlFor="sort-price-high">Price: High to Low</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="rating" id="sort-rating" />
-                <Label htmlFor="sort-rating">Highest Rated</Label>
-              </div>
-            </RadioGroup>
+            <div className="space-y-2">
+              {['Weekdays', 'Weekends', 'Evenings', 'Mornings'].map((time) => (
+                <div key={time} className="flex items-center space-x-2">
+                  <Checkbox 
+                    id={`time-${time}`}
+                    checked={localFilters.availability?.includes(time)}
+                    onCheckedChange={(checked) => {
+                      const newAvailability = checked 
+                        ? [...(localFilters.availability || []), time]
+                        : localFilters.availability?.filter(t => t !== time);
+                      handleUpdate('availability', newAvailability);
+                    }}
+                  />
+                  <Label htmlFor={`time-${time}`}>{time}</Label>
+                </div>
+              ))}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
 
-      {/* Filter Actions */}
-      <div className="space-y-2">
-        <Button 
-          className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          onClick={() => updateFilters(localFilters)}
-        >
-          Apply Filters
-        </Button>
-        <Button 
-          variant="outline" 
-          className="w-full"
-          onClick={resetFilters}
-        >
-          Reset All
-        </Button>
-      </div>
+      <Button 
+        className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+        onClick={() => updateFilters(localFilters)}
+      >
+        Apply Filters
+      </Button>
     </div>
   );
 }

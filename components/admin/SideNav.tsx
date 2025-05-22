@@ -12,11 +12,11 @@ import {
 } from 'lucide-react';
 
 const navItems = [
-  {
-    title: 'Dashboard',
-    href: '/admin',
-    icon: LayoutDashboard
-  },
+  // {
+  //  title: 'Dashboard',
+  //  href: '/admin',
+  //  icon: LayoutDashboard
+  //},
   {
     title: 'Activities',
     href: '/admin/activities',

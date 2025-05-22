@@ -1,7 +1,8 @@
 "use client";
 
-import Image from 'next/image';
 import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,11 +14,17 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  Check
+  Check,
+  User,
 } from 'lucide-react';
 import BookingForm from '@/components/activities/BookingForm';
+import GroupBookingForm from '@/components/activities/GroupBookingForm';
 import RelatedActivities from '@/components/activities/RelatedActivities';
 import { Badge } from '@/components/ui/badge';
+import SocialShare from './SocialShare';
+import { groupBookings } from '@/lib/api-client';
+import { useToast } from '@/hooks/use-toast';
+import ReviewList from '../reviews/ReviewList';
 
 interface Activity {
   id: string;
@@ -48,6 +55,9 @@ interface ClientActivityPageProps {
 
 export default function ClientActivityPage({ activity, images }: ClientActivityPageProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showGroupBooking, setShowGroupBooking] = useState(false);
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const { toast } = useToast();
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -55,6 +65,38 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
 
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
+
+  const handleGroupBookingSubmit = async (formData: any) => {
+    try {
+      await groupBookings.create({
+        activityId: activity.id,
+        organizerDetails: {
+          name: formData.organizerName,
+          email: formData.organizerEmail,
+          phone: formData.organizerPhone,
+        },
+        bookingDetails: {
+          groupSize: parseInt(formData.groupSize),
+          date: formData.date.toISOString(),
+          paymentType: formData.paymentType,
+          specialRequirements: formData.specialRequirements,
+        },
+        participantDetails: formData.participantDetails,
+      });
+
+      toast({
+        title: "Success",
+        description: "Group booking request submitted successfully",
+      });
+      setShowGroupBooking(false);
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to submit group booking request",
+      });
+    }
   };
 
   return (
@@ -116,6 +158,17 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
           </div>
           
           <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
+
+          {/* Add social sharing */}
+          <div className="mb-6">
+            <p className="text-sm text-muted-foreground mb-2">Share this activity:</p>
+            <SocialShare 
+              url={shareUrl}
+              title={activity.title}
+              description={activity.description}
+            />
+          </div>
+
           <div className="flex flex-wrap items-center gap-4 mb-6 text-sm">
             <div className="flex items-center">
               <MapPin className="h-4 w-4 text-muted-foreground mr-1" />
@@ -234,7 +287,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                     loading="lazy"
                     allowFullScreen
                     referrerPolicy="no-referrer-when-downgrade"
-                    src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${activity.location.coordinates.lat},${activity.location.coordinates.lng}`}
+                    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.2889612073465!2d-0.09717688422955692!3d51.51492097963633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b553d1b2271%3A0xa32c5e11d4be6bb!2sLondon%20EC1A%201BB%2C%20UK!5e0!3m2!1sen!2sus!4v1647436593867!5m2!1sen!2sus=${activity.location.coordinates.lat},${activity.location.coordinates.lng}`}
                   ></iframe>
                 </div>
 
@@ -254,7 +307,10 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
 
             <TabsContent value="reviews" className="mt-4">
               <div className="text-center py-8">
-                <p className="text-muted-foreground">Reviews coming soon!</p>
+                {/* <p className="text-muted-foreground">Reviews coming soon!</p> */}
+                <ReviewList activityId={activity.id} showAll={false} />
+                <br />
+                <Link href='/reviews' className="text-muted-foreground w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4">Give Us Your Review! </Link>
               </div>
             </TabsContent>
           </Tabs>
@@ -268,7 +324,28 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                 <p className="text-2xl font-bold">From £{activity.priceFrom}</p>
                 <p className="text-sm text-muted-foreground">Price varies based on group size and date</p>
               </div>
-              <BookingForm activity={activity} />
+              
+              {showGroupBooking ? (
+                <GroupBookingForm 
+                  activityId={activity.id}
+                  onSubmit={handleGroupBookingSubmit}
+                  onCancel={() => setShowGroupBooking(false)}
+                />
+              ) : (
+                <>
+                  <BookingForm activity={activity} />
+                  <div className="mt-4 text-center">
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => setShowGroupBooking(true)}
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      Group Booking (10+ people)
+                    </Button>
+                  </div>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
