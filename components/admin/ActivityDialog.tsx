@@ -1,4 +1,6 @@
-import { useState } from 'react';
+"use client";
+
+import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,12 +11,19 @@ import { CITIES, CATEGORIES } from '@/lib/constants';
 
 interface ActivityDialogProps {
   isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (activity: any) => void;
+  onCloseAction: () => void;
+  onSubmitAction: (activity: any) => void;
+  initialData?: any;
 }
 
-export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDialogProps) {
+export default function ActivityDialog({ 
+  isOpen, 
+  onCloseAction, 
+  onSubmitAction,
+  initialData 
+}: ActivityDialogProps) {
   const [formData, setFormData] = useState({
+    id: '',
     title: '',
     description: '',
     city: '',
@@ -26,41 +35,59 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
     rating: 5,
   });
 
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        id: initialData.id || '',
+        title: initialData.title || '',
+        description: initialData.description || '',
+        city: initialData.city || initialData.location?.city || '',
+        category: initialData.category?.name || initialData.category || '',
+        priceFrom: initialData.priceFrom || initialData.price_from?.toString() || '',
+        duration: initialData.duration || '',
+        groupSize: initialData.groupSize || '',
+        image: initialData.image || '',
+        rating: initialData.rating || 5,
+      });
+    } else {
+      setFormData({
+        id: '',
+        title: '',
+        description: '',
+        city: '',
+        category: '',
+        priceFrom: '',
+        duration: '',
+        groupSize: '',
+        image: '',
+        rating: 5,
+      });
+    }
+  }, [initialData]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const newActivity = {
+    const activityData = {
       ...formData,
-      id: Math.random().toString(36).substr(2, 9),
-      priceFrom: parseFloat(formData.priceFrom),
-      rating: parseFloat(formData.rating.toString()),
-      reviewCount: 0,
+      id: formData.id || Math.random().toString(36).substr(2, 9),
+      priceFrom: formData.priceFrom,
+      rating: Number(formData.rating),
     };
 
-    onSubmit(newActivity);
-    onClose();
-    setFormData({
-      title: '',
-      description: '',
-      city: '',
-      category: '',
-      priceFrom: '',
-      duration: '',
-      groupSize: '',
-      image: '',
-      rating: 5,
-    });
+    onSubmitAction(activityData);
+    onCloseAction();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onCloseAction}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Add New Activity</DialogTitle>
+          <DialogTitle>{initialData ? 'Edit Activity' : 'Add New Activity'}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title">Title *</Label>
             <Input
               id="title"
               value={formData.title}
@@ -70,7 +97,7 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description">Description *</Label>
             <Textarea
               id="description"
               value={formData.description}
@@ -81,10 +108,11 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="city">City</Label>
+              <Label htmlFor="city">City *</Label>
               <Select
                 value={formData.city}
                 onValueChange={(value) => setFormData({ ...formData, city: value })}
+                required
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select city" />
@@ -100,10 +128,11 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category">Category *</Label>
               <Select
                 value={formData.category}
                 onValueChange={(value) => setFormData({ ...formData, category: value })}
+                required
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
@@ -121,7 +150,7 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="priceFrom">Price From (£)</Label>
+              <Label htmlFor="priceFrom">Price From (£) *</Label>
               <Input
                 id="priceFrom"
                 type="number"
@@ -134,7 +163,7 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="duration">Duration</Label>
+              <Label htmlFor="duration">Duration *</Label>
               <Input
                 id="duration"
                 value={formData.duration}
@@ -147,7 +176,7 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="groupSize">Group Size</Label>
+              <Label htmlFor="groupSize">Group Size *</Label>
               <Input
                 id="groupSize"
                 value={formData.groupSize}
@@ -158,7 +187,7 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image">Image URL</Label>
+              <Label htmlFor="image">Image URL *</Label>
               <Input
                 id="image"
                 type="url"
@@ -171,10 +200,10 @@ export default function ActivityDialog({ isOpen, onClose, onSubmit }: ActivityDi
           </div>
 
           <div className="flex justify-end space-x-4 pt-4">
-            <Button type="button" variant="outline" onClick={onClose}>
+            <Button type="button" variant="outline" onClick={onCloseAction}>
               Cancel
             </Button>
-            <Button type="submit">Add Activity</Button>
+            <Button type="submit">{initialData ? 'Update' : 'Add'} Activity</Button>
           </div>
         </form>
       </DialogContent>

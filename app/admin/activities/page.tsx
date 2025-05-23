@@ -1,17 +1,9 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { activities } from '@/lib/admin-api';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -25,230 +17,143 @@ interface Activity {
   title: string;
   description: string;
   price_from: number;
-  status?: string;
-  category?: { name: string } | null;
-  location?: { city: string } | null;
+  status: string;
+  category: { name: string };
+  location: { city: string };
+  city: string;
+  duration: string;
+  groupSize: string;
+  image: string;
+  rating: number;
 }
-
-// Helper function to normalize activity data
-const normalizeActivity = (activity: any): Activity => {
-  // Handle location
-  let locationCity = 'N/A';
-  if (activity.location) {
-    if (typeof activity.location === 'string') {
-      locationCity = activity.location;
-    } else if (activity.location.city) {
-      locationCity = activity.location.city;
-    }
-  } else if (activity.city) {
-    locationCity = activity.city;
-  }
-
-  // Handle category
-  let categoryName = null;
-  if (activity.category) {
-    categoryName = typeof activity.category === 'string' 
-      ? { name: activity.category }
-      : { name: activity.category?.name || 'Uncategorized' };
-  }
-
-  return {
-    id: activity.id,
-    title: activity.title,
-    description: activity.description,
-    price_from: activity.priceFrom || activity.price_from || 0,
-    status: activity.status || 'active',
-    category: categoryName,
-    location: { city: locationCity }
-  };
-};
 
 export default function ActivityManagementPage() {
   const [activityList, setActivityList] = useState<Activity[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchActivities();
+    const loadActivities = () => {
+      try {
+        const savedActivities = localStorage.getItem('activities');
+        const initialActivities = savedActivities 
+          ? JSON.parse(savedActivities) 
+          : MOCK_ACTIVITIES.map(a => ({
+              ...a,
+              status: 'active',
+              category: { name: a.category },
+              location: { city: a.city },
+              city: a.city,
+              price_from: a.priceFrom || 0
+            }));
+
+        setActivityList(initialActivities);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to load activities",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadActivities();
   }, []);
 
-  const fetchActivities = async () => {
-    setLoading(true);
-    try {
-      // Get activities from localStorage
-      const localActivities = JSON.parse(localStorage.getItem('activities') || '[]');
-
-      // Get activities from API
-      let apiActivities = [];
-      try {
-        apiActivities = await activities.getAll();
-      } catch (apiError) {
-        console.log("Using mock data as fallback");
-        apiActivities = MOCK_ACTIVITIES;
-      }
-
-      // Combine and deduplicate activities
-      const combinedActivities = [...localActivities, ...apiActivities];
-      const uniqueActivities = combinedActivities.reduce((acc: any[], current) => {
-        const exists = acc.some(item => item.id === current.id);
-        if (!exists) {
-          return [...acc, current];
-        }
-        return acc;
-      }, []);
-
-      if (uniqueActivities.length === 0) {
-        toast({
-          title: "Info",
-          description: "No activities found",
-        });
-        return;
-      }
-
-      // Normalize all activities
-      const normalizedActivities = uniqueActivities.map(normalizeActivity);
-      setActivityList(normalizedActivities);
-
-      // Update localStorage with normalized data
-      localStorage.setItem('activities', JSON.stringify(normalizedActivities));
-
-    } catch (error: any) {
-      console.error('Error fetching activities:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to fetch activities",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-  };
-
   const handleAddActivity = (newActivity: any) => {
-    try {
-      // Normalize the new activity
-      const normalizedActivity = normalizeActivity({
-        ...newActivity,
-        id: newActivity.id || Math.random().toString(36).substr(2, 9),
-        status: 'active'
-      });
+    const activityToAdd = {
+      ...newActivity,
+      id: Math.random().toString(36).substr(2, 9),
+      status: 'active',
+      price_from: parseFloat(newActivity.priceFrom),
+      category: { name: newActivity.category },
+      location: { city: newActivity.city },
+      city: newActivity.city
+    };
 
-      // Update localStorage
-      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
-      const updatedActivities = [...currentActivities, normalizedActivity];
-      localStorage.setItem('activities', JSON.stringify(updatedActivities));
-
-      // Update state
-      setActivityList(prev => [...prev, normalizedActivity]);
-
-      toast({
-        title: "Success",
-        description: "Activity added successfully",
-      });
-    } catch (error) {
-      console.error("Error adding activity:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to save activity",
-      });
-    }
+    const updatedActivities = [...activityList, activityToAdd];
+    updateActivities(updatedActivities);
+    toast({ title: "Success", description: "Activity added successfully" });
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this activity?")) {
-      return;
-    }
-
-    try {
-      // Delete from localStorage
-      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
-      const updatedActivities = currentActivities.filter((activity: any) => activity.id !== id);
-      localStorage.setItem('activities', JSON.stringify(updatedActivities));
-
-      // Try to delete from API if exists
-      try {
-        await activities.delete(id);
-      } catch (apiError) {
-        console.log("Activity not found in API, only removing from local storage");
-      }
-
-      // Update state
-      setActivityList(prev => prev.filter(activity => activity.id !== id));
-
-      toast({
-        title: "Success",
-        description: "Activity deleted successfully",
-      });
-    } catch (error: any) {
-      console.error("Error deleting activity:", error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message || "Failed to delete activity",
-      });
-    }
+  const handleEditActivity = (updatedActivity: any) => {
+    const updatedActivities = activityList.map(activity => 
+      activity.id === updatedActivity.id ? {
+        ...updatedActivity,
+        status: 'active',
+        price_from: parseFloat(updatedActivity.priceFrom),
+        category: { name: updatedActivity.category },
+        location: { city: updatedActivity.city },
+        city: updatedActivity.city
+      } : activity
+    );
+    
+    updateActivities(updatedActivities);
+    toast({ title: "Success", description: "Activity updated successfully" });
   };
 
-  const handleEdit = async (id: string, updatedData: Partial<Activity>) => {
-    try {
-      // Update in localStorage
-      const currentActivities = JSON.parse(localStorage.getItem('activities') || '[]');
-      const updatedActivities = currentActivities.map((activity: any) =>
-        activity.id === id ? normalizeActivity({ ...activity, ...updatedData }) : activity
-      );
-      localStorage.setItem('activities', JSON.stringify(updatedActivities));
-
-      // Update state
-      setActivityList(prev =>
-        prev.map(activity =>
-          activity.id === id ? normalizeActivity({ ...activity, ...updatedData }) : activity
-        )
-      );
-
-      toast({
-        title: "Success",
-        description: "Activity updated successfully",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to update activity",
-      });
-    }
+  const updateActivities = (activities: Activity[]) => {
+    setActivityList(activities);
+    localStorage.setItem('activities', JSON.stringify(activities));
+    localStorage.setItem('publicActivities', JSON.stringify(activities.map(a => ({
+      id: a.id,
+      title: a.title,
+      description: a.description,
+      city: a.city,
+      priceFrom: a.price_from,
+      category: a.category && a.category.name ? a.category.name : '',
+      duration: a.duration,
+      groupSize: a.groupSize,
+      image: a.image,
+      rating: a.rating
+    }))));
   };
 
-  const filteredActivities = activityList.filter(activity =>
-    activity.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    activity.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (activity.location?.city.toLowerCase().includes(searchQuery.toLowerCase()))
+  const handleDelete = (id: string) => {
+    if (!confirm("Are you sure you want to delete this activity?")) return;
+    
+    const updatedActivities = activityList.filter(a => a.id !== id);
+    updateActivities(updatedActivities);
+    toast({ title: "Success", description: "Activity deleted successfully" });
+  };
+
+  const handleStartEdit = (activity: Activity) => {
+    setEditingActivity({
+      ...activity,
+      price_from: activity.price_from,
+      category: { name: activity.category?.name ?? '' }
+    });
+    setIsDialogOpen(true);
+  };
+
+  const filteredActivities = activityList.filter(a =>
+    a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    a.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    a.city.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) {
-    return (
-      <div className="container mx-auto px-4 py-8 flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
-      </div>
-    );
+    return <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
+    </div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Activity Management</h1>
-        <Button
-          onClick={() => setIsDialogOpen(true)}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+        <Button 
+          onClick={() => {
+            setEditingActivity(null);
+            setIsDialogOpen(true);
+          }} 
+          className="bg-gradient-to-r from-purple-600 to-pink-600"
         >
-          <Plus className="h-4 w-4 mr-2" />
-          Add Activity
+          <Plus className="h-4 w-4 mr-2" /> Add Activity
         </Button>
       </div>
 
@@ -263,7 +168,7 @@ export default function ActivityManagementPage() {
               <Input
                 placeholder="Search activities..."
                 value={searchQuery}
-                onChange={(e) => handleSearch(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 w-full"
               />
             </div>
@@ -276,13 +181,11 @@ export default function ActivityManagementPage() {
                 {Array.from(
                   new Set(
                     activityList
-                      .map(activity => activity.category?.name)
-                      .filter(Boolean)
+                      .filter(a => a.category && a.category.name)
+                      .map(a => a.category.name)
                   )
                 ).map(category => (
-                  <SelectItem key={category} value={category || ''}>
-                    {category}
-                  </SelectItem>
+                  <SelectItem key={category} value={category}>{category}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -295,29 +198,24 @@ export default function ActivityManagementPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[25%]">Title</TableHead>
-                <TableHead className="w-[15%]">Category</TableHead>
-                <TableHead className="w-[15%]">City</TableHead>
-                <TableHead className="w-[15%]">Price</TableHead>
-                <TableHead className="w-[15%]">Status</TableHead>
-                <TableHead className="text-right w-[15%]">Actions</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>City</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredActivities.length > 0 ? (
-                filteredActivities.map((activity) => (
+                filteredActivities.map(activity => (
                   <TableRow key={activity.id}>
                     <TableCell className="font-medium">{activity.title}</TableCell>
-                    <TableCell>{activity.category?.name || 'Uncategorized'}</TableCell>
-                    <TableCell>{activity.location?.city || 'N/A'}</TableCell>
+                    <TableCell>{activity.category?.name ?? ''}</TableCell>
+                    <TableCell>{activity.city}</TableCell>
                     <TableCell>£{activity.price_from.toFixed(2)}</TableCell>
                     <TableCell>
-                      <Badge
-                        variant={activity.status === 'active' ? 'default' : 'destructive'}
-                        className={activity.status === 'active'
-                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                          : 'bg-red-100 text-red-800 hover:bg-red-200'}
-                      >
+                      <Badge variant={activity.status === 'active' ? 'default' : 'destructive'}>
                         {activity.status}
                       </Badge>
                     </TableCell>
@@ -325,25 +223,16 @@ export default function ActivityManagementPage() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => {
-                          const newTitle = prompt("Enter new title", activity.title);
-                          const newDesc = prompt("Enter new description", activity.description);
-                          if (newTitle !== null || newDesc !== null) {
-                            handleEdit(activity.id, {
-                              title: newTitle || activity.title,
-                              description: newDesc || activity.description
-                            });
-                          }
-                        }}
+                        onClick={() => handleStartEdit(activity)}
                         className="hover:bg-gray-100"
                       >
                         <Edit className="h-4 w-4 text-blue-600" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-red-500 hover:text-red-700"
                         onClick={() => handleDelete(activity.id)}
-                        className="hover:bg-gray-100 text-red-600 hover:text-red-700"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -353,7 +242,7 @@ export default function ActivityManagementPage() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={6} className="h-24 text-center">
-                    {activityList.length === 0 ? 'No activities found' : 'No matching activities found'}
+                    No activities found
                   </TableCell>
                 </TableRow>
               )}
@@ -364,8 +253,12 @@ export default function ActivityManagementPage() {
 
       <ActivityDialog
         isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        onSubmit={handleAddActivity}
+        onCloseAction={() => {
+          setIsDialogOpen(false);
+          setEditingActivity(null);
+        }}
+        onSubmitAction={editingActivity ? handleEditActivity : handleAddActivity}
+        initialData={editingActivity}
       />
     </div>
   );

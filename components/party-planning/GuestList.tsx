@@ -53,7 +53,7 @@ export default function GuestList({ partyPlanId }: GuestListProps) {
     try {
       const response = await fetch(`/api/guest-lists?partyPlanId=${partyPlanId}`);
       const data = await response.json();
-      setGuests(data);
+      setGuests(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching guests:', error);
       toast({

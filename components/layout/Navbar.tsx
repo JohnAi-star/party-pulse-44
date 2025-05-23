@@ -21,7 +21,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
-import { useUser, SignInButton, SignOutButton, useClerk } from "@clerk/nextjs";
+import { useUser, SignInButton, SignOutButton, useClerk, SignUpButton } from "@clerk/nextjs";
 import { REGIONS, CITIES, MOCK_ACTIVITIES } from '@/lib/constants';
 
 const mainNavLinks = [
@@ -141,7 +141,7 @@ export default function Navbar() {
                 <DropdownMenuSeparator />
                 {isAdmin && (
                   <DropdownMenuItem asChild>
-                    <Link href="/admin" className="cursor-pointer">
+                    <Link href="/admin/activities" className="cursor-pointer">
                       <Shield className="mr-2 h-4 w-4" />
                       Admin Dashboard
                     </Link>
@@ -163,11 +163,18 @@ export default function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <SignInButton mode="modal">
-              <Button variant="ghost" size="sm">
-                Sign in
-              </Button>
-            </SignInButton>
+            <>
+              <SignInButton mode="modal">
+                <Button className='text-purple-600' variant="ghost" size="sm">
+                  Sign in
+                </Button>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button className='text-purple-600' variant="ghost" size="sm">
+                  Create New Account
+                </Button>
+              </SignUpButton>
+            </>
           )}
         </div>
       </div>

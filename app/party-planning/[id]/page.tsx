@@ -9,10 +9,12 @@ import MenuPlanner from '@/components/party-planning/MenuPlanner';
 import TablePlanner from '@/components/party-planning/TablePlanner';
 import Checklist from '@/components/party-planning/Checklist';
 import BudgetCalculator from '@/components/party-planning/BudgetCalculator';
+
 export default function PartyPlanningPage() {
   const params = useParams();
   const [partyPlan, setPartyPlan] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState('guests');
 
   useEffect(() => {
     const fetchPartyPlan = async () => {
@@ -63,7 +65,7 @@ export default function PartyPlanningPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="guests" className="space-y-8">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="guests">Guest List</TabsTrigger>
           <TabsTrigger value="menu">Menu</TabsTrigger>

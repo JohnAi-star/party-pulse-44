@@ -1,10 +1,60 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { PartyPopper, Users, Calendar, ClipboardList, UtensilsCrossed, LayoutGrid } from 'lucide-react';
+import { PartyPopper, Users, Calendar, ClipboardList, UtensilsCrossed, LayoutGrid, Plus } from 'lucide-react';
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
+type Plan = {
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+};
+
+type PlanningTool = {
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+};
 
 export default function PartyPlanningPage() {
-  const planningTools = [
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [newPlan, setNewPlan] = useState<Omit<Plan, 'id'>>({ title: '', description: '', date: '' });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  // Load plans from localStorage on component mount
+  useEffect(() => {
+    const savedPlans = localStorage.getItem('partyPlans');
+    if (savedPlans) {
+      setPlans(JSON.parse(savedPlans));
+    }
+  }, []);
+
+  // Save plans to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('partyPlans', JSON.stringify(plans));
+  }, [plans]);
+
+  const handleCreatePlan = () => {
+    if (newPlan.title.trim() === '') return;
+    
+    const plan: Plan = {
+      ...newPlan,
+      id: Date.now().toString(),
+    };
+    
+    setPlans([...plans, plan]);
+    setNewPlan({ title: '', description: '', date: '' });
+    setIsDialogOpen(false);
+  };
+
+  const planningTools: PlanningTool[] = [
     {
       title: 'Guest List Management',
       description: 'Keep track of invitations, RSVPs, and dietary requirements',
@@ -46,37 +96,124 @@ export default function PartyPlanningPage() {
         </p>
       </div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {planningTools.map((tool) => {
-          const Icon = tool.icon;
-          return (
-            <Link key={tool.title} href={tool.href}>
-              <Card className="h-full hover:shadow-lg transition-all duration-300">
+      {/* Your Plans Section */}
+      {plans.length > 0 && (
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Your Party Plans</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {plans.map((plan) => (
+              <Card key={plan.id} className="hover:shadow-lg transition-all duration-300">
                 <CardHeader>
-                  <Icon className="h-8 w-8 text-purple-600 mb-2" />
-                  <CardTitle>{tool.title}</CardTitle>
+                  <CardTitle>{plan.title}</CardTitle>
+                  {plan.date && <p className="text-sm text-muted-foreground">Date: {plan.date}</p>}
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground">{tool.description}</p>
+                  <p className="text-muted-foreground mb-4">{plan.description}</p>
+                  <Link href={`/party-planning/plan/${plan.id}`}>
+                    <Button variant="outline" className="w-full">
+                      View Details
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
-            </Link>
-          );
-        })}
+            ))}
+          </div>
+        </div>
+      )}
 
-        {/* Create New Plan Card */}
-        <Card className="h-full bg-gradient-to-r from-purple-600 to-pink-600 text-white">
-          <CardHeader>
-            <PartyPopper className="h-8 w-8 mb-2" />
-            <CardTitle>Start Planning</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="mb-4">Ready to start planning your perfect party?</p>
-            <Button variant="secondary" className="w-full">
-              Create New Plan
-            </Button>
-          </CardContent>
-        </Card>
+      {/* Planning Tools Section */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Planning Tools</h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {planningTools.map((tool) => {
+            const Icon = tool.icon;
+            return (
+              <Link key={tool.title} href={tool.href}>
+                <Card className="h-full hover:shadow-lg transition-all duration-300">
+                  <CardHeader>
+                    <Icon className="h-8 w-8 text-purple-600 mb-2" />
+                    <CardTitle>{tool.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground">{tool.description}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+
+          {/* Create New Plan Card */}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Card className="h-full bg-gradient-to-r from-purple-600 to-pink-600 text-white cursor-pointer hover:shadow-lg transition-all duration-300">
+                <CardHeader>
+                  <Plus className="h-8 w-8 mb-2" />
+                  <CardTitle>Start Planning</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="mb-4">Ready to start planning your perfect party?</p>
+                  <Button variant="secondary" className="w-full">
+                    Create New Plan
+                  </Button>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Party Plan</DialogTitle>
+                <DialogDescription>
+                  Fill in the details below to start planning your perfect party.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <label htmlFor="title" className="text-right">
+                    Title
+                  </label>
+                  <Input
+                    id="title"
+                    value={newPlan.title}
+                    onChange={(e) => setNewPlan({...newPlan, title: e.target.value})}
+                    className="col-span-3"
+                    placeholder="e.g., Sarah's Birthday Bash"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <label htmlFor="date" className="text-right">
+                    Date
+                  </label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={newPlan.date}
+                    onChange={(e) => setNewPlan({...newPlan, date: e.target.value})}
+                    className="col-span-3"
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <label htmlFor="description" className="text-right">
+                    Description
+                  </label>
+                  <Textarea
+                    id="description"
+                    value={newPlan.description}
+                    onChange={(e) => setNewPlan({...newPlan, description: e.target.value})}
+                    className="col-span-3"
+                    placeholder="Describe your party theme, special requirements, etc."
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button 
+                  onClick={handleCreatePlan}
+                  disabled={!newPlan.title.trim()}
+                >
+                  Create Plan
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Tips Section */}
