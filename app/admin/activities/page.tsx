@@ -7,10 +7,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Edit, Trash2, Plus, Search } from 'lucide-react';
+import { Edit, Trash2, Plus, Search, ChevronDown, ChevronUp } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ActivityDialog from '@/components/admin/ActivityDialog';
 import { MOCK_ACTIVITIES } from '@/lib/constants';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Activity {
   id: string;
@@ -33,7 +39,19 @@ export default function ActivityManagementPage() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [expandedActivity, setExpandedActivity] = useState<string | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const loadActivities = () => {
@@ -130,6 +148,10 @@ export default function ActivityManagementPage() {
     setIsDialogOpen(true);
   };
 
+  const toggleExpandActivity = (id: string) => {
+    setExpandedActivity(expandedActivity === id ? null : id);
+  };
+
   const filteredActivities = activityList.filter(a =>
     a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     a.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -144,14 +166,14 @@ export default function ActivityManagementPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">Activity Management</h1>
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold">Activity Management</h1>
         <Button
           onClick={() => {
             setEditingActivity(null);
             setIsDialogOpen(true);
           }}
-          className="bg-gradient-to-r from-purple-600 to-pink-600"
+          className="bg-gradient-to-r from-purple-600 to-pink-600 w-full md:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Activity
         </Button>
@@ -162,7 +184,7 @@ export default function ActivityManagementPage() {
           <CardTitle>Search and Filter</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <Input
@@ -173,7 +195,7 @@ export default function ActivityManagementPage() {
               />
             </div>
             <Select defaultValue="all">
-              <SelectTrigger className="w-[200px]">
+              <SelectTrigger className="w-full md:w-[200px]">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
               <SelectContent>
@@ -193,63 +215,167 @@ export default function ActivityManagementPage() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>City</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredActivities.length > 0 ? (
-                filteredActivities.map(activity => (
-                  <TableRow key={activity.id}>
-                    <TableCell className="font-medium">{activity.title}</TableCell>
-                    <TableCell>{activity.category?.name ?? ''}</TableCell>
-                    <TableCell>{activity.city}</TableCell>
-                    <TableCell>£{activity.price_from.toFixed(2)}</TableCell>
-                    <TableCell>
-                      <Badge variant={activity.status === 'active' ? 'default' : 'destructive'}>
-                        {activity.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right space-x-2">
+      {isMobileView ? (
+        <div className="space-y-4">
+          {filteredActivities.length > 0 ? (
+            filteredActivities.map(activity => (
+              <Card key={activity.id} className="relative">
+                <CardHeader 
+                  className="pb-2 cursor-pointer" 
+                  onClick={() => toggleExpandActivity(activity.id)}
+                >
+                  <div className="flex justify-between items-center">
+                    <CardTitle className="text-lg truncate">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>{activity.title}</span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>{activity.title}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </CardTitle>
+                    {expandedActivity === activity.id ? (
+                      <ChevronUp className="h-5 w-5" />
+                    ) : (
+                      <ChevronDown className="h-5 w-5" />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 text-sm">
+                    <Badge variant={activity.status === 'active' ? 'default' : 'destructive'}>
+                      {activity.status}
+                    </Badge>
+                    <span>£{activity.price_from.toFixed(2)}</span>
+                  </div>
+                </CardHeader>
+                {expandedActivity === activity.id && (
+                  <CardContent className="pt-0">
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      <div>
+                        <p className="text-sm text-muted-foreground">Category</p>
+                        <p>{activity.category?.name ?? '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Location</p>
+                        <p>{activity.city}</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-end space-x-2">
                       <Button
                         variant="ghost"
-                        size="icon"
-                        onClick={() => handleStartEdit(activity)}
-                        className="hover:bg-gray-100"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStartEdit(activity);
+                        }}
+                        className="text-blue-600"
                       >
-                        <Edit className="h-4 w-4 text-blue-600" />
+                        <Edit className="h-4 w-4 mr-1" /> Edit
                       </Button>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="text-red-500 hover:text-red-700"
-                        onClick={() => handleDelete(activity.id)}
+                        size="sm"
+                        className="text-red-500"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(activity.id);
+                        }}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 className="h-4 w-4 mr-1" /> Delete
                       </Button>
-                    </TableCell>
+                    </div>
+                  </CardContent>
+                )}
+              </Card>
+            ))
+          ) : (
+            <Card>
+              <CardContent className="h-24 flex items-center justify-center">
+                <p className="text-muted-foreground">No activities found</p>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            <div className="overflow-x-auto">
+              <Table className="min-w-[600px] md:min-w-full">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="min-w-[150px]">Title</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={6} className="h-24 text-center">
-                    No activities found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                </TableHeader>
+                <TableBody>
+                  {filteredActivities.length > 0 ? (
+                    filteredActivities.map(activity => (
+                      <TableRow key={activity.id}>
+                        <TableCell className="font-medium">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <span className="line-clamp-1">{activity.title}</span>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{activity.title}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </TableCell>
+                        <TableCell>
+                          {activity.category?.name ?? '-'}
+                        </TableCell>
+                        <TableCell>
+                          {activity.city}
+                        </TableCell>
+                        <TableCell>
+                          £{activity.price_from.toFixed(2)}
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={activity.status === 'active' ? 'default' : 'destructive'}>
+                            {activity.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-right space-x-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleStartEdit(activity)}
+                            className="hover:bg-gray-100"
+                          >
+                            <Edit className="h-4 w-4 text-blue-600" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() => handleDelete(activity.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell colSpan={6} className="h-24 text-center">
+                        No activities found
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       <ActivityDialog
         isOpen={isDialogOpen}
