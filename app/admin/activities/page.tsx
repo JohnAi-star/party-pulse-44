@@ -39,16 +39,16 @@ export default function ActivityManagementPage() {
     const loadActivities = () => {
       try {
         const savedActivities = localStorage.getItem('activities');
-        const initialActivities = savedActivities 
-          ? JSON.parse(savedActivities) 
+        const initialActivities = savedActivities
+          ? JSON.parse(savedActivities)
           : MOCK_ACTIVITIES.map(a => ({
-              ...a,
-              status: 'active',
-              category: { name: a.category },
-              location: { city: a.city },
-              city: a.city,
-              price_from: a.priceFrom || 0
-            }));
+            ...a,
+            status: 'active',
+            category: { name: a.category },
+            location: { city: a.city },
+            city: a.city,
+            price_from: a.priceFrom || 0
+          }));
 
         setActivityList(initialActivities);
       } catch (error) {
@@ -81,7 +81,7 @@ export default function ActivityManagementPage() {
   };
 
   const handleEditActivity = (updatedActivity: any) => {
-    const updatedActivities = activityList.map(activity => 
+    const updatedActivities = activityList.map(activity =>
       activity.id === updatedActivity.id ? {
         ...updatedActivity,
         status: 'active',
@@ -91,7 +91,7 @@ export default function ActivityManagementPage() {
         city: updatedActivity.city
       } : activity
     );
-    
+
     updateActivities(updatedActivities);
     toast({ title: "Success", description: "Activity updated successfully" });
   };
@@ -115,7 +115,7 @@ export default function ActivityManagementPage() {
 
   const handleDelete = (id: string) => {
     if (!confirm("Are you sure you want to delete this activity?")) return;
-    
+
     const updatedActivities = activityList.filter(a => a.id !== id);
     updateActivities(updatedActivities);
     toast({ title: "Success", description: "Activity deleted successfully" });
@@ -146,11 +146,11 @@ export default function ActivityManagementPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Activity Management</h1>
-        <Button 
+        <Button
           onClick={() => {
             setEditingActivity(null);
             setIsDialogOpen(true);
-          }} 
+          }}
           className="bg-gradient-to-r from-purple-600 to-pink-600"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Activity
@@ -228,9 +228,9 @@ export default function ActivityManagementPage() {
                       >
                         <Edit className="h-4 w-4 text-blue-600" />
                       </Button>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         className="text-red-500 hover:text-red-700"
                         onClick={() => handleDelete(activity.id)}
                       >
