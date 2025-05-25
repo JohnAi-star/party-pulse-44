@@ -4,8 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
-import { Menu, Search, X, PartyPopper, UserCircle2, Shield } from 'lucide-react';
+import { Menu, PartyPopper, UserCircle2, Shield, Gift, Search, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,10 +18,9 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import { useUser, SignInButton, SignOutButton, useClerk, SignUpButton } from "@clerk/nextjs";
-import { REGIONS, CITIES, MOCK_ACTIVITIES } from '@/lib/constants';
+import { MOCK_ACTIVITIES } from '@/lib/constants';
 
 const mainNavLinks = [
   { href: '/activities', label: 'Activities' },
@@ -43,97 +41,159 @@ const categoryNavLinks = [
 ];
 
 export default function Navbar() {
-  const [searchVisible, setSearchVisible] = useState(false);
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
-  const [isLeftSheetOpen, setIsLeftSheetOpen] = useState(false);
-  const [isTopSheetOpen, setIsTopSheetOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
   const isAdmin = user?.publicMetadata?.role === "admin";
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border">
-      {/* Main Navigation */}
-      <div className="container mx-auto px-4 flex h-16 items-center justify-between">
-        {/* Mobile menu button */}
-        <Sheet open={isLeftSheetOpen} onOpenChange={setIsLeftSheetOpen}>
-          <SheetTrigger asChild className="lg:hidden">
-            <Button variant="ghost" size="icon">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="w-[250px] sm:w-[300px]">
-            <nav className="flex flex-col gap-4 mt-8">
-              {mainNavLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-lg font-medium transition-colors hover:text-primary"
-                  onClick={() => setIsLeftSheetOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="border-t pt-4 mt-4">
-                {categoryNavLinks.map((link) => (
+      {/* Mobile Header */}
+      <div className="lg:hidden">
+        {/* Top Bar */}
+        <div className="container mx-auto px-4 flex h-16 items-center justify-between">
+          {/* Menu Button */}
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[350px]">
+              <nav className="flex flex-col gap-4 mt-8">
+                {mainNavLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="block py-2 text-lg font-medium transition-colors hover:text-primary"
-                    onClick={() => setIsLeftSheetOpen(false)}
+                    className="text-lg font-medium transition-colors hover:text-primary"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {link.label}
                   </Link>
                 ))}
-              </div>
-            </nav>
-          </SheetContent>
-        </Sheet>
+                <div className="border-t pt-4">
+                  {categoryNavLinks.map((link) => (
+                    <div key={link.href} className="mb-4">
+                      <NavigationMenu>
+                        <NavigationMenuList className="flex flex-col items-start">
+                          <NavigationMenuItem>
+                            <NavigationMenuTrigger 
+                              className="text-lg font-medium transition-colors hover:text-primary p-0 bg-transparent hover:bg-transparent data-[state=open]:bg-transparent justify-start w-full"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }}
+                            >
+                              {link.label}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent className="w-[280px] sm:w-[330px] max-h-[80vh] overflow-y-auto">
+                              <div className="p-3">
+                                <h3 className="font-bold text-lg mb-3">{link.label} Activities</h3>
+                                <div className="space-y-3">
+                                  {MOCK_ACTIVITIES
+                                    .filter(activity => activity.category === link.category)
+                                    .map((activity) => (
+                                      <Link
+                                        key={activity.id}
+                                        href={`/activities/${activity.id}`}
+                                        className="flex items-start gap-3 p-2 hover:bg-gray-100 rounded-md"
+                                        onClick={() => setIsMenuOpen(false)}
+                                      >
+                                        <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                                          <img
+                                            src={activity.image}
+                                            alt={activity.title}
+                                            className="object-cover w-full h-full"
+                                          />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                          <h3 className="font-medium text-sm truncate">{activity.title}</h3>
+                                          <p className="text-xs text-muted-foreground line-clamp-1">
+                                            {activity.description}
+                                          </p>
+                                          <p className="text-xs font-medium mt-1">
+                                            From £{activity.priceFrom}
+                                          </p>
+                                        </div>
+                                      </Link>
+                                    ))}
+                                </div>
+                                <Link
+                                  href={link.href}
+                                  className="block text-center mt-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md"
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  View All {link.label} Activities
+                                </Link>
+                              </div>
+                            </NavigationMenuContent>
+                          </NavigationMenuItem>
+                        </NavigationMenuList>
+                      </NavigationMenu>
+                    </div>
+                  ))}
+                </div>
+              </nav>
+            </SheetContent>
+          </Sheet>
 
-        {/* Logo */}
-        <div className="flex items-center">
+          {/* Logo */}
           <Link href="/" className="flex items-center">
             <PartyPopper className="h-6 w-6 text-primary mr-2" />
             <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 text-transparent bg-clip-text">
               Party Pulse
             </span>
           </Link>
+
+          {/* Search Button */}
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => setSearchOpen(!searchOpen)}
+          >
+            <Search className="h-5 w-5" />
+          </Button>
         </div>
 
-        {/* Desktop main nav */}
-        <nav className="hidden lg:flex items-center space-x-6">
-          {mainNavLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Search and Auth */}
-        <div className="flex items-center space-x-4">
-          <div>
-            <Link
-              href="/party-planning"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
-            >
-              Plan a Party
-            </Link>
+        {/* Search Bar */}
+        {searchOpen && (
+          <div className="px-4 py-2 bg-white border-t">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search for activities..."
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+              <button 
+                className="absolute right-3 top-2.5"
+                onClick={() => setSearchOpen(false)}
+              >
+                <X className="h-5 w-5 text-gray-500" />
+              </button>
+            </div>
           </div>
+        )}
+
+        {/* Bottom Navigation Bar */}
+        <div className="bg-black h-14 flex items-center justify-around px-2">
+          <Link
+            href="/party-planning"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 rounded-sm whitespace-nowrap"
+          >
+            <span className="block">Plan a</span>
+            <span className="block">Party</span>
+          </Link>
 
           {isSignedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  {isAdmin ? (
-                    <Shield className="h-5 w-5 text-purple-600" />
-                  ) : (
-                    <UserCircle2 className="h-5 w-5" />
-                  )}
+                <Button variant="ghost" className="text-white flex flex-col items-center justify-center h-full px-2">
+                  <UserCircle2 className="h-5 w-5" />
+                  <span className="text-xs mt-1">Account</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
@@ -168,82 +228,132 @@ export default function Navbar() {
           ) : (
             <>
               <SignInButton mode="modal">
-                <Button className='text-purple-600' variant="ghost" size="sm">
-                  Sign in
+                <Button variant="ghost" className="text-white flex flex-col items-center justify-center h-full px-2">
+                  <UserCircle2 className="h-5 w-5" />
+                  <span className="text-xs mt-1">Sign in</span>
                 </Button>
               </SignInButton>
-              <SignUpButton mode="modal">
-                <Button className='text-purple-600' variant="ghost" size="sm">
-                  Create New Account
-                </Button>
-              </SignUpButton>
             </>
           )}
+
+          <SignUpButton mode="modal">
+            <Button variant="ghost" className="text-white flex flex-col items-center justify-center h-full px-2">
+              <span className="text-xs">Create</span>
+              <span className="text-xs">Account</span>
+            </Button>
+          </SignUpButton>
+
+          <Link
+            href="/gift-cards"
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 rounded-sm whitespace-nowrap"
+          >
+            <Gift className="h-5 w-5" />
+            <span className="text-xs mt-1">Buy a Gift</span>
+          </Link>
         </div>
       </div>
 
-      {/* Category Navigation - Responsive */}
-      <div className="border-t bg-black h-16">
-        <div className="container mx-auto px-4 h-full flex items-center justify-between">
-          {/* Mobile dropdown (shown on small screens) */}
-          <div className="lg:hidden w-full">
-            <Sheet open={isTopSheetOpen} onOpenChange={setIsTopSheetOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" className="w-full justify-between text-white hover:bg-gray-800">
-                  <span>Browse Categories</span>
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="top" className="w-full h-[80vh] overflow-y-auto">
-                <div className="grid gap-4 py-4">
-                  {categoryNavLinks.map((link) => (
-                    <div key={link.href} className="space-y-2">
-                      <Link
-                        href={link.href}
-                        className="block text-lg font-medium hover:text-primary"
-                        onClick={() => setIsTopSheetOpen(false)}
-                      >
-                        {link.label}
-                      </Link>
-                      <div className="grid grid-cols-2 gap-3">
-                        {MOCK_ACTIVITIES
-                          .filter(activity => activity.category === link.category)
-                          .slice(0, 4)
-                          .map((activity) => (
-                            <Link
-                              key={activity.id}
-                              href={`/activities/${activity.id}`}
-                              className="flex flex-col gap-2 p-2 hover:bg-muted rounded-md"
-                              onClick={() => setIsTopSheetOpen(false)}
-                            >
-                              <div className="relative w-full aspect-square rounded-md overflow-hidden">
-                                <img
-                                  src={activity.image}
-                                  alt={activity.title}
-                                  className="object-cover w-full h-full"
-                                />
-                              </div>
-                              <h3 className="font-medium text-sm">{activity.title}</h3>
-                              <p className="text-sm font-medium">
-                                From £{activity.priceFrom}
-                              </p>
-                            </Link>
-                          ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+      {/* Desktop Header */}
+      <div className="hidden lg:block">
+        {/* Main Navigation */}
+        <div className="container mx-auto px-4 flex h-16 items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Link href="/" className="flex items-center">
+              <PartyPopper className="h-6 w-6 text-primary mr-2" />
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 text-transparent bg-clip-text">
+                Party Pulse
+              </span>
+            </Link>
           </div>
 
-          {/* Desktop navigation (shown on larger screens) */}
-          <div className="hidden lg:flex items-center justify-center w-full">
+          {/* Desktop main nav */}
+          <nav className="flex items-center space-x-6">
+            {mainNavLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium transition-colors hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Desktop Auth and Actions */}
+          <div className="flex items-center space-x-4">
+            <Link
+              href="/party-planning"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap"
+            >
+              Plan a Party
+            </Link>
+
+            {isSignedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="relative">
+                    {isAdmin ? (
+                      <Shield className="h-5 w-5 text-purple-600" />
+                    ) : (
+                      <UserCircle2 className="h-5 w-5" />
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem disabled className="flex flex-col items-start">
+                    <span className="font-medium">{user.fullName || user.emailAddresses[0].emailAddress}</span>
+                    <span className="text-xs text-muted-foreground">{user.primaryEmailAddress?.emailAddress}</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  {isAdmin && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin/activities" className="cursor-pointer">
+                        <Shield className="mr-2 h-4 w-4" />
+                        Admin Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem asChild>
+                    <Link href="/account" className="cursor-pointer">
+                      <UserCircle2 className="mr-2 h-4 w-4" />
+                      Account Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    className="cursor-pointer text-red-600 focus:text-red-600"
+                    onClick={() => signOut()}
+                  >
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <SignInButton mode="modal">
+                  <Button className='text-purple-600' variant="ghost" size="sm">
+                    Sign in
+                  </Button>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button className='text-purple-600' variant="ghost" size="sm">
+                    Create Account
+                  </Button>
+                </SignUpButton>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Categories Navigation - Desktop */}
+        <div className="border-t bg-black h-16">
+          <div className="container mx-auto px-4 h-full flex items-center justify-between">
             <NavigationMenu>
               <NavigationMenuList className="space-x-2">
                 {categoryNavLinks.map((link) => (
                   <NavigationMenuItem key={link.href}>
-                    <NavigationMenuTrigger className="bg-transparent flex items-center justify-center text-[1rem] text-white hover:bg-gray-800 mr-10 ml-4">
+                    <NavigationMenuTrigger className="bg-transparent flex items-center justify-center text-[1rem] text-white hover:bg-gray-800 ml-10">
                       {link.label}
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -289,15 +399,14 @@ export default function Navbar() {
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
-          </div>
 
-          {/* Book a Party Button */}
-          <Link
-            href="/gift-cards"
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
-          >
-            Buy a Gift
-          </Link>
+            <Link
+              href="/gift-cards"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4"
+            >
+              Buy a Gift
+            </Link>
+          </div>
         </div>
       </div>
     </header>
