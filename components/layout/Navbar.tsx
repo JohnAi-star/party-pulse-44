@@ -46,6 +46,8 @@ export default function Navbar() {
   const [searchVisible, setSearchVisible] = useState(false);
   const { isSignedIn, user } = useUser();
   const { signOut } = useClerk();
+  const [isLeftSheetOpen, setIsLeftSheetOpen] = useState(false);
+  const [isTopSheetOpen, setIsTopSheetOpen] = useState(false);
 
   const isAdmin = user?.publicMetadata?.role === "admin";
 
@@ -54,7 +56,7 @@ export default function Navbar() {
       {/* Main Navigation */}
       <div className="container mx-auto px-4 flex h-16 items-center justify-between">
         {/* Mobile menu button */}
-        <Sheet>
+        <Sheet open={isLeftSheetOpen} onOpenChange={setIsLeftSheetOpen}>
           <SheetTrigger asChild className="lg:hidden">
             <Button variant="ghost" size="icon">
               <Menu className="h-5 w-5" />
@@ -68,6 +70,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   className="text-lg font-medium transition-colors hover:text-primary"
+                  onClick={() => setIsLeftSheetOpen(false)}
                 >
                   {link.label}
                 </Link>
@@ -78,6 +81,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     className="block py-2 text-lg font-medium transition-colors hover:text-primary"
+                    onClick={() => setIsLeftSheetOpen(false)}
                   >
                     {link.label}
                   </Link>
@@ -112,7 +116,6 @@ export default function Navbar() {
 
         {/* Search and Auth */}
         <div className="flex items-center space-x-4">
-
           <div>
             <Link
               href="/party-planning"
@@ -184,7 +187,7 @@ export default function Navbar() {
         <div className="container mx-auto px-4 h-full flex items-center justify-between">
           {/* Mobile dropdown (shown on small screens) */}
           <div className="lg:hidden w-full">
-            <Sheet>
+            <Sheet open={isTopSheetOpen} onOpenChange={setIsTopSheetOpen}>
               <SheetTrigger asChild>
                 <Button variant="ghost" className="w-full justify-between text-white hover:bg-gray-800">
                   <span>Browse Categories</span>
@@ -198,6 +201,7 @@ export default function Navbar() {
                       <Link
                         href={link.href}
                         className="block text-lg font-medium hover:text-primary"
+                        onClick={() => setIsTopSheetOpen(false)}
                       >
                         {link.label}
                       </Link>
@@ -210,6 +214,7 @@ export default function Navbar() {
                               key={activity.id}
                               href={`/activities/${activity.id}`}
                               className="flex flex-col gap-2 p-2 hover:bg-muted rounded-md"
+                              onClick={() => setIsTopSheetOpen(false)}
                             >
                               <div className="relative w-full aspect-square rounded-md overflow-hidden">
                                 <img
@@ -293,7 +298,6 @@ export default function Navbar() {
           >
             Buy a Gift
           </Link>
-
         </div>
       </div>
     </header>
