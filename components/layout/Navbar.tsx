@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, PartyPopper, UserCircle2, Shield, Gift, Search, X } from 'lucide-react';
+import { Menu, PartyPopper, UserCircle2, Shield, Gift, Search, X, ChevronDown, ChevronUp } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,13 +12,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { useUser, SignInButton, SignOutButton, useClerk, SignUpButton } from "@clerk/nextjs";
 import { MOCK_ACTIVITIES } from '@/lib/constants';
 
@@ -45,9 +38,13 @@ export default function Navbar() {
   const { signOut } = useClerk();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
 
   const isAdmin = user?.publicMetadata?.role === "admin";
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategory(expandedCategory === category ? null : category);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-border">
@@ -78,62 +75,57 @@ export default function Navbar() {
                 <div className="border-t pt-4">
                   {categoryNavLinks.map((link) => (
                     <div key={link.href} className="mb-4">
-                      <NavigationMenu>
-                        <NavigationMenuList className="flex flex-col items-start">
-                          <NavigationMenuItem>
-                            <NavigationMenuTrigger 
-                              className="text-lg font-medium transition-colors hover:text-primary p-0 bg-transparent hover:bg-transparent data-[state=open]:bg-transparent justify-start w-full"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }}
-                            >
-                              {link.label}
-                            </NavigationMenuTrigger>
-                            <NavigationMenuContent className="w-[280px] sm:w-[330px] max-h-[80vh] overflow-y-auto">
-                              <div className="p-3">
-                                <h3 className="font-bold text-lg mb-3">{link.label} Activities</h3>
-                                <div className="space-y-3">
-                                  {MOCK_ACTIVITIES
-                                    .filter(activity => activity.category === link.category)
-                                    .map((activity) => (
-                                      <Link
-                                        key={activity.id}
-                                        href={`/activities/${activity.id}`}
-                                        className="flex items-start gap-3 p-2 hover:bg-gray-100 rounded-md"
-                                        onClick={() => setIsMenuOpen(false)}
-                                      >
-                                        <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
-                                          <img
-                                            src={activity.image}
-                                            alt={activity.title}
-                                            className="object-cover w-full h-full"
-                                          />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                          <h3 className="font-medium text-sm truncate">{activity.title}</h3>
-                                          <p className="text-xs text-muted-foreground line-clamp-1">
-                                            {activity.description}
-                                          </p>
-                                          <p className="text-xs font-medium mt-1">
-                                            From £{activity.priceFrom}
-                                          </p>
-                                        </div>
-                                      </Link>
-                                    ))}
-                                </div>
+                      <button
+                        className="flex items-center justify-between w-full text-lg font-medium"
+                        onClick={() => toggleCategory(link.category)}
+                      >
+                        {link.label}
+                        {expandedCategory === link.category ? (
+                          <ChevronUp className="h-5 w-5" />
+                        ) : (
+                          <ChevronDown className="h-5 w-5" />
+                        )}
+                      </button>
+                      {expandedCategory === link.category && (
+                        <div className="mt-2 pl-4">
+                          <div className="space-y-3">
+                            {MOCK_ACTIVITIES
+                              .filter(activity => activity.category === link.category)
+                              .map((activity) => (
                                 <Link
-                                  href={link.href}
-                                  className="block text-center mt-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md"
+                                  key={activity.id}
+                                  href={`/activities/${activity.id}`}
+                                  className="flex items-start gap-3 p-2 hover:bg-gray-100 rounded-md"
                                   onClick={() => setIsMenuOpen(false)}
                                 >
-                                  View All {link.label} Activities
+                                  <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                                    <img
+                                      src={activity.image}
+                                      alt={activity.title}
+                                      className="object-cover w-full h-full"
+                                    />
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <h3 className="font-medium text-sm">{activity.title}</h3>
+                                    <p className="text-xs text-muted-foreground line-clamp-1">
+                                      {activity.description}
+                                    </p>
+                                    <p className="text-xs font-medium mt-1">
+                                      From £{activity.priceFrom}
+                                    </p>
+                                  </div>
                                 </Link>
-                              </div>
-                            </NavigationMenuContent>
-                          </NavigationMenuItem>
-                        </NavigationMenuList>
-                      </NavigationMenu>
+                              ))}
+                            <Link
+                              href={link.href}
+                              className="block text-center mt-2 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md text-sm"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              View All {link.label} Activities
+                            </Link>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -349,56 +341,56 @@ export default function Navbar() {
         {/* Categories Navigation - Desktop */}
         <div className="border-t bg-black h-16">
           <div className="container mx-auto px-4 h-full flex items-center justify-between">
-            <NavigationMenu>
-              <NavigationMenuList className="space-x-2">
-                {categoryNavLinks.map((link) => (
-                  <NavigationMenuItem key={link.href}>
-                    <NavigationMenuTrigger className="bg-transparent flex items-center justify-center text-[1rem] text-white hover:bg-gray-800 ml-10">
-                      {link.label}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <div className="grid grid-cols-2 gap-3 p-4 w-[600px]">
+            <div className="flex items-center space-x-8">
+              {categoryNavLinks.map((link) => (
+                <div key={link.href} className="group relative">
+                  <button className="text-white hover:bg-gray-800 px-4 py-2 rounded-md transition-colors flex items-center">
+                    {link.label}
+                    <ChevronDown className="ml-1 h-4 w-4 group-hover:rotate-180 transition-transform" />
+                  </button>
+                  <div className="absolute left-0 mt-2 w-96 bg-white shadow-lg rounded-md z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                    <div className="p-4">
+                      <h3 className="font-bold text-lg mb-3">{link.label} Activities</h3>
+                      <div className="grid grid-cols-1 gap-3">
                         {MOCK_ACTIVITIES
                           .filter(activity => activity.category === link.category)
-                          .slice(0, 6)
+                          .slice(0, 3)
                           .map((activity) => (
                             <Link
                               key={activity.id}
                               href={`/activities/${activity.id}`}
-                              className="flex items-start gap-3 p-2 hover:bg-muted rounded-md"
+                              className="flex items-start gap-3 p-3 hover:bg-gray-100 rounded-md"
                             >
-                              <div className="relative w-20 h-20 rounded-md overflow-hidden flex-shrink-0">
+                              <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
                                 <img
                                   src={activity.image}
                                   alt={activity.title}
                                   className="object-cover w-full h-full"
                                 />
                               </div>
-                              <div>
-                                <h3 className="font-medium">{activity.title}</h3>
-                                <p className="text-sm text-muted-foreground line-clamp-2">
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-medium text-sm">{activity.title}</h3>
+                                <p className="text-xs text-muted-foreground line-clamp-1">
                                   {activity.description}
                                 </p>
-                                <p className="text-sm font-medium mt-1">
+                                <p className="text-xs font-medium mt-1">
                                   From £{activity.priceFrom}
                                 </p>
                               </div>
                             </Link>
                           ))}
-                        <div className="col-span-2 mt-2 text-center">
-                          <Link
-                            href={link.href}
-                            className="text-sm text-purple-600 hover:text-purple-700"
-                          >
-                            View all {link.label} activities →
-                          </Link>
-                        </div>
                       </div>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
+                      <Link
+                        href={link.href}
+                        className="block text-center mt-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md text-sm"
+                      >
+                        View All {link.label} Activities
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
 
             <Link
               href="/gift-cards"
