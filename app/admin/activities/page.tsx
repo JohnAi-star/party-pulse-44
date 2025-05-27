@@ -31,6 +31,9 @@ interface Activity {
   groupSize: string;
   image: string;
   rating: number;
+  subcategory?: string;
+  region?: string;
+  amenities?: string[];
 }
 
 export default function ActivityManagementPage() {
@@ -61,20 +64,27 @@ export default function ActivityManagementPage() {
           ? JSON.parse(savedActivities)
           : MOCK_ACTIVITIES.map(a => ({
             ...a,
+            id: a.id.toString(),
             status: 'active',
-            category: { name: a.category },
-            location: { city: a.city },
-            city: a.city,
-            price_from: a.priceFrom || 0
+            category: { name: a.category || '' },
+            location: { city: a.city || '' },
+            city: a.city || '',
+            price_from: a.priceFrom || 0,
+            rating: a.rating || 0,
+            subcategory: a.subcategory || '',
+            region: a.region || '',
+            amenities: 'amenities' in a ? (a as any).amenities || [] : []
           }));
 
         setActivityList(initialActivities);
+        updatePublicActivities(initialActivities);
       } catch (error) {
         toast({
           variant: "destructive",
           title: "Error",
           description: "Failed to load activities",
         });
+        setActivityList([]);
       } finally {
         setLoading(false);
       }
@@ -82,19 +92,45 @@ export default function ActivityManagementPage() {
     loadActivities();
   }, []);
 
+  const updatePublicActivities = (activities: Activity[]) => {
+    const publicActivities = activities.map(a => ({
+      id: a.id,
+      title: a.title,
+      description: a.description,
+      city: a.city,
+      priceFrom: a.price_from,
+      category: a.category?.name || '',
+      subcategory: a.subcategory || '',
+      region: a.region || '',
+      duration: a.duration,
+      groupSize: a.groupSize,
+      image: a.image,
+      rating: a.rating || 0,
+      amenities: a.amenities || []
+    }));
+    localStorage.setItem('publicActivities', JSON.stringify(publicActivities));
+  };
+
   const handleAddActivity = (newActivity: any) => {
     const activityToAdd = {
       ...newActivity,
       id: Math.random().toString(36).substr(2, 9),
       status: 'active',
-      price_from: parseFloat(newActivity.priceFrom),
-      category: { name: newActivity.category },
-      location: { city: newActivity.city },
-      city: newActivity.city
+      price_from: parseFloat(newActivity.priceFrom) || 0,
+      category: { name: newActivity.category || '' },
+      location: { city: newActivity.city || '' },
+      city: newActivity.city || '',
+      rating: parseFloat(newActivity.rating) || 0,
+      subcategory: newActivity.subcategory || '',
+      region: newActivity.region || '',
+      amenities: newActivity.amenities || []
     };
 
     const updatedActivities = [...activityList, activityToAdd];
-    updateActivities(updatedActivities);
+    setActivityList(updatedActivities);
+    localStorage.setItem('activities', JSON.stringify(updatedActivities));
+    updatePublicActivities(updatedActivities);
+    setIsDialogOpen(false);
     toast({ title: "Success", description: "Activity added successfully" });
   };
 
@@ -102,48 +138,42 @@ export default function ActivityManagementPage() {
     const updatedActivities = activityList.map(activity =>
       activity.id === updatedActivity.id ? {
         ...updatedActivity,
-        status: 'active',
-        price_from: parseFloat(updatedActivity.priceFrom),
-        category: { name: updatedActivity.category },
-        location: { city: updatedActivity.city },
-        city: updatedActivity.city
+        status: activity.status,
+        price_from: parseFloat(updatedActivity.priceFrom) || 0,
+        category: { name: updatedActivity.category || '' },
+        location: { city: updatedActivity.city || '' },
+        city: updatedActivity.city || '',
+        rating: parseFloat(updatedActivity.rating) || 0,
+        subcategory: updatedActivity.subcategory || '',
+        region: updatedActivity.region || '',
+        amenities: updatedActivity.amenities || []
       } : activity
     );
 
-    updateActivities(updatedActivities);
+    setActivityList(updatedActivities);
+    localStorage.setItem('activities', JSON.stringify(updatedActivities));
+    updatePublicActivities(updatedActivities);
+    setIsDialogOpen(false);
     toast({ title: "Success", description: "Activity updated successfully" });
-  };
-
-  const updateActivities = (activities: Activity[]) => {
-    setActivityList(activities);
-    localStorage.setItem('activities', JSON.stringify(activities));
-    localStorage.setItem('publicActivities', JSON.stringify(activities.map(a => ({
-      id: a.id,
-      title: a.title,
-      description: a.description,
-      city: a.city,
-      priceFrom: a.price_from,
-      category: a.category && a.category.name ? a.category.name : '',
-      duration: a.duration,
-      groupSize: a.groupSize,
-      image: a.image,
-      rating: a.rating
-    }))));
   };
 
   const handleDelete = (id: string) => {
     if (!confirm("Are you sure you want to delete this activity?")) return;
 
     const updatedActivities = activityList.filter(a => a.id !== id);
-    updateActivities(updatedActivities);
+    setActivityList(updatedActivities);
+    localStorage.setItem('activities', JSON.stringify(updatedActivities));
+    updatePublicActivities(updatedActivities);
     toast({ title: "Success", description: "Activity deleted successfully" });
   };
 
   const handleStartEdit = (activity: Activity) => {
     setEditingActivity({
       ...activity,
-      price_from: activity.price_from,
-      category: { name: activity.category?.name ?? '' }
+      category: { name: activity.category?.name || '' },
+      subcategory: activity.subcategory || '',
+      region: activity.region || '',
+      amenities: activity.amenities || []
     });
     setIsDialogOpen(true);
   };
@@ -155,7 +185,7 @@ export default function ActivityManagementPage() {
   const filteredActivities = activityList.filter(a =>
     a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     a.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    a.city.toLowerCase().includes(searchQuery.toLowerCase())
+    (a.city && a.city.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   if (loading) {
@@ -255,7 +285,7 @@ export default function ActivityManagementPage() {
                     <div className="grid grid-cols-2 gap-2 mb-3">
                       <div>
                         <p className="text-sm text-muted-foreground">Category</p>
-                        <p>{activity.category?.name ?? '-'}</p>
+                        <p>{activity.category?.name || '-'}</p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Location</p>
@@ -330,7 +360,7 @@ export default function ActivityManagementPage() {
                           </TooltipProvider>
                         </TableCell>
                         <TableCell>
-                          {activity.category?.name ?? '-'}
+                          {activity.category?.name || '-'}
                         </TableCell>
                         <TableCell>
                           {activity.city}

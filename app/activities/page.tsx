@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import ActivityFilters from '@/components/activities/ActivityFilters';
 import ActivityGrid from '@/components/activities/ActivityGrid';
@@ -9,18 +9,20 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Filter } from 'lucide-react';
 import { MOCK_ACTIVITIES } from '@/lib/constants';
 
-function calculateRelevanceScore(activity: any, searchQuery: string): number {
-  const searchTerms = searchQuery.toLowerCase().split(' ');
-  let score = 0;
-
-  searchTerms.forEach(term => {
-    if (activity.title.toLowerCase().includes(term)) score += 3;
-    if (activity.description.toLowerCase().includes(term)) score += 2;
-    if (activity.category.toLowerCase().includes(term)) score += 2;
-    if (activity.city.toLowerCase().includes(term)) score += 1;
-  });
-
-  return score;
+interface Activity {
+  id: string;
+  title: string;
+  description: string;
+  priceFrom: number;
+  city: string;
+  category: string;
+  subcategory?: string;
+  region?: string;
+  duration: string;
+  groupSize: string;
+  image: string;
+  rating: number;
+  amenities?: string[];
 }
 
 interface Filters {
@@ -43,7 +45,7 @@ export default function ActivitiesPage() {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get('search')?.toLowerCase() || '';
 
-  const [activities, setActivities] = useState(MOCK_ACTIVITIES);
+  const [allActivities, setAllActivities] = useState<Activity[]>([]);
   const [filters, setFilters] = useState<Filters>({
     searchQuery: searchQuery,
     category: null,
@@ -60,127 +62,154 @@ export default function ActivitiesPage() {
     availability: [],
   });
 
+  // Load activities once on component mount
+  useEffect(() => {
+    const loadActivities = () => {
+      try {
+        const savedActivities = localStorage.getItem('publicActivities');
+        const initialActivities = savedActivities
+          ? JSON.parse(savedActivities)
+          : MOCK_ACTIVITIES.map(a => ({
+              ...a,
+              id: a.id.toString(),
+              rating: a.rating || 0,
+              subcategory: a.subcategory || '',
+              region: a.region || '',
+              amenities: 'amenities' in a ? (a as any).amenities : []
+            }));
+        setAllActivities(initialActivities);
+      } catch (error) {
+        console.error("Failed to load activities", error);
+        setAllActivities(MOCK_ACTIVITIES);
+      }
+    };
+    loadActivities();
+  }, []);
+
   const normalizeString = (str: string) => {
     return str.toLowerCase().replace(/\s+/g, '-');
   };
 
   const matchesGroupSize = (activitySize: string, filterSize: string) => {
     if (!activitySize) return false;
-
     const activityLower = activitySize.toLowerCase();
     const filterLower = filterSize.toLowerCase();
 
-    if (filterLower === 'solo') {
-      return /1|solo|individual/.test(activityLower);
-    }
-    if (filterLower === 'small') {
-      return /2-4|small|few/.test(activityLower);
-    }
-    if (filterLower === 'medium') {
-      return /5-10|medium|several/.test(activityLower);
-    }
-    if (filterLower === 'large') {
-      return /10\+|large|many|group/.test(activityLower);
-    }
+    if (filterLower === 'solo') return /1|solo|individual/.test(activityLower);
+    if (filterLower === 'small') return /2-4|small|few/.test(activityLower);
+    if (filterLower === 'medium') return /5-10|medium|several/.test(activityLower);
+    if (filterLower === 'large') return /10\+|large|many|group/.test(activityLower);
     return false;
   };
 
   const matchesDuration = (activityDuration: string, filterDuration: string) => {
     if (!activityDuration) return false;
-
     const activityLower = activityDuration.toLowerCase();
     const filterLower = filterDuration.toLowerCase();
 
-    if (filterLower === '1h') {
-      return /1(\s)?h|1(\s)?hour|60(\s)?min/.test(activityLower);
-    }
-    if (filterLower === '1:30h') {
-      return /1:30(\s)?h|1\.5(\s)?h|1(\s)?h(\s)?30|90(\s)?min|1(\s)?hour(\s)?30/.test(activityLower);
-    }
-    if (filterLower === '2h') {
-      return /2(\s)?h|2(\s)?hour|120(\s)?min/.test(activityLower);
-    }
-    if (filterLower === '2:30h') {
-      return /2:30(\s)?h|2\.5(\s)?h|2(\s)?h(\s)?30|150(\s)?min|2(\s)?hour(\s)?30/.test(activityLower);
-    }
-    if (filterLower === '3h') {
-      return /3(\s)?h|3(\s)?hour|180(\s)?min/.test(activityLower);
-    }
-    if (filterLower === 'half-day') {
-      return /half(\s)?day|morning|afternoon|3-4(\s)?h|3-4(\s)?hour/.test(activityLower);
-    }
+    if (filterLower === '1h') return /1(\s)?h|1(\s)?hour|60(\s)?min/.test(activityLower);
+    if (filterLower === '1:30h') return /1:30(\s)?h|1\.5(\s)?h|1(\s)?h(\s)?30|90(\s)?min|1(\s)?hour(\s)?30/.test(activityLower);
+    if (filterLower === '2h') return /2(\s)?h|2(\s)?hour|120(\s)?min/.test(activityLower);
+    if (filterLower === '2:30h') return /2:30(\s)?h|2\.5(\s)?h|2(\s)?h(\s)?30|150(\s)?min|2(\s)?hour(\s)?30/.test(activityLower);
+    if (filterLower === '3h') return /3(\s)?h|3(\s)?hour|180(\s)?min/.test(activityLower);
+    if (filterLower === 'half-day') return /half(\s)?day|morning|afternoon|3-4(\s)?h|3-4(\s)?hour/.test(activityLower);
+    return false;
   };
 
-  useEffect(() => {
-    let filteredActivities = [...MOCK_ACTIVITIES];
+  const calculateRelevanceScore = (activity: Activity, query: string) => {
+    const searchTerms = query.toLowerCase().split(' ');
+    let score = 0;
+
+    searchTerms.forEach(term => {
+      if (activity.title.toLowerCase().includes(term)) score += 3;
+      if (activity.description.toLowerCase().includes(term)) score += 2;
+      if (activity.category.toLowerCase().includes(term)) score += 2;
+      if (activity.city.toLowerCase().includes(term)) score += 1;
+    });
+
+    return score;
+  };
+
+  // Use useMemo to compute filtered activities without causing re-renders
+  const filteredActivities = useMemo(() => {
+    let result = [...allActivities];
 
     if (searchQuery) {
-      const activitiesWithScores = filteredActivities.map(activity => ({
+      const activitiesWithScores = result.map(activity => ({
         ...activity,
         relevanceScore: calculateRelevanceScore(activity, searchQuery)
       }));
 
-      filteredActivities = activitiesWithScores
+      result = activitiesWithScores
         .filter(activity => activity.relevanceScore > 0)
         .sort((a, b) => b.relevanceScore - a.relevanceScore)
         .map(({ relevanceScore, ...activity }) => activity);
     }
 
     if (filters.category && filters.category !== "all") {
-      filteredActivities = filteredActivities.filter(activity => {
+      result = result.filter(activity => {
         if (!activity.category) return false;
         return normalizeString(activity.category) === filters.category;
       });
     }
 
     if (filters.subcategory && filters.subcategory !== "all") {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.subcategory &&
         normalizeString(activity.subcategory) === filters.subcategory
       );
     }
 
     if (filters.location && filters.location !== "all") {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.city &&
         normalizeString(activity.city) === filters.location
       );
     }
 
     if (filters.region && filters.region !== "all") {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.region &&
         normalizeString(activity.region) === filters.region
       );
     }
 
-    filteredActivities = filteredActivities.filter(activity =>
+    result = result.filter(activity =>
       activity.priceFrom >= filters.priceRange[0] &&
       activity.priceFrom <= filters.priceRange[1]
     );
 
     if (filters.groupSize && filters.groupSize !== "all") {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.groupSize &&
         matchesGroupSize(activity.groupSize, filters.groupSize!)
       );
     }
 
     if (filters.rating > 0) {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.rating >= filters.rating
       );
     }
 
     if (filters.duration && filters.duration !== "all") {
-      filteredActivities = filteredActivities.filter(activity =>
+      result = result.filter(activity =>
         activity.duration &&
         matchesDuration(activity.duration, filters.duration!)
       );
     }
 
-    setActivities(filteredActivities);
-  }, [searchQuery, filters]);
+    if (filters.amenities.length > 0) {
+      result = result.filter(activity =>
+        activity.amenities &&
+        filters.amenities.every(amenity => 
+          activity.amenities!.includes(amenity)
+        )
+      );
+    }
+
+    return result;
+  }, [allActivities, searchQuery, filters]);
 
   const updateFilters = (newFilters: Partial<Filters>) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
@@ -191,9 +220,9 @@ export default function ActivitiesPage() {
       <h1 className="text-3xl font-bold mb-2">Activities</h1>
       {searchQuery ? (
         <p className="text-muted-foreground mb-8">
-          {activities.length === 0
+          {filteredActivities.length === 0
             ? `No activities found for "${searchQuery}"`
-            : `Showing ${activities.length} results for "${searchQuery}"`}
+            : `Showing ${filteredActivities.length} results for "${searchQuery}"`}
         </p>
       ) : (
         <p className="text-muted-foreground mb-8">Find and book the perfect activity for your group</p>
@@ -229,10 +258,11 @@ export default function ActivitiesPage() {
         </div>
 
         <div className="lg:col-span-3">
-          {activities.length > 0 ? (
-            <ActivityGrid activities={activities.map(activity => ({
+          {filteredActivities.length > 0 ? (
+            <ActivityGrid activities={filteredActivities.map(activity => ({
               ...activity,
-              id: activity.id.toString()
+              subcategory: activity.subcategory ?? '',
+              region: activity.region ?? ''
             }))} />
           ) : (
             <div className="flex flex-col items-center justify-center h-64">
@@ -249,7 +279,8 @@ export default function ActivitiesPage() {
                   region: null,
                   groupSize: null,
                   duration: null,
-                  rating: 0
+                  rating: 0,
+                  amenities: []
                 })}
               >
                 Reset Filters

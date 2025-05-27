@@ -2167,6 +2167,54 @@ export const CATEGORIES = [
     image: 'https://images.pexels.com/photos/8613089/pexels-photo-8613089.jpeg',
     icon: 'snowflake',
     subcategories: ['Party Packages', 'Educational Activities', 'Sports & Games', 'Arts & Crafts', 'Entertainment']
+  },
+  {
+    id: 'Food & Drink',
+    title: 'Food & Drink',
+    description: 'Culinary experiences and tastings',
+    image: 'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg',
+    icon: 'utensils',
+    subcategories: ['Wine Tasting', 'Cooking Classes', 'Food Tours', 'Brewery Tours', 'Gourmet Experiences']
+  },
+  {
+    id: 'Adventure',
+    title: 'Adventure',
+    description: 'Thrilling outdoor and indoor activities',
+    image: 'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg',
+    icon: 'mountain',
+    subcategories: ['Hiking', 'Water Sports', 'Extreme Sports', 'Outdoor Adventures', 'Indoor Climbing']
+  },
+  {
+    id: 'Wellness',
+    title: 'Wellness',
+    description: 'Relaxation and rejuvenation activities',
+    image: 'https://images.pexels.com/photos/3825507/pexels-photo-3825507.jpeg',
+    icon: 'spa',
+    subcategories: ['Spa Days', 'Yoga Classes', 'Meditation Retreats', 'Fitness Sessions', 'Health Workshops']
+  },
+  {
+    id: 'Gaming',
+    title: 'Gaming',
+    description: 'Fun and competitive gaming experiences',
+    image: 'https://images.pexels.com/photos/5935232/pexels-photo-5935232.jpeg',
+    icon: 'gamepad',
+    subcategories: ['Escape Rooms', 'Virtual Reality', 'Board Games', 'Video Game Tournaments', 'Arcade Experiences']
+  },
+  {
+    id: 'Cultural',
+    title: 'Cultural',
+    description: 'Enriching cultural experiences and tours',
+    image: 'https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg',
+    icon: 'theater-masks',
+    subcategories: ['Art Tours', 'Historical Tours', 'Music Experiences', 'Dance Classes', 'Language Workshops']
+  },
+  {
+    id: 'Arts',
+    title: 'Arts',
+    description: 'Hands-on workshops and artistic activities',
+    image: 'https://images.pexels.com/photos/356147/pexels-photo-356147.jpeg',
+    icon: 'paint-brush',
+    subcategories: ['Painting Classes', 'Craft Workshops', 'Photography Tours', 'Writing Retreats', 'Sculpting Classes']
   }
 ];
 
@@ -2347,6 +2395,54 @@ export const CITIES = [
     image: 'https://images.pexels.com/photos/186461/pexels-photo-186461.jpeg',
     description: 'Northern Portuguese charm'
   },
+  {
+    id: 'valencia',
+    name: 'Valencia',
+    activities: 30,
+    region: 'spain',
+    image: 'https://images.pexels.com/photos/5949888/pexels-photo-5949888.jpeg',
+    description: 'Spanish coastal experiences'
+  },
+  {
+    id: 'ibiza',
+    name: 'Ibiza',
+    activities: 40,
+    region: 'spain',
+    image: 'https://images.pexels.com/photos/1812964/pexels-photo-1812964.jpeg',
+    description: 'Island adventures and nightlife'
+  },
+  {
+    id: 'munich',
+    name: 'Munich',
+    activities: 50,
+    region: 'germany',
+    image: 'https://images.pexels.com/photos/164336/pexels-photo-164336.jpeg',
+    description: 'Bavarian culture and activities'
+  },
+  {
+    id: 'hamburg',
+    name: 'Hamburg',
+    activities: 45,
+    region: 'germany',
+    image: 'https://images.pexels.com/photos/1797161/pexels-photo-1797161.jpeg',
+    description: 'Maritime city with vibrant harbor life'
+  },
+  {
+  id: 'rotterdam',
+  name: 'Rotterdam',
+  activities: 35,
+  region: 'netherlands',
+  image: 'https://images.pexels.com/photos/2499863/pexels-photo-2499863.jpeg',
+  description: 'Modern architecture and vibrant port city'
+},
+{
+    id: 'delft',
+    name: 'Delft',
+    activities: 35,
+    region: 'netherlands',
+    image: 'https://images.pexels.com/photos/7234219/pexels-photo-7234219.jpeg',
+    description: 'Historic Dutch city with canals and Delftware pottery'
+},
 ];
 
 export const REGIONS = [

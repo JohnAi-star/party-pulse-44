@@ -16,11 +16,11 @@ interface ActivityDialogProps {
   initialData?: any;
 }
 
-export default function ActivityDialog({ 
-  isOpen, 
-  onCloseAction, 
+export default function ActivityDialog({
+  isOpen,
+  onCloseAction,
   onSubmitAction,
-  initialData 
+  initialData
 }: ActivityDialogProps) {
   const [formData, setFormData] = useState({
     id: '',
@@ -67,7 +67,7 @@ export default function ActivityDialog({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const activityData = {
       ...formData,
       id: formData.id || Math.random().toString(36).substr(2, 9),
@@ -106,7 +106,7 @@ export default function ActivityDialog({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-2">
             <div className="space-y-2">
               <Label htmlFor="city">City *</Label>
               <Select
@@ -117,7 +117,7 @@ export default function ActivityDialog({
                 <SelectTrigger>
                   <SelectValue placeholder="Select city" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="h-48 overflow-y-auto">
                   {CITIES.map((city) => (
                     <SelectItem key={city.id} value={city.name}>
                       {city.name}
@@ -137,7 +137,7 @@ export default function ActivityDialog({
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="h-48 overflow-y-auto">
                   {CATEGORIES.map((category) => (
                     <SelectItem key={category.id} value={category.title}>
                       {category.title}
