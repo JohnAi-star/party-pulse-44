@@ -194,26 +194,7 @@ export default function ActivityDetails({
             </TabsContent>
 
             <TabsContent value="reviews" className="mt-6">
-              <ReviewList
-                reviews={[
-                  {
-                    id: '1',
-                    user: {
-                      id: '1',
-                      name: 'John Doe',
-                      avatar_url: '/path/to/avatar.jpg'
-                    },
-                    rating: 5,
-                    title: 'Amazing experience!',
-                    content: 'Had a fantastic time, would definitely recommend!',
-                    created_at: new Date().toISOString(),
-                    helpful: 12,
-                    verified: true,
-                    status: 'approved',
-                  },
-                ]}
-                onHelpful={() => { }}
-              />
+              <ReviewList />
               <div className="mt-8">
                 <ReviewForm onSubmit={() => { }} />
               </div>
@@ -254,8 +235,8 @@ export default function ActivityDetails({
                       <Card
                         key={pkg.id}
                         className={`cursor-pointer transition-colors ${selectedPackage === pkg.id
-                            ? 'border-purple-600'
-                            : 'hover:border-purple-600/50'
+                          ? 'border-purple-600'
+                          : 'hover:border-purple-600/50'
                           }`}
                         onClick={() => setSelectedPackage(pkg.id)}
                       >
