@@ -37,7 +37,7 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        let url = '/api/reviews';
+        let url = '/api/admin/reviews';
         const params = new URLSearchParams();
         
         if (activityId) {
