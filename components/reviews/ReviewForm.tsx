@@ -34,7 +34,7 @@ export default function ReviewForm({ activityId, onSubmit }: ReviewFormProps) {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/reviews', {
+      const response = await fetch('/api/admin/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
