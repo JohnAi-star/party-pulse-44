@@ -25,6 +25,7 @@ import SocialShare from './SocialShare';
 import { groupBookings } from '@/lib/api-client';
 import { useToast } from '@/hooks/use-toast';
 import ReviewList from '../reviews/ReviewList';
+import ReviewForm from '../reviews/ReviewForm';
 
 interface Activity {
   id: string;
@@ -46,6 +47,11 @@ interface Activity {
     postcode: string;
     coordinates: { lat: number; lng: number };
   };
+  reviews?: {
+    id: string;
+    rating: number;
+    status: string;
+  }[];
 }
 
 interface ClientActivityPageProps {
@@ -98,6 +104,16 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
       });
     }
   };
+
+  const calculateAverageRating = (reviews: any[]) => {
+    if (!reviews || reviews.length === 0) return 0;
+    const approvedReviews = reviews.filter(r => r.status === 'approved');
+    if (approvedReviews.length === 0) return 0;
+    const sum = approvedReviews.reduce((acc, review) => acc + review.rating, 0);
+    return (sum / approvedReviews.length).toFixed(1);
+  };
+
+  const approvedReviewsCount = activity.reviews?.filter(r => r.status === 'approved').length || 0;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -159,7 +175,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
           
           <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
 
-          {/* Add social sharing */}
+          {/* Social Sharing */}
           <div className="mb-6">
             <p className="text-sm text-muted-foreground mb-2">Share this activity:</p>
             <SocialShare 
@@ -176,7 +192,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
             </div>
             <div className="flex items-center">
               <Star className="h-4 w-4 text-yellow-400 mr-1" />
-              <span>{activity.rating} (42 reviews)</span>
+              <span>{calculateAverageRating(activity.reviews || [])} ({approvedReviewsCount} reviews)</span>
             </div>
             <div className="flex items-center">
               <Users className="h-4 w-4 text-muted-foreground mr-1" />
@@ -306,11 +322,47 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
             </TabsContent>
 
             <TabsContent value="reviews" className="mt-4">
-              <div className="text-center py-8">
-                {/* <p className="text-muted-foreground">Reviews coming soon!</p> */}
-                <ReviewList activityId={activity.id} showAll={false} />
-                <br />
-                <Link href='/reviews' className="text-muted-foreground w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-2 px-4 rounded-md whitespace-nowrap ml-4">Give Us Your Review! </Link>
+              <div className="space-y-8">
+                <ReviewList 
+                  activityId={activity.id}
+                  onHelpful={async (reviewId) => {
+                    try {
+                      const response = await fetch('/api/reviews/helpful', {
+                        method: 'POST',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ reviewId }),
+                      });
+                      
+                      if (!response.ok) {
+                        throw new Error('Failed to update helpful count');
+                      }
+                      
+                      toast({
+                        title: "Thank you!",
+                        description: "Your feedback has been recorded",
+                      });
+                    } catch (error) {
+                      toast({
+                        variant: "destructive",
+                        title: "Error",
+                        description: "Failed to submit helpful vote",
+                      });
+                    }
+                  }}
+                />
+                
+                <div className="mt-8">
+                  <h3 className="text-xl font-semibold mb-4">Share Your Experience</h3>
+                  <ReviewForm 
+                    activityId={activity.id} 
+                    onSubmit={() => {
+                      // Optional: You can implement a more efficient refresh here
+                      window.location.reload();
+                    }} 
+                  />
+                </div>
               </div>
             </TabsContent>
           </Tabs>

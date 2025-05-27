@@ -25,7 +25,6 @@ interface Review {
 
 interface ReviewListProps {
   activityId?: string;
-  reviews?: Review[];  
   showAll?: boolean;
   onHelpful?: (reviewId: string) => void;
 }
@@ -33,6 +32,7 @@ interface ReviewListProps {
 export default function ReviewList({ activityId, showAll = false, onHelpful }: ReviewListProps) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -59,6 +59,7 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
         setReviews(data);
       } catch (error) {
         console.error('Error fetching reviews:', error);
+        setError('Failed to load reviews. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -68,11 +69,41 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
   }, [activityId, showAll]);
 
   if (loading) {
-    return <div>Loading reviews...</div>;
+    return (
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <Card key={i}>
+            <CardContent className="p-6">
+              <div className="animate-pulse space-y-4">
+                <div className="flex items-center space-x-3">
+                  <div className="h-10 w-10 rounded-full bg-gray-200"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 w-32 bg-gray-200 rounded"></div>
+                    <div className="h-4 w-24 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-4 w-full bg-gray-200 rounded"></div>
+                  <div className="h-4 w-3/4 bg-gray-200 rounded"></div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500 py-4">{error}</div>;
   }
 
   if (reviews.length === 0) {
-    return <div className="text-center text-muted-foreground">No reviews yet</div>;
+    return (
+      <div className="text-center py-8 text-muted-foreground">
+        No reviews yet. Be the first to review!
+      </div>
+    );
   }
 
   return (
@@ -83,14 +114,14 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
                 <Avatar>
-                  <AvatarImage src={review.user.avatar_url} />
+                  <AvatarImage src={review.user?.avatar_url} />
                   <AvatarFallback>
-                    {review.user.name?.split(' ').map(n => n[0]).join('') || 'U'}
+                    {review.user?.name?.split(' ').map(n => n[0]).join('') || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold">{review.user.name}</span>
+                    <span className="font-semibold">{review.user?.name || 'Anonymous'}</span>
                     {review.verified && (
                       <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">
                         Verified Booking
@@ -100,7 +131,9 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
                       <span className={`text-xs px-2 py-0.5 rounded-full ${
                         review.status === 'approved' 
                           ? 'bg-green-100 text-green-800' 
-                          : 'bg-yellow-100 text-yellow-800'
+                          : review.status === 'rejected'
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-yellow-100 text-yellow-800'
                       }`}>
                         {review.status}
                       </span>
@@ -121,7 +154,7 @@ export default function ReviewList({ activityId, showAll = false, onHelpful }: R
                 </div>
               </div>
               <span className="text-sm text-muted-foreground">
-                {format(new Date(review.created_at), 'PP')}
+                {format(new Date(review.created_at), 'MMM d, yyyy')}
               </span>
             </div>
 
