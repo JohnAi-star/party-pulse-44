@@ -196,7 +196,7 @@ export default function ActivityDetails({
             <TabsContent value="reviews" className="mt-6">
               <ReviewList />
               <div className="mt-8">
-                <ReviewForm onSubmit={() => { }} />
+                <ReviewForm activityId={activity.id} onSubmitSuccess={() => { }} />
               </div>
             </TabsContent>
           </Tabs>

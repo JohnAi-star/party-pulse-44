@@ -357,7 +357,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                   <h3 className="text-xl font-semibold mb-4">Share Your Experience</h3>
                   <ReviewForm 
                     activityId={activity.id} 
-                    onSubmit={() => {
+                    onSubmitSuccess={() => {
                       // Optional: You can implement a more efficient refresh here
                       window.location.reload();
                     }} 
