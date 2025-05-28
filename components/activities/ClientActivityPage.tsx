@@ -130,8 +130,8 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
         <div className="lg:col-span-2">
           {/* Image Slider */}
           <div className="relative mb-6 rounded-lg overflow-hidden h-[400px]">
-            <Image 
-              src={images[currentImageIndex]} 
+            <Image
+              src={images[currentImageIndex]}
               alt={activity.title}
               className="object-cover"
               fill
@@ -139,17 +139,17 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
             />
             {images.length > 1 && (
               <>
-                <Button 
-                  variant="secondary" 
-                  size="icon" 
+                <Button
+                  variant="secondary"
+                  size="icon"
                   className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80"
                   onClick={prevImage}
                 >
                   <ChevronLeft />
                 </Button>
-                <Button 
-                  variant="secondary" 
-                  size="icon" 
+                <Button
+                  variant="secondary"
+                  size="icon"
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80"
                   onClick={nextImage}
                 >
@@ -157,8 +157,8 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                 </Button>
                 <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
                   {images.map((_, index) => (
-                    <div 
-                      key={index} 
+                    <div
+                      key={index}
                       className={`h-2 w-2 rounded-full ${index === currentImageIndex ? 'bg-white' : 'bg-white/50'}`}
                     />
                   ))}
@@ -172,13 +172,13 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
             <Badge variant="secondary">{activity.category}</Badge>
             <Badge variant="outline">{activity.subcategory}</Badge>
           </div>
-          
+
           <h1 className="text-3xl font-bold mb-2">{activity.title}</h1>
 
           {/* Social Sharing */}
           <div className="mb-6">
             <p className="text-sm text-muted-foreground mb-2">Share this activity:</p>
-            <SocialShare 
+            <SocialShare
               url={shareUrl}
               title={activity.title}
               description={activity.description}
@@ -212,10 +212,10 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
               <TabsTrigger value="location">Location</TabsTrigger>
               <TabsTrigger value="reviews">Reviews</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="description" className="mt-4">
               <p className="mb-6">{activity.description}</p>
-              
+
               <h3 className="text-lg font-semibold mb-4">Key Features</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                 {activity.features.map((feature, index) => (
@@ -265,7 +265,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                     ))}
                   </ul>
                 </div>
-                
+
                 <div>
                   <h3 className="text-lg font-semibold mb-3">Important Information</h3>
                   <ul className="list-disc list-inside space-y-2 text-muted-foreground">
@@ -279,7 +279,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                 <div>
                   <h3 className="text-lg font-semibold mb-3">Cancellation Policy</h3>
                   <p className="text-muted-foreground">
-                    Free cancellation up to 48 hours before the activity. 
+                    Free cancellation up to 48 hours before the activity.
                     Cancellations made within 48 hours of the activity are non-refundable.
                   </p>
                 </div>
@@ -323,7 +323,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
 
             <TabsContent value="reviews" className="mt-4">
               <div className="space-y-8">
-                <ReviewList 
+                <ReviewList
                   activityId={activity.id}
                   onHelpful={async (reviewId) => {
                     try {
@@ -334,11 +334,11 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                         },
                         body: JSON.stringify({ reviewId }),
                       });
-                      
+
                       if (!response.ok) {
                         throw new Error('Failed to update helpful count');
                       }
-                      
+
                       toast({
                         title: "Thank you!",
                         description: "Your feedback has been recorded",
@@ -352,15 +352,15 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                     }
                   }}
                 />
-                
+
                 <div className="mt-8">
                   <h3 className="text-xl font-semibold mb-4">Share Your Experience</h3>
-                  <ReviewForm 
-                    activityId={activity.id} 
-                    onSuccess={() => {
+                  <ReviewForm
+                    activityId={activity.id}
+                    onSubmitSuccess={() => {
                       // Optional: You can implement a more efficient refresh here
                       window.location.reload();
-                    }} 
+                    }}
                   />
                 </div>
               </div>
@@ -376,9 +376,9 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
                 <p className="text-2xl font-bold">From £{activity.priceFrom}</p>
                 <p className="text-sm text-muted-foreground">Price varies based on group size and date</p>
               </div>
-              
+
               {showGroupBooking ? (
-                <GroupBookingForm 
+                <GroupBookingForm
                   activityId={activity.id}
                   onSubmit={handleGroupBookingSubmit}
                   onCancel={() => setShowGroupBooking(false)}
@@ -406,8 +406,8 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
       {/* Related Activities */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">You May Also Like</h2>
-        <RelatedActivities 
-          currentActivityId={activity.id} 
+        <RelatedActivities
+          currentActivityId={activity.id}
           category={activity.category}
           city={activity.city}
         />
