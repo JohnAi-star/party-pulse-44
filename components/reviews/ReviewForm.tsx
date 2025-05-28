@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
@@ -12,18 +11,16 @@ import { useRouter } from 'next/navigation';
 
 interface ReviewFormProps {
   activityId: string;
-  onSubmitSuccess?: () => void;
+  onSuccess?: () => void;
 }
 
-export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
+export default function ReviewForm({ activityId, onSuccess }: ReviewFormProps) {
   const { getToken, isSignedIn } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,19 +36,10 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       return;
     }
 
-    if (rating === 0) {
-      toast({
-        variant: "destructive",
-        title: "Rating Required",
-        description: "Please select a star rating",
-      });
-      return;
-    }
-
-    setLoading(true);
-
     try {
+      setLoading(true);
       const token = await getToken();
+      
       const response = await fetch('/api/admin/reviews', {
         method: 'POST',
         headers: {
@@ -61,14 +49,14 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         body: JSON.stringify({
           activityId,
           rating,
-          title,
-          content,
+          comment
         }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to submit review');
+        throw new Error(result.error || 'Failed to submit review');
       }
 
       toast({
@@ -77,13 +65,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       });
 
       setRating(0);
-      setTitle('');
-      setContent('');
+      setComment('');
       
-      if (onSubmitSuccess) onSubmitSuccess();
-      
+      if (onSuccess) onSuccess();
+
     } catch (error: any) {
-      console.error('Review submission error:', error);
+      console.error('Submission error:', error);
       toast({
         variant: "destructive",
         title: "Submission Failed",
@@ -97,27 +84,24 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Share Your Experience</CardTitle>
+        <CardTitle>Write a Review</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Rating Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Rating *</label>
+            <label className="block text-sm font-medium">Rating *</label>
             <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((index) => (
+              {[1, 2, 3, 4, 5].map((star) => (
                 <button
-                  key={index}
+                  key={star}
                   type="button"
-                  className="focus:outline-none"
-                  onMouseEnter={() => setHoverRating(index)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => setRating(index)}
+                  onClick={() => setRating(star)}
                   disabled={loading}
+                  className="focus:outline-none"
                 >
                   <Star
                     className={`h-6 w-6 ${
-                      index <= (hoverRating || rating)
+                      star <= rating
                         ? 'text-yellow-400 fill-current'
                         : 'text-gray-300'
                     }`}
@@ -127,45 +111,27 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
             </div>
           </div>
 
-          {/* Title Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="title">
-              Title *
-            </label>
-            <Input
-              id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Summarize your experience"
-              required
-              minLength={5}
-              maxLength={100}
-              disabled={loading}
-            />
-          </div>
-
-          {/* Content Input */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="content">
-              Review *
+            <label htmlFor="comment" className="block text-sm font-medium">
+              Review Comment *
             </label>
             <Textarea
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Tell us about your experience..."
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Share your experience (minimum 20 characters)..."
               rows={4}
               required
               minLength={20}
-              maxLength={1000}
               disabled={loading}
+              className="min-h-[120px]"
             />
           </div>
 
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-            disabled={loading || rating === 0}
+            className="w-full"
+            disabled={loading || rating === 0 || comment.length < 20}
           >
             {loading ? 'Submitting...' : 'Submit Review'}
           </Button>
