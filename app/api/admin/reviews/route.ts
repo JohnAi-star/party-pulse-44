@@ -43,24 +43,35 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!body.comment || body.comment.length < 20) {
+    if (!body.title || body.title.trim().length < 5) {
       return NextResponse.json(
         { 
-          error: 'Comment must be at least 20 characters',
-          code: 'COMMENT_TOO_SHORT'
+          error: 'Title must be at least 5 characters',
+          code: 'TITLE_TOO_SHORT'
         },
         { status: 400 }
       );
     }
 
-    // Insert review with correct column names
+    if (!body.content || body.content.trim().length < 20) {
+      return NextResponse.json(
+        { 
+          error: 'Review content must be at least 20 characters',
+          code: 'CONTENT_TOO_SHORT'
+        },
+        { status: 400 }
+      );
+    }
+
+    // Insert review with proper field mapping
     const { data: review, error } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
         user_id: userId,
         rating: body.rating,
-        comment: body.comment,
+        title: body.title,
+        comment: body.content, // Using 'content' from frontend mapped to 'comment' in DB
         status: 'pending'
       })
       .select(`
@@ -68,9 +79,11 @@ export async function POST(req: Request) {
         activity_id,
         user_id,
         rating,
+        title,
         comment,
         status,
-        created_at
+        created_at,
+        profiles:user_id(name, avatar_url)
       `)
       .single();
 
@@ -113,6 +126,7 @@ export async function GET(req: Request) {
         activity_id,
         user_id,
         rating,
+        title,
         comment,
         status,
         created_at,
