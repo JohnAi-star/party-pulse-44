@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
 
-  // Immediate auth check
+  // 1. Basic Setup and Auth Check
   if (!userId) {
     return NextResponse.json(
       { error: 'Authentication required', code: 'UNAUTHORIZED' },
@@ -18,121 +18,72 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Parse and validate request
-    const body = await req.json().catch(() => null);
-    if (!body || typeof body !== 'object') {
+    // 2. Parse and Validate Request
+    const body = await req.json();
+    
+    if (!body.activityId || typeof body.activityId !== 'string') {
       return NextResponse.json(
-        { error: 'Invalid request body', code: 'INVALID_BODY' },
+        { error: 'Valid activityId is required', code: 'INVALID_ACTIVITY_ID' },
         { status: 400 }
       );
     }
 
-    // Strict validation
-    type StringRule = { type: 'string'; minLength?: number };
-    type NumberRule = { type: 'number'; min?: number; max?: number };
-    type FieldRule = StringRule | NumberRule;
+    // 3. Verify Activity Exists
+    const { data: activity, error: activityError } = await supabase
+      .from('activities')
+      .select('id')
+      .eq('id', body.activityId)
+      .single();
 
-    const requiredFields: Record<string, FieldRule> = {
-      activityId: { type: 'string', minLength: 1 },
-      rating: { type: 'number', min: 1, max: 5 },
-      title: { type: 'string', minLength: 5 },
-      content: { type: 'string', minLength: 20 }
-    };
-
-    const errors: string[] = [];
-    for (const [field, rules] of Object.entries(requiredFields)) {
-      if (typeof body[field] !== rules.type) {
-        errors.push(`${field} must be a ${rules.type}`);
-      } else if (
-        rules.type === 'string' &&
-        typeof rules.minLength === 'number' &&
-        typeof body[field] === 'string' &&
-        body[field].trim().length < rules.minLength
-      ) {
-        errors.push(`${field} must be at least ${rules.minLength} characters`);
-      } else if (
-        rules.type === 'number' &&
-        typeof rules.min === 'number' &&
-        body[field] < rules.min
-      ) {
-        errors.push(`${field} must be at least ${rules.min}`);
-      } else if (
-        rules.type === 'number' &&
-        typeof rules.max === 'number' &&
-        body[field] > rules.max
-      ) {
-        errors.push(`${field} must be at most ${rules.max}`);
-      }
-    }
-
-    if (errors.length > 0) {
+    if (activityError || !activity) {
       return NextResponse.json(
-        { error: 'Validation failed', details: errors, code: 'VALIDATION_ERROR' },
-        { status: 400 }
+        { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
+        { status: 404 }
       );
     }
 
-    // Ensure profile exists (with retry logic)
-    let profileExists = false;
-    let retries = 0;
-    const maxRetries = 2;
+    // 4. Handle User Profile
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .upsert(
+        { id: userId },
+        { onConflict: 'id' }
+      );
 
-    while (!profileExists && retries < maxRetries) {
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (error) throw error;
-      if (profile) {
-        profileExists = true;
-      } else {
-        // Create profile if missing
-        const { error: createError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
-            name: 'Anonymous',
-            created_at: new Date().toISOString()
-          });
-
-        if (!createError) profileExists = true;
-        retries++;
-      }
+    if (profileError) {
+      console.error('Profile error:', profileError);
+      throw profileError;
     }
 
-    if (!profileExists) {
-      throw new Error('Failed to verify/create user profile');
-    }
-
-    // Insert review with error isolation
-    const { data: review, error: insertError } = await supabase
+    // 5. Create Review
+    const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
         user_id: userId,
-        rating: body.rating,
-        title: body.title.trim(),
-        comment: body.content.trim(),
+        rating: body.rating || 3, // Default if not provided
+        title: body.title || 'My Review', // Default if not provided
+        comment: body.content || 'No content provided', // Default if not provided
         status: 'pending'
       })
-      .select()
+      .select(`
+        id,
+        activity_id,
+        user_id,
+        rating,
+        title,
+        comment,
+        status,
+        created_at
+      `)
       .single();
 
-    if (insertError) {
-      // Handle specific constraint violations
-      if (insertError.code === '23503') { // Foreign key violation
-        if (insertError.message.includes('activity_id')) {
-          throw new Error('Invalid activity ID');
-        }
-        if (insertError.message.includes('user_id')) {
-          throw new Error('User profile not found');
-        }
-      }
-      throw insertError;
+    if (reviewError) {
+      console.error('Review creation error:', reviewError);
+      throw reviewError;
     }
 
+    // 6. Success Response
     return NextResponse.json({
       success: true,
       data: {
@@ -148,20 +99,24 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    // Detailed error diagnostics
-    const errorInfo = {
+    // 7. Comprehensive Error Handling
+    console.error('API Error:', {
       message: error.message,
-      code: error.code || 'UNKNOWN_ERROR',
-      ...(process.env.NODE_ENV === 'development' && {
-        stack: error.stack,
-        details: error.details
-      })
-    };
+      code: error.code,
+      details: error.details,
+      hint: error.hint,
+      stack: error.stack
+    });
 
     return NextResponse.json(
       {
         error: 'Internal Server Error',
-        ...errorInfo
+        code: 'SERVER_ERROR',
+        message: error.message,
+        ...(process.env.NODE_ENV === 'development' && {
+          details: error.details,
+          hint: error.hint
+        })
       },
       { status: 500 }
     );
