@@ -21,86 +21,86 @@ export async function POST(req: Request) {
   }
 
   try {
-    const body = await req.json();
-    
-    // Validate request body
-    if (!body || typeof body !== 'object') {
+    // Parse and validate request body
+    let body;
+    try {
+      body = await req.json();
+      if (!body || typeof body !== 'object') {
+        throw new Error('Invalid request body');
+      }
+    } catch (e) {
       return NextResponse.json(
-        { error: 'Invalid request body', code: 'INVALID_BODY' },
+        { error: 'Invalid JSON', code: 'INVALID_JSON' },
         { status: 400 }
       );
     }
 
     // Field validations
-    const validations = {
-      activityId: {
-        valid: typeof body.activityId === 'string' && body.activityId.trim().length > 0,
-        error: { error: 'Invalid Activity ID', code: 'INVALID_ACTIVITY_ID' }
-      },
-      rating: {
-        valid: typeof body.rating === 'number' && body.rating >= 1 && body.rating <= 5,
-        error: { error: 'Rating must be 1-5', code: 'INVALID_RATING' }
-      },
-      title: {
-        valid: typeof body.title === 'string' && body.title.trim().length >= 5,
-        error: { error: 'Title must be ≥5 chars', code: 'INVALID_TITLE' }
-      },
-      content: {
-        valid: typeof body.content === 'string' && body.content.trim().length >= 20,
-        error: { error: 'Content must be ≥20 chars', code: 'INVALID_CONTENT' }
-      }
-    };
+    const validationErrors = [];
+    if (!body.activityId || typeof body.activityId !== 'string') {
+      validationErrors.push('Missing or invalid activityId');
+    }
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      validationErrors.push('Rating must be between 1-5');
+    }
+    if (!body.title || typeof body.title !== 'string' || body.title.trim().length < 5) {
+      validationErrors.push('Title must be at least 5 characters');
+    }
+    if (!body.content || typeof body.content !== 'string' || body.content.trim().length < 20) {
+      validationErrors.push('Content must be at least 20 characters');
+    }
 
-    for (const [field, {valid, error}] of Object.entries(validations)) {
-      if (!valid) return NextResponse.json(error, { status: 400 });
+    if (validationErrors.length > 0) {
+      return NextResponse.json(
+        { 
+          error: 'Validation failed',
+          code: 'VALIDATION_ERROR',
+          details: validationErrors
+        },
+        { status: 400 }
+      );
     }
 
     // Prepare profile data
     const profileData = {
-      id: userId, // Using Clerk userId as primary key
+      id: userId,
       name: sessionClaims?.firstName || 'Anonymous',
       email: sessionClaims?.email || null,
       avatar_url: sessionClaims?.imageUrl || null,
       updated_at: new Date().toISOString()
     };
 
-    // Upsert user profile
+    // Upsert profile (create or update if exists)
     const { error: profileError } = await supabase
       .from('profiles')
-      .upsert(profileData, { onConflict: 'id' });
+      .upsert(profileData)
+      .eq('id', userId);
 
-    if (profileError) throw profileError;
+    if (profileError) {
+      console.error('Profile upsert error:', profileError);
+      throw new Error('Failed to create/update user profile');
+    }
 
     // Insert review
     const { data: review, error: insertError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
-        user_id: userId, // Directly using Clerk userId
+        user_id: userId,
         rating: body.rating,
         title: body.title.trim(),
         comment: body.content.trim(),
         status: 'pending'
       })
-      .select(`
-        id,
-        activity_id,
-        user_id,
-        rating,
-        title,
-        comment,
-        status,
-        created_at,
-        profiles:user_id(
-          id,
-          name,
-          avatar_url
-        )
-      `)
+      .select('*')
       .single();
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.error('Review insert error:', insertError);
+      throw new Error('Failed to create review');
+    }
 
+    // Successful response
     return NextResponse.json({
       success: true,
       data: {
@@ -111,87 +111,20 @@ export async function POST(req: Request) {
         title: review.title,
         content: review.comment,
         status: review.status,
-        createdAt: review.created_at,
-        user: review.profiles
+        createdAt: review.created_at
       }
     });
 
   } catch (error: any) {
-    console.error('Review submission error:', error);
+    console.error('API Route Error:', error);
     return NextResponse.json(
       { 
         error: 'Internal Server Error',
         code: 'SERVER_ERROR',
-        message: error.message
+        message: error.message || 'An unexpected error occurred',
+        // Include stack trace in development only
+        ...(process.env.NODE_ENV === 'development' && { stack: error.stack })
       },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(req: Request) {
-  const supabase = createRouteHandlerClient({ cookies });
-  const { searchParams } = new URL(req.url);
-
-  try {
-    const activityId = searchParams.get('activityId');
-    const status = searchParams.get('status') || 'approved';
-    const limit = Math.min(parseInt(searchParams.get('limit') || '10', 100));
-    const page = Math.max(parseInt(searchParams.get('page') || '1'), 1);
-
-    let query = supabase
-      .from('reviews')
-      .select(`
-        id,
-        activity_id,
-        user_id,
-        rating,
-        title,
-        comment,
-        status,
-        created_at,
-        profiles:user_id(
-          id,
-          name,
-          avatar_url
-        ),
-        count
-      `, { count: 'exact' })
-      .order('created_at', { ascending: false });
-
-    if (activityId) query = query.eq('activity_id', activityId);
-    if (status) query = query.eq('status', status);
-    query = query.range((page - 1) * limit, page * limit - 1);
-
-    const { data: reviews, error, count } = await query;
-
-    if (error) throw error;
-
-    return NextResponse.json({
-      success: true,
-      data: reviews?.map(review => ({
-        id: review.id,
-        activityId: review.activity_id,
-        userId: review.user_id,
-        rating: review.rating,
-        title: review.title,
-        content: review.comment,
-        status: review.status,
-        createdAt: review.created_at,
-        user: review.profiles
-      })) || [],
-      pagination: {
-        total: count || 0,
-        page,
-        pageSize: limit,
-        totalPages: Math.ceil((count || 0) / limit)
-      }
-    });
-
-  } catch (error: any) {
-    console.error('Review fetch error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch reviews', code: 'FETCH_ERROR' },
       { status: 500 }
     );
   }
