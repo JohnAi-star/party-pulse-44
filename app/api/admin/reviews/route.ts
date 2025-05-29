@@ -9,10 +9,8 @@ export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
 
-  console.log('Starting review submission for user:', userId); // Debug log
-
+  // Immediate auth check
   if (!userId) {
-    console.log('Unauthorized request - no userId');
     return NextResponse.json(
       { error: 'Authentication required', code: 'UNAUTHORIZED' },
       { status: 401 }
@@ -20,86 +18,121 @@ export async function POST(req: Request) {
   }
 
   try {
-    // Parse request body
-    let body;
-    try {
-      body = await req.json();
-      console.log('Received body:', JSON.stringify(body)); // Debug log
-    } catch (e) {
-      console.error('JSON parse error:', e);
+    // Parse and validate request
+    const body = await req.json().catch(() => null);
+    if (!body || typeof body !== 'object') {
       return NextResponse.json(
-        { error: 'Invalid JSON', code: 'INVALID_JSON' },
+        { error: 'Invalid request body', code: 'INVALID_BODY' },
         { status: 400 }
       );
     }
 
-    // Validate required fields
-    const validationErrors = [];
-    if (!body?.activityId) validationErrors.push('activityId is required');
-    if (!body?.rating || body.rating < 1 || body.rating > 5) validationErrors.push('rating must be 1-5');
-    if (!body?.title || body.title.trim().length < 5) validationErrors.push('title must be ≥5 characters');
-    if (!body?.content || body.content.trim().length < 20) validationErrors.push('content must be ≥20 characters');
+    // Strict validation
+    type StringRule = { type: 'string'; minLength?: number };
+    type NumberRule = { type: 'number'; min?: number; max?: number };
+    type FieldRule = StringRule | NumberRule;
 
-    if (validationErrors.length > 0) {
-      console.log('Validation errors:', validationErrors);
-      return NextResponse.json(
-        { error: 'Validation failed', details: validationErrors, code: 'VALIDATION_ERROR' },
-        { status: 400 }
-      );
-    }
+    const requiredFields: Record<string, FieldRule> = {
+      activityId: { type: 'string', minLength: 1 },
+      rating: { type: 'number', min: 1, max: 5 },
+      title: { type: 'string', minLength: 5 },
+      content: { type: 'string', minLength: 20 }
+    };
 
-    // Check if user exists in profiles table
-    console.log('Checking profile for user:', userId);
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('id', userId)
-      .maybeSingle();
-
-    if (profileError) {
-      console.error('Profile lookup error:', profileError);
-      throw profileError;
-    }
-
-    if (!profile) {
-      console.log('Creating new profile for user:', userId);
-      const { error: createError } = await supabase
-        .from('profiles')
-        .insert({
-          id: userId,
-          name: 'Anonymous',
-          created_at: new Date().toISOString()
-        });
-
-      if (createError) {
-        console.error('Profile creation failed:', createError);
-        throw new Error('Failed to create user profile: ' + createError.message);
+    const errors: string[] = [];
+    for (const [field, rules] of Object.entries(requiredFields)) {
+      if (typeof body[field] !== rules.type) {
+        errors.push(`${field} must be a ${rules.type}`);
+      } else if (
+        rules.type === 'string' &&
+        typeof rules.minLength === 'number' &&
+        typeof body[field] === 'string' &&
+        body[field].trim().length < rules.minLength
+      ) {
+        errors.push(`${field} must be at least ${rules.minLength} characters`);
+      } else if (
+        rules.type === 'number' &&
+        typeof rules.min === 'number' &&
+        body[field] < rules.min
+      ) {
+        errors.push(`${field} must be at least ${rules.min}`);
+      } else if (
+        rules.type === 'number' &&
+        typeof rules.max === 'number' &&
+        body[field] > rules.max
+      ) {
+        errors.push(`${field} must be at most ${rules.max}`);
       }
     }
 
-    // Prepare review data
-    const reviewData = {
-      activity_id: body.activityId,
-      user_id: userId,
-      rating: body.rating,
-      title: body.title.trim(),
-      comment: body.content.trim(),
-      status: 'pending'
-    };
+    if (errors.length > 0) {
+      return NextResponse.json(
+        { error: 'Validation failed', details: errors, code: 'VALIDATION_ERROR' },
+        { status: 400 }
+      );
+    }
 
-    console.log('Inserting review:', reviewData);
+    // Ensure profile exists (with retry logic)
+    let profileExists = false;
+    let retries = 0;
+    const maxRetries = 2;
+
+    while (!profileExists && retries < maxRetries) {
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (error) throw error;
+      if (profile) {
+        profileExists = true;
+      } else {
+        // Create profile if missing
+        const { error: createError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            name: 'Anonymous',
+            created_at: new Date().toISOString()
+          });
+
+        if (!createError) profileExists = true;
+        retries++;
+      }
+    }
+
+    if (!profileExists) {
+      throw new Error('Failed to verify/create user profile');
+    }
+
+    // Insert review with error isolation
     const { data: review, error: insertError } = await supabase
       .from('reviews')
-      .insert(reviewData)
+      .insert({
+        activity_id: body.activityId,
+        user_id: userId,
+        rating: body.rating,
+        title: body.title.trim(),
+        comment: body.content.trim(),
+        status: 'pending'
+      })
       .select()
       .single();
 
     if (insertError) {
-      console.error('Review insertion failed:', insertError);
-      throw new Error('Failed to create review: ' + insertError.message);
+      // Handle specific constraint violations
+      if (insertError.code === '23503') { // Foreign key violation
+        if (insertError.message.includes('activity_id')) {
+          throw new Error('Invalid activity ID');
+        }
+        if (insertError.message.includes('user_id')) {
+          throw new Error('User profile not found');
+        }
+      }
+      throw insertError;
     }
 
-    console.log('Review created successfully:', review.id);
     return NextResponse.json({
       success: true,
       data: {
@@ -115,13 +148,20 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error('API Route Error:', error);
+    // Detailed error diagnostics
+    const errorInfo = {
+      message: error.message,
+      code: error.code || 'UNKNOWN_ERROR',
+      ...(process.env.NODE_ENV === 'development' && {
+        stack: error.stack,
+        details: error.details
+      })
+    };
+
     return NextResponse.json(
-      { 
+      {
         error: 'Internal Server Error',
-        message: error.message,
-        code: 'SERVER_ERROR',
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        ...errorInfo
       },
       { status: 500 }
     );
