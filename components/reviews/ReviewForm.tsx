@@ -25,6 +25,38 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({
+    content: '',
+    rating: '',
+    title: ''
+  });
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = {
+      content: '',
+      rating: '',
+      title: ''
+    };
+
+    if (rating === 0) {
+      newErrors.rating = 'Please select a rating';
+      valid = false;
+    }
+
+    if (title.length < 5) {
+      newErrors.title = 'Title must be at least 5 characters';
+      valid = false;
+    }
+
+    if (content.length < 20) {
+      newErrors.content = 'Review must be at least 20 characters';
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,12 +71,8 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       return;
     }
 
-    if (rating === 0) {
-      toast({
-        variant: "destructive",
-        title: "Rating Required",
-        description: "Please select a star rating",
-      });
+    // Validate form before submission
+    if (!validateForm()) {
       return;
     }
 
@@ -79,6 +107,11 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       setRating(0);
       setTitle('');
       setContent('');
+      setErrors({
+        content: '',
+        rating: '',
+        title: ''
+      });
       
       if (onSubmitSuccess) onSubmitSuccess();
       
@@ -112,7 +145,10 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
                   className="focus:outline-none"
                   onMouseEnter={() => setHoverRating(index)}
                   onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => setRating(index)}
+                  onClick={() => {
+                    setRating(index);
+                    setErrors(prev => ({...prev, rating: ''}));
+                  }}
                   disabled={loading}
                 >
                   <Star
@@ -125,6 +161,9 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
                 </button>
               ))}
             </div>
+            {errors.rating && (
+              <p className="text-sm text-red-500">{errors.rating}</p>
+            )}
           </div>
 
           {/* Title Input */}
@@ -135,13 +174,19 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
             <Input
               id="title"
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setErrors(prev => ({...prev, title: ''}));
+              }}
               placeholder="Summarize your experience"
               required
               minLength={5}
               maxLength={100}
               disabled={loading}
             />
+            {errors.title && (
+              <p className="text-sm text-red-500">{errors.title}</p>
+            )}
           </div>
 
           {/* Content Input */}
@@ -152,7 +197,10 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
             <Textarea
               id="content"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={(e) => {
+                setContent(e.target.value);
+                setErrors(prev => ({...prev, content: ''}));
+              }}
               placeholder="Tell us about your experience..."
               rows={4}
               required
@@ -160,6 +208,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               maxLength={1000}
               disabled={loading}
             />
+            {errors.content && (
+              <p className="text-sm text-red-500">{errors.content}</p>
+            )}
+            <p className="text-xs text-muted-foreground">
+              Minimum 20 characters ({content.length}/20)
+            </p>
           </div>
 
           <Button
