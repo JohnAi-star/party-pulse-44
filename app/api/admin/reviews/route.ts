@@ -6,10 +6,12 @@ import { cookies } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
+  console.log('Review submission initiated');
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
 
   if (!userId) {
+    console.log('Unauthorized request - no userId');
     return NextResponse.json(
       { error: 'Authentication required', code: 'UNAUTHORIZED' },
       { status: 401 }
@@ -17,50 +19,62 @@ export async function POST(req: Request) {
   }
 
   try {
+    console.log('Parsing request body');
     const body = await req.json();
-    
+    console.log('Request body:', JSON.stringify(body));
+
     // Basic validation
     if (!body?.activityId || typeof body.activityId !== 'string') {
+      console.log('Invalid activityId:', body?.activityId);
       return NextResponse.json(
         { error: 'Valid activityId is required', code: 'INVALID_ACTIVITY_ID' },
         { status: 400 }
       );
     }
 
-    // Create review directly (let DB handle constraints)
+    console.log('Attempting to create review for activity:', body.activityId);
+    
+    // Create review with error handling
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
         user_id: userId,
-        rating: body.rating || 3, // Default value
-        title: body.title || 'My Review', // Default value
-        comment: body.content || 'No content provided', // Default value
+        rating: body.rating || 3,
+        title: body.title || 'My Review',
+        comment: body.content || 'No content provided',
         status: 'pending'
       })
-      .select(`
-        id,
-        activity_id,
-        user_id,
-        rating,
-        title,
-        comment,
-        status,
-        created_at
-      `)
+      .select()
       .single();
 
     if (reviewError) {
-      // Handle specific foreign key violation
+      console.error('Supabase error:', {
+        code: reviewError.code,
+        message: reviewError.message,
+        details: reviewError.details,
+        hint: reviewError.hint
+      });
+
+      // Handle specific error cases
       if (reviewError.code === '23503') {
         return NextResponse.json(
-          { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
+          { error: 'Activity or user not found', code: 'RELATION_NOT_FOUND' },
           { status: 404 }
         );
       }
+
+      if (reviewError.code === '23502') {
+        return NextResponse.json(
+          { error: 'Missing required field', code: 'MISSING_REQUIRED_FIELD' },
+          { status: 400 }
+        );
+      }
+
       throw reviewError;
     }
 
+    console.log('Review created successfully:', review.id);
     return NextResponse.json({
       success: true,
       data: {
@@ -76,12 +90,22 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error('API Error:', error.message);
+    console.error('API Error:', {
+      message: error.message,
+      stack: error.stack,
+      ...(error.code && { code: error.code }),
+      ...(error.details && { details: error.details })
+    });
+
     return NextResponse.json(
       {
         error: 'Internal Server Error',
         code: 'SERVER_ERROR',
-        message: error.message
+        message: error.message,
+        ...(process.env.NODE_ENV === 'development' && {
+          details: error.details,
+          stack: error.stack
+        })
       },
       { status: 500 }
     );
