@@ -9,7 +9,6 @@ export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
 
-  // 1. Basic Setup and Auth Check
   if (!userId) {
     return NextResponse.json(
       { error: 'Authentication required', code: 'UNAUTHORIZED' },
@@ -18,52 +17,25 @@ export async function POST(req: Request) {
   }
 
   try {
-    // 2. Parse and Validate Request
     const body = await req.json();
     
-    if (!body.activityId || typeof body.activityId !== 'string') {
+    // Basic validation
+    if (!body?.activityId || typeof body.activityId !== 'string') {
       return NextResponse.json(
         { error: 'Valid activityId is required', code: 'INVALID_ACTIVITY_ID' },
         { status: 400 }
       );
     }
 
-    // 3. Verify Activity Exists
-    const { data: activity, error: activityError } = await supabase
-      .from('activities')
-      .select('id')
-      .eq('id', body.activityId)
-      .single();
-
-    if (activityError || !activity) {
-      return NextResponse.json(
-        { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
-        { status: 404 }
-      );
-    }
-
-    // 4. Handle User Profile
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .upsert(
-        { id: userId },
-        { onConflict: 'id' }
-      );
-
-    if (profileError) {
-      console.error('Profile error:', profileError);
-      throw profileError;
-    }
-
-    // 5. Create Review
+    // Create review directly (let DB handle constraints)
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
         user_id: userId,
-        rating: body.rating || 3, // Default if not provided
-        title: body.title || 'My Review', // Default if not provided
-        comment: body.content || 'No content provided', // Default if not provided
+        rating: body.rating || 3, // Default value
+        title: body.title || 'My Review', // Default value
+        comment: body.content || 'No content provided', // Default value
         status: 'pending'
       })
       .select(`
@@ -79,11 +51,16 @@ export async function POST(req: Request) {
       .single();
 
     if (reviewError) {
-      console.error('Review creation error:', reviewError);
+      // Handle specific foreign key violation
+      if (reviewError.code === '23503') {
+        return NextResponse.json(
+          { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
+          { status: 404 }
+        );
+      }
       throw reviewError;
     }
 
-    // 6. Success Response
     return NextResponse.json({
       success: true,
       data: {
@@ -99,24 +76,12 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    // 7. Comprehensive Error Handling
-    console.error('API Error:', {
-      message: error.message,
-      code: error.code,
-      details: error.details,
-      hint: error.hint,
-      stack: error.stack
-    });
-
+    console.error('API Error:', error.message);
     return NextResponse.json(
       {
         error: 'Internal Server Error',
         code: 'SERVER_ERROR',
-        message: error.message,
-        ...(process.env.NODE_ENV === 'development' && {
-          details: error.details,
-          hint: error.hint
-        })
+        message: error.message
       },
       { status: 500 }
     );
