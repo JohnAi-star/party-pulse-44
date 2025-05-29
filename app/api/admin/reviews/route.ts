@@ -7,11 +7,11 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
-  const { userId } = auth();
+  const { userId, sessionClaims } = auth();
 
   if (!userId) {
     return NextResponse.json(
-      {
+      { 
         error: 'Authentication required',
         code: 'UNAUTHORIZED',
         message: 'You must be signed in to submit a review'
@@ -22,11 +22,11 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.json();
-
+    
     // Validate request body structure
     if (!body || typeof body !== 'object') {
       return NextResponse.json(
-        {
+        { 
           error: 'Invalid request body',
           code: 'INVALID_BODY',
           message: 'Request body must be a valid JSON object'
@@ -36,75 +36,89 @@ export async function POST(req: Request) {
     }
 
     // Validate required fields with proper type checking
-    if (!body.activityId || typeof body.activityId !== 'string') {
-      return NextResponse.json(
-        {
-          error: 'Activity ID is required',
-          code: 'MISSING_ACTIVITY_ID',
-          message: 'A valid activity ID must be provided'
-        },
-        { status: 400 }
-      );
+    const requiredFields = [
+      { field: 'activityId', type: 'string', minLength: 1, message: 'Activity ID is required' },
+      { field: 'rating', type: 'number', min: 1, max: 5, message: 'Rating must be between 1-5' },
+      { field: 'title', type: 'string', minLength: 5, message: 'Title must be at least 5 characters' },
+      { field: 'content', type: 'string', minLength: 20, message: 'Review content must be at least 20 characters' }
+    ];
+
+    for (const { field, type, minLength, min, max, message } of requiredFields) {
+      if (!(field in body)) {
+        return NextResponse.json(
+          { error: 'Missing field', code: `MISSING_${field.toUpperCase()}`, message: `${field} is required` },
+          { status: 400 }
+        );
+      }
+
+      if (typeof body[field] !== type) {
+        return NextResponse.json(
+          { error: 'Invalid type', code: `INVALID_${field.toUpperCase()}_TYPE`, message: `${field} must be a ${type}` },
+          { status: 400 }
+        );
+      }
+
+      if (minLength !== undefined && body[field].trim().length < minLength) {
+        return NextResponse.json(
+          { error: message, code: `${field.toUpperCase()}_TOO_SHORT`, message },
+          { status: 400 }
+        );
+      }
+
+      if (min !== undefined && body[field] < min) {
+        return NextResponse.json(
+          { error: message, code: `${field.toUpperCase()}_TOO_LOW`, message },
+          { status: 400 }
+        );
+      }
+
+      if (max !== undefined && body[field] > max) {
+        return NextResponse.json(
+          { error: message, code: `${field.toUpperCase()}_TOO_HIGH`, message },
+          { status: 400 }
+        );
+      }
     }
 
-    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-      return NextResponse.json(
-        {
-          error: 'Invalid rating',
-          code: 'INVALID_RATING',
-          message: 'Rating must be a number between 1 and 5'
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!body.title || typeof body.title !== 'string' || body.title.trim().length < 5) {
-      return NextResponse.json(
-        {
-          error: 'Invalid title',
-          code: 'INVALID_TITLE',
-          message: 'Title must be at least 5 characters long'
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!body.content || typeof body.content !== 'string' || body.content.trim().length < 20) {
-      return NextResponse.json(
-        {
-          error: 'Invalid content',
-          code: 'INVALID_CONTENT',
-          message: 'Review content must be at least 20 characters long'
-        },
-        { status: 400 }
-      );
-    }
-
-    // Get the corresponding Supabase user ID from profiles table
+    // Get or create user profile
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('id')
       .eq('clerk_id', userId)
-      .single();
+      .maybeSingle();
 
-    if (profileError || !profile?.id) {
+    if (profileError) {
       console.error('Profile lookup error:', profileError);
-      return NextResponse.json(
-        {
-          error: 'User profile not found',
-          code: 'PROFILE_NOT_FOUND',
-          message: 'Could not find user profile information'
-        },
-        { status: 404 }
-      );
+      throw profileError;
     }
 
-    // Insert the review into the database
+    let userProfile = profile;
+    if (!userProfile) {
+      // Create new profile with Clerk user data
+      const { data: newProfile, error: createError } = await supabase
+        .from('profiles')
+        .insert({
+          clerk_id: userId,
+          name: sessionClaims?.firstName || 'Anonymous',
+          email: sessionClaims?.email || null,
+          avatar_url: sessionClaims?.imageUrl || null
+        })
+        .select('id')
+        .single();
+
+      if (createError) {
+        console.error('Profile creation error:', createError);
+        throw createError;
+      }
+      userProfile = newProfile;
+    }
+
+    // Insert review
     const { data: review, error: insertError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
-        user_id: profile.id,
+        user_id: userProfile.id,
         rating: body.rating,
         title: body.title.trim(),
         comment: body.content.trim(),
@@ -129,14 +143,7 @@ export async function POST(req: Request) {
 
     if (insertError) {
       console.error('Database insert error:', insertError);
-      return NextResponse.json(
-        {
-          error: 'Database error',
-          code: 'DATABASE_ERROR',
-          message: insertError.message
-        },
-        { status: 500 }
-      );
+      throw insertError;
     }
 
     return NextResponse.json({
@@ -155,11 +162,11 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error('Unexpected error:', error);
+    console.error('API Route Error:', error);
     return NextResponse.json(
-      {
+      { 
         error: 'Internal Server Error',
-        code: 'INTERNAL_ERROR',
+        code: 'SERVER_ERROR',
         message: error.message || 'An unexpected error occurred'
       },
       { status: 500 }
@@ -172,22 +179,13 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
 
   try {
+    // Validate and parse query parameters
     const activityId = searchParams.get('activityId');
     const status = searchParams.get('status') || 'approved';
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '10', 100));
+    const page = Math.max(parseInt(searchParams.get('page') || '1', 1));
 
-    // Validate limit parameter
-    if (isNaN(limit)) {
-      return NextResponse.json(
-        {
-          error: 'Invalid limit parameter',
-          code: 'INVALID_LIMIT',
-          message: 'Limit must be a valid number'
-        },
-        { status: 400 }
-      );
-    }
-
+    // Build query
     let query = supabase
       .from('reviews')
       .select(`
@@ -203,15 +201,16 @@ export async function GET(req: Request) {
           id,
           name,
           avatar_url
-        )
-      `)
+        ),
+        count
+      `, { count: 'exact' })
       .order('created_at', { ascending: false });
 
     if (activityId) query = query.eq('activity_id', activityId);
     if (status) query = query.eq('status', status);
-    if (limit) query = query.limit(limit);
+    if (limit) query = query.range((page - 1) * limit, page * limit - 1);
 
-    const { data: reviews, error } = await query;
+    const { data: reviews, error, count } = await query;
 
     if (error) {
       console.error('Database query error:', error);
@@ -220,7 +219,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       success: true,
-      data: reviews.map(review => ({
+      data: reviews?.map(review => ({
         id: review.id,
         activityId: review.activity_id,
         userId: review.user_id,
@@ -230,13 +229,19 @@ export async function GET(req: Request) {
         status: review.status,
         createdAt: review.created_at,
         user: review.profiles
-      }))
+      })) || [],
+      pagination: {
+        total: count || 0,
+        page,
+        pageSize: limit,
+        totalPages: Math.ceil((count || 0) / limit)
+      }
     });
 
   } catch (error: any) {
     console.error('Review fetch error:', error);
     return NextResponse.json(
-      {
+      { 
         error: 'Failed to fetch reviews',
         code: 'FETCH_ERROR',
         message: error.message || 'Error while fetching reviews'
