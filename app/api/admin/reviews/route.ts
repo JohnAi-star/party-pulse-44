@@ -69,33 +69,45 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3. Verify referenced entities exist
-    // Check user profile exists
+    // 3. Check if user profile exists, create if not
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('id')
       .eq('id', userId)
       .single();
 
-    if (profileError || !profile) {
-      return NextResponse.json(
-        { 
-          error: 'User profile not found', 
-          code: 'PROFILE_NOT_FOUND',
-          message: 'Please complete your profile before submitting reviews'
-        },
-        { status: 404 }
-      );
+    if (!profile) {
+      // Create basic profile if doesn't exist
+      const { error: createProfileError } = await supabase
+        .from('profiles')
+        .insert([{
+          id: userId,
+          name: 'Anonymous User',
+          avatar_url: null,
+          created_at: new Date().toISOString()
+        }]);
+
+      if (createProfileError) {
+        console.error('Profile creation error:', createProfileError);
+        return NextResponse.json(
+          { 
+            error: 'Profile creation failed', 
+            code: 'PROFILE_CREATION_FAILED',
+            message: 'Failed to create user profile'
+          },
+          { status: 500 }
+        );
+      }
     }
 
-    // Check activity exists
+    // 4. Check activity exists
     const { data: activity, error: activityError } = await supabase
       .from('activities')
       .select('id')
       .eq('id', body.activityId)
       .single();
 
-    if (activityError || !activity) {
+    if (!activity) {
       return NextResponse.json(
         { 
           error: 'Activity not found', 
@@ -106,7 +118,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 4. Create the review
+    // 5. Create the review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert([{
@@ -117,26 +129,11 @@ export async function POST(req: Request) {
         comment: body.content.trim(),
         status: 'pending'
       }])
-      .select(`
-        id,
-        activity_id,
-        user_id,
-        rating,
-        title,
-        comment,
-        status,
-        created_at
-      `)
+      .select()
       .single();
 
     if (reviewError) {
-      console.error('Database Insert Error:', {
-        code: reviewError.code,
-        message: reviewError.message,
-        details: reviewError.details,
-        hint: reviewError.hint
-      });
-
+      console.error('Review creation error:', reviewError);
       return NextResponse.json(
         {
           error: 'Database operation failed',
@@ -148,30 +145,10 @@ export async function POST(req: Request) {
       );
     }
 
-    if (!review) {
-      return NextResponse.json(
-        {
-          error: 'Review not created',
-          code: 'REVIEW_NOT_CREATED',
-          message: 'Your review couldn\'t be created'
-        },
-        { status: 500 }
-      );
-    }
-
-    // 5. Success response
+    // 6. Success response
     return NextResponse.json({
       success: true,
-      data: {
-        id: review.id,
-        activityId: review.activity_id,
-        userId: review.user_id,
-        rating: review.rating,
-        title: review.title,
-        content: review.comment,
-        status: review.status,
-        createdAt: review.created_at
-      }
+      data: review
     }, { status: 201 });
 
   } catch (error: any) {

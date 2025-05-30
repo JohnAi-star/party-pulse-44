@@ -62,7 +62,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     try {
       const token = await getToken();
-      const response = await fetch('/api/admin/reviews', {
+      const response = await fetch('/api/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -79,15 +79,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       const responseData = await response.json();
 
       if (!response.ok) {
-        let errorMessage = responseData.error || 'Failed to submit review';
-        
-        if (responseData.code === 'ACTIVITY_NOT_FOUND') {
-          errorMessage = "The activity doesn't exist. Please refresh the page.";
-        } else if (responseData.code === 'PROFILE_NOT_FOUND') {
-          errorMessage = "User profile not found. Please complete your profile first.";
+        if (responseData.code === 'PROFILE_NOT_FOUND') {
+          // Redirect to profile completion if profile doesn't exist
+          router.push('/complete-profile');
+          throw new Error('Please complete your profile first');
         }
-
-        throw new Error(errorMessage);
+        throw new Error(responseData.message || 'Failed to submit review');
       }
 
       toast({
