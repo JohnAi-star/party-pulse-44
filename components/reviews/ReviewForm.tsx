@@ -82,6 +82,8 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         throw new Error(errorData.error || 'Failed to submit review');
       }
 
+      const responseData = await response.json();
+
       toast({
         title: "Success!",
         description: "Your review has been submitted for approval",
@@ -98,7 +100,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Submission Failed",
-        description: error.message || "Please try again later",
+        description: error.message || "Database operation failed. Please try again later.",
       });
     } finally {
       setLoading(false);

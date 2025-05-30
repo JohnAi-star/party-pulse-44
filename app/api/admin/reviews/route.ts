@@ -59,14 +59,14 @@ export async function POST(req: Request) {
     // 5. Create review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
-      .insert({
+      .insert([{
         activity_id: activityId,
         user_id: userId,
         rating: body.rating,
         title: body.title.trim(),
         comment: body.content.trim(),
         status: 'pending'
-      })
+      }])
       .select(`
         id,
         activity_id,
@@ -98,7 +98,18 @@ export async function POST(req: Request) {
         {
           error: 'Database operation failed',
           code: 'DATABASE_ERROR',
-          message: reviewError.message
+          message: reviewError.message,
+          details: reviewError.details
+        },
+        { status: 500 }
+      );
+    }
+
+    if (!review) {
+      return NextResponse.json(
+        {
+          error: 'Review not created',
+          code: 'REVIEW_NOT_CREATED'
         },
         { status: 500 }
       );
