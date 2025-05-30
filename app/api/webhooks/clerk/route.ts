@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Error occured -- no svix headers', {
+    return new Response('Error occurred -- no svix headers', {
       status: 400
     });
   }
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error('Error verifying webhook:', err);
-    return new Response('Error occured', {
+    return new Response('Error occurred', {
       status: 400
     });
   }
@@ -54,21 +54,34 @@ export async function POST(req: Request) {
     }
 
     try {
-      const { data, error } = await supabase
+      // First check if profile exists
+      const { data: existingProfile } = await supabase
         .from('profiles')
-        .upsert({
-          id,
-          email,
-          name: [first_name, last_name].filter(Boolean).join(' '),
-          role: 'user',
-          clerk_id: id
-        })
-        .select()
+        .select('id')
+        .eq('id', id)
         .single();
 
-      if (error) throw error;
+      if (!existingProfile) {
+        // Create new profile if it doesn't exist
+        const { data, error } = await supabase
+          .from('profiles')
+          .upsert({
+            id,
+            email,
+            name: [first_name, last_name].filter(Boolean).join(' '),
+            role: 'user',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
 
-      return new Response(JSON.stringify(data), { status: 200 });
+        if (error) throw error;
+
+        return new Response(JSON.stringify(data), { status: 200 });
+      }
+
+      return new Response(JSON.stringify(existingProfile), { status: 200 });
     } catch (error) {
       console.error('Error upserting user profile:', error);
       return new Response('Error creating user profile', { status: 500 });
@@ -77,3 +90,9 @@ export async function POST(req: Request) {
 
   return new Response('Webhook received', { status: 200 });
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

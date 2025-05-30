@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useAuth } from '@clerk/nextjs';
+import { useAuth, useUser } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface ReviewFormProps {
   activityId: string;
@@ -16,9 +17,11 @@ interface ReviewFormProps {
 }
 
 export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
-  const { getToken, isSignedIn, userId } = useAuth();
+  const { isSignedIn, userId } = useAuth();
+  const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
+  const supabase = createClientComponentClient();
 
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -39,7 +42,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isSignedIn) {
+    if (!isSignedIn || !userId) {
       toast({
         variant: "destructive",
         title: "Sign In Required",
@@ -61,27 +64,43 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
     setLoading(true);
 
     try {
-      const token = await getToken();
-      const response = await fetch('/api/admin/reviews', {  // Updated endpoint
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          activityId,
+      // First, ensure user profile exists in Supabase
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (!profile) {
+        // Create profile if it doesn't exist
+        const { error: createError } = await supabase
+          .from('profiles')
+          .insert({
+            id: userId,
+            email: user?.emailAddresses[0].emailAddress,
+            name: user?.fullName || 'Anonymous',
+            role: 'user',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          });
+
+        if (createError) throw new Error('Failed to create user profile');
+      }
+
+      // Now create the review
+      const { error: reviewError } = await supabase
+        .from('reviews')
+        .insert({
+          activity_id: activityId,
+          user_id: userId,
           rating,
           title: title.trim(),
           content: content.trim(),
-        }),
-      });
+          status: 'pending',
+          created_at: new Date().toISOString()
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to submit review');
-      }
-
-      const responseData = await response.json();
+      if (reviewError) throw reviewError;
 
       toast({
         title: "Success!",
