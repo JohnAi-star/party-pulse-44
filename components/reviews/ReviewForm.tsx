@@ -11,14 +11,9 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface ReviewFormProps {
-  activityId: string;
+  activityId: string | number;
   onSubmitSuccess?: () => void;
 }
-
-// UUID validation function
-const isValidUUID = (uuid: string) => {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(uuid);
-};
 
 export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
   const { getToken, isSignedIn } = useAuth();
@@ -31,14 +26,11 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [formValid, setFormValid] = useState(false);
-  const [uuidValid, setUuidValid] = useState(false);
 
-  // Validate form whenever fields change
   useEffect(() => {
-    const isValid = isValidUUID(activityId);
-    setUuidValid(isValid);
+    const idValid = activityId !== undefined && activityId !== null && activityId !== '';
     setFormValid(
-      isValid &&
+      idValid &&
       rating > 0 &&
       title.trim().length >= 5 &&
       content.trim().length >= 20
@@ -55,15 +47,6 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         description: "Please sign in to submit a review",
       });
       router.push('/sign-in');
-      return;
-    }
-
-    if (!uuidValid) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Activity",
-        description: "The activity reference is invalid. Please try again or contact support.",
-      });
       return;
     }
 
@@ -94,10 +77,9 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to submit review');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit review');
       }
 
       toast({
@@ -105,7 +87,6 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         description: "Your review has been submitted for approval",
       });
 
-      // Reset form
       setRating(0);
       setTitle('');
       setContent('');
@@ -117,7 +98,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Submission Failed",
-        description: error.message || "An error occurred while submitting your review",
+        description: error.message || "Please try again later",
       });
     } finally {
       setLoading(false);
@@ -131,12 +112,6 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {!uuidValid && (
-            <div className="text-red-500 text-sm">
-              Warning: Activity reference appears invalid
-            </div>
-          )}
-
           {/* Rating Input */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Rating *</label>

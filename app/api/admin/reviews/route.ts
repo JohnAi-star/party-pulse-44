@@ -5,8 +5,6 @@ import { cookies } from 'next/headers';
 
 export const dynamic = 'force-dynamic';
 
-const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
 export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
@@ -23,19 +21,20 @@ export async function POST(req: Request) {
     // 2. Parse request body
     const body = await req.json();
     
-    // 3. Validate activityId format
-    if (!body?.activityId || typeof body.activityId !== 'string' || !UUID_REGEX.test(body.activityId)) {
+    // 3. Validate required fields
+    if (body.activityId === undefined || body.activityId === null) {
       return NextResponse.json(
-        { 
-          error: 'Invalid activity ID format',
-          code: 'INVALID_UUID_FORMAT',
-          message: 'Activity ID must be a valid UUID v4 format'
-        },
+        { error: 'Activity ID is required', code: 'MISSING_ACTIVITY_ID' },
         { status: 400 }
       );
     }
 
-    // 4. Validate required fields
+    // Convert ID to string if it's a number
+    const activityId = typeof body.activityId === 'number' 
+      ? body.activityId.toString()
+      : body.activityId;
+
+    // 4. Validate other fields
     if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
       return NextResponse.json(
         { error: 'Rating must be between 1 and 5', code: 'INVALID_RATING' },
@@ -61,7 +60,7 @@ export async function POST(req: Request) {
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
-        activity_id: body.activityId,
+        activity_id: activityId,
         user_id: userId,
         rating: body.rating,
         title: body.title.trim(),
@@ -82,21 +81,17 @@ export async function POST(req: Request) {
 
     // 6. Handle database errors
     if (reviewError) {
-      console.error('Database Error:', reviewError);
+      console.error('Database Error:', {
+        code: reviewError.code,
+        message: reviewError.message,
+        details: reviewError.details
+      });
 
       if (reviewError.code === '23503') {
-        if (reviewError.message.includes('activity_id')) {
-          return NextResponse.json(
-            { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
-            { status: 404 }
-          );
-        }
-        if (reviewError.message.includes('user_id')) {
-          return NextResponse.json(
-            { error: 'User profile not found', code: 'PROFILE_NOT_FOUND' },
-            { status: 404 }
-          );
-        }
+        return NextResponse.json(
+          { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
+          { status: 404 }
+        );
       }
 
       return NextResponse.json(
@@ -125,7 +120,11 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error('API Route Error:', error);
+    console.error('API Route Error:', {
+      message: error.message,
+      stack: error.stack
+    });
+
     return NextResponse.json(
       {
         error: 'Internal Server Error',
