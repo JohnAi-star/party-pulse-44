@@ -7,11 +7,11 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
-  const { userId } = auth();
+  const { userId: clerkUserId } = auth();
 
   try {
     // 1. Authentication check
-    if (!userId) {
+    if (!clerkUserId) {
       return NextResponse.json(
         { error: 'Authentication required', code: 'UNAUTHORIZED' },
         { status: 401 }
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     
     // 3. Validate required fields
-    if (body.activityId === undefined || body.activityId === null) {
+    if (body.activityId === undefined || body.activityId === null || body.activityId === '') {
       return NextResponse.json(
         { error: 'Activity ID is required', code: 'MISSING_ACTIVITY_ID' },
         { status: 400 }
@@ -56,12 +56,42 @@ export async function POST(req: Request) {
       );
     }
 
-    // 5. Create review
+    // 5. Check if activity exists
+    const { data: activity, error: activityError } = await supabase
+      .from('activities')
+      .select('id')
+      .eq('id', activityId)
+      .single();
+
+    if (activityError || !activity) {
+      console.error('Activity not found:', { activityId, error: activityError });
+      return NextResponse.json(
+        { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
+        { status: 404 }
+      );
+    }
+
+    // 6. Check if user profile exists
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', clerkUserId)
+      .single();
+
+    if (profileError || !profile) {
+      console.error('User profile not found:', { clerkUserId, error: profileError });
+      return NextResponse.json(
+        { error: 'User profile not found. Please complete your profile first.', code: 'USER_PROFILE_NOT_FOUND' },
+        { status: 404 }
+      );
+    }
+
+    // 7. Create review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert([{
         activity_id: activityId,
-        user_id: userId,
+        user_id: clerkUserId,
         rating: body.rating,
         title: body.title.trim(),
         comment: body.content.trim(),
@@ -79,20 +109,13 @@ export async function POST(req: Request) {
       `)
       .single();
 
-    // 6. Handle database errors
+    // 8. Handle database errors
     if (reviewError) {
       console.error('Database Error:', {
         code: reviewError.code,
         message: reviewError.message,
         details: reviewError.details
       });
-
-      if (reviewError.code === '23503') {
-        return NextResponse.json(
-          { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
-          { status: 404 }
-        );
-      }
 
       return NextResponse.json(
         {
@@ -106,6 +129,7 @@ export async function POST(req: Request) {
     }
 
     if (!review) {
+      console.error('Review not created despite successful insert');
       return NextResponse.json(
         {
           error: 'Review not created',
@@ -115,7 +139,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // 7. Success response
+    // 9. Success response
     return NextResponse.json({
       success: true,
       data: {
