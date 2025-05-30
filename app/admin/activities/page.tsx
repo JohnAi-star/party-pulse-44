@@ -17,6 +17,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Activity {
   id: string;
@@ -39,6 +40,7 @@ interface Activity {
 export default function ActivityManagementPage() {
   const [activityList, setActivityList] = useState<Activity[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingActivity, setEditingActivity] = useState<Activity | null>(null);
@@ -183,27 +185,63 @@ export default function ActivityManagementPage() {
   };
 
   const filteredActivities = activityList.filter(a =>
-    a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     a.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (a.city && a.city.toLowerCase().includes(searchQuery.toLowerCase()))
+    (a.city && a.city.toLowerCase().includes(searchQuery.toLowerCase()))) &&
+    (categoryFilter === 'all' || a.category?.name === categoryFilter)
+  );
+
+  const uniqueCategories = Array.from(
+    new Set(
+      activityList
+        .filter(a => a.category && a.category.name)
+        .map(a => a.category.name)
+    )
   );
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600"></div>
-    </div>;
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+          <Skeleton className="h-8 w-48" />
+          <Skeleton className="h-10 w-full md:w-40" />
+        </div>
+        
+        <Card className="mb-8">
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-10 w-full md:w-64" />
+          </CardContent>
+        </Card>
+        
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <Card key={i}>
+              <CardContent className="p-6 space-y-4">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-4 w-1/3" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold">Activity Management</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">Activity Management</h1>
         <Button
           onClick={() => {
             setEditingActivity(null);
             setIsDialogOpen(true);
           }}
-          className="bg-gradient-to-r from-purple-600 to-pink-600 w-full md:w-auto"
+          className="w-full md:w-auto bg-primary hover:bg-primary/90"
         >
           <Plus className="h-4 w-4 mr-2" /> Add Activity
         </Button>
@@ -211,7 +249,7 @@ export default function ActivityManagementPage() {
 
       <Card className="mb-8">
         <CardHeader>
-          <CardTitle>Search and Filter</CardTitle>
+          <CardTitle className="text-lg">Search and Filter</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col md:flex-row gap-4">
@@ -224,19 +262,16 @@ export default function ActivityManagementPage() {
                 className="pl-10 w-full"
               />
             </div>
-            <Select defaultValue="all">
+            <Select 
+              value={categoryFilter}
+              onValueChange={setCategoryFilter}
+            >
               <SelectTrigger className="w-full md:w-[200px]">
                 <SelectValue placeholder="Filter by category" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
-                {Array.from(
-                  new Set(
-                    activityList
-                      .filter(a => a.category && a.category.name)
-                      .map(a => a.category.name)
-                  )
-                ).map(category => (
+                {uniqueCategories.map(category => (
                   <SelectItem key={category} value={category}>{category}</SelectItem>
                 ))}
               </SelectContent>
@@ -249,65 +284,63 @@ export default function ActivityManagementPage() {
         <div className="space-y-4">
           {filteredActivities.length > 0 ? (
             filteredActivities.map(activity => (
-              <Card key={activity.id} className="relative">
+              <Card key={activity.id} className="relative overflow-hidden transition-shadow hover:shadow-md">
                 <CardHeader 
                   className="pb-2 cursor-pointer" 
                   onClick={() => toggleExpandActivity(activity.id)}
                 >
                   <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg truncate">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span>{activity.title}</span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>{activity.title}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                    <CardTitle className="text-lg line-clamp-1">
+                      {activity.title}
                     </CardTitle>
                     {expandedActivity === activity.id ? (
-                      <ChevronUp className="h-5 w-5" />
+                      <ChevronUp className="h-5 w-5 text-gray-500" />
                     ) : (
-                      <ChevronDown className="h-5 w-5" />
+                      <ChevronDown className="h-5 w-5 text-gray-500" />
                     )}
                   </div>
                   <div className="flex items-center gap-2 text-sm">
                     <Badge variant={activity.status === 'active' ? 'default' : 'destructive'}>
                       {activity.status}
                     </Badge>
-                    <span>£{activity.price_from.toFixed(2)}</span>
+                    <span className="font-medium">£{activity.price_from.toFixed(2)}</span>
                   </div>
                 </CardHeader>
                 {expandedActivity === activity.id && (
-                  <CardContent className="pt-0">
-                    <div className="grid grid-cols-2 gap-2 mb-3">
+                  <CardContent className="pt-0 border-t">
+                    <div className="grid grid-cols-2 gap-4 mb-4">
                       <div>
                         <p className="text-sm text-muted-foreground">Category</p>
-                        <p>{activity.category?.name || '-'}</p>
+                        <p className="font-medium">{activity.category?.name || '-'}</p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Location</p>
-                        <p>{activity.city}</p>
+                        <p className="font-medium">{activity.city}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Duration</p>
+                        <p className="font-medium">{activity.duration || '-'}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-muted-foreground">Group Size</p>
+                        <p className="font-medium">{activity.groupSize || '-'}</p>
                       </div>
                     </div>
                     <div className="flex justify-end space-x-2">
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleStartEdit(activity);
                         }}
-                        className="text-blue-600"
                       >
                         <Edit className="h-4 w-4 mr-1" /> Edit
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="outline"
                         size="sm"
-                        className="text-red-500"
+                        className="text-red-500 border-red-500 hover:bg-red-50"
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDelete(activity.id);
@@ -322,8 +355,19 @@ export default function ActivityManagementPage() {
             ))
           ) : (
             <Card>
-              <CardContent className="h-24 flex items-center justify-center">
+              <CardContent className="h-40 flex flex-col items-center justify-center gap-2">
+                <Search className="h-8 w-8 text-gray-400" />
                 <p className="text-muted-foreground">No activities found</p>
+                <Button 
+                  variant="ghost" 
+                  size="sm"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setCategoryFilter('all');
+                  }}
+                >
+                  Clear filters
+                </Button>
               </CardContent>
             </Card>
           )}
@@ -332,13 +376,13 @@ export default function ActivityManagementPage() {
         <Card>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
-              <Table className="min-w-[600px] md:min-w-full">
+              <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="min-w-[150px]">Title</TableHead>
+                    <TableHead className="min-w-[200px]">Title</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead>Location</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead className="whitespace-nowrap">Price (from)</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -346,7 +390,7 @@ export default function ActivityManagementPage() {
                 <TableBody>
                   {filteredActivities.length > 0 ? (
                     filteredActivities.map(activity => (
-                      <TableRow key={activity.id}>
+                      <TableRow key={activity.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
                         <TableCell className="font-medium">
                           <TooltipProvider>
                             <Tooltip>
@@ -373,30 +417,45 @@ export default function ActivityManagementPage() {
                             {activity.status}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleStartEdit(activity)}
-                            className="hover:bg-gray-100"
-                          >
-                            <Edit className="h-4 w-4 text-blue-600" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-red-500 hover:text-red-700"
-                            onClick={() => handleDelete(activity.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end space-x-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleStartEdit(activity)}
+                              className="text-primary hover:bg-primary/10"
+                            >
+                              <Edit className="h-4 w-4 mr-1" /> Edit
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-red-500 hover:bg-red-500/10"
+                              onClick={() => handleDelete(activity.id)}
+                            >
+                              <Trash2 className="h-4 w-4 mr-1" /> Delete
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={6} className="h-24 text-center">
-                        No activities found
+                      <TableCell colSpan={6} className="h-40 text-center">
+                        <div className="flex flex-col items-center justify-center gap-2 py-8">
+                          <Search className="h-8 w-8 text-gray-400" />
+                          <p className="text-muted-foreground">No activities found</p>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => {
+                              setSearchQuery('');
+                              setCategoryFilter('all');
+                            }}
+                          >
+                            Clear filters
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
                   )}
