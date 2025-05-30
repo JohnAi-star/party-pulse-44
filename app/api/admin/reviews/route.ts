@@ -75,7 +75,7 @@ export async function POST(req: Request) {
         user_id: userId,
         rating: body.rating,
         title: body.title?.trim(),
-        comment: body.content?.trim(),
+        content: body.content?.trim(),
         status: 'pending'
       })
       .select()
@@ -130,7 +130,7 @@ export async function GET(req: Request) {
         user_id,
         rating,
         title,
-        comment,
+        content,
         status,
         created_at,
         profiles:user_id(
@@ -157,7 +157,7 @@ export async function GET(req: Request) {
         userId: review.user_id,
         rating: review.rating,
         title: review.title,
-        content: review.comment,
+        content: review.content,
         status: review.status,
         createdAt: review.created_at,
         user: review.profiles
