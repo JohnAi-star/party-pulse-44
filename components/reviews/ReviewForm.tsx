@@ -16,7 +16,7 @@ interface ReviewFormProps {
 }
 
 export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
-  const { getToken, isSignedIn, userId: clerkUserId } = useAuth();
+  const { getToken, isSignedIn } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -40,7 +40,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isSignedIn || !clerkUserId) {
+    if (!isSignedIn) {
       toast({
         variant: "destructive",
         title: "Sign In Required",
@@ -54,7 +54,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Validation Error",
-        description: "Please fill out all fields correctly (Title: min 5 chars, Review: min 20 chars)",
+        description: "Please fill out all fields correctly (review must be at least 20 characters)",
       });
       return;
     }
@@ -77,16 +77,9 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         }),
       });
 
-      const responseData = await response.json();
-
       if (!response.ok) {
-        if (responseData.code === 'ACTIVITY_NOT_FOUND') {
-          throw new Error('The activity you\'re reviewing doesn\'t exist');
-        } else if (responseData.code === 'USER_PROFILE_NOT_FOUND') {
-          throw new Error('Please complete your profile before submitting a review');
-        } else {
-          throw new Error(responseData.error || 'Failed to submit review. Please try again.');
-        }
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to submit review');
       }
 
       toast({
@@ -105,7 +98,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Submission Failed",
-        description: error.message || "An unexpected error occurred. Please try again.",
+        description: error.message || "Please try again later",
       });
     } finally {
       setLoading(false);
@@ -191,7 +184,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               <p className={`text-xs ml-auto ${
                 content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
               }`}>
-                {content.trim().length}/1000 characters
+                {content.trim().length}/20 characters
               </p>
             </div>
           </div>
