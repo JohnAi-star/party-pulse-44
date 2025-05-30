@@ -11,12 +11,12 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface ReviewFormProps {
-  activityId: string | number;
+  activityId: string;
   onSubmitSuccess?: () => void;
 }
 
 export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, userId } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -28,9 +28,8 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const [formValid, setFormValid] = useState(false);
 
   useEffect(() => {
-    const idValid = activityId !== undefined && activityId !== null && activityId !== '';
     setFormValid(
-      idValid &&
+      !!activityId &&
       rating > 0 &&
       title.trim().length >= 5 &&
       content.trim().length >= 20
@@ -54,7 +53,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Validation Error",
-        description: "Please fill out all fields correctly (review must be at least 20 characters)",
+        description: "Please fill out all fields correctly (Title: min 5 chars, Review: min 20 chars)",
       });
       return;
     }
@@ -77,16 +76,27 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         }),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to submit review');
+        let errorMessage = responseData.error || 'Failed to submit review';
+        
+        if (responseData.code === 'ACTIVITY_NOT_FOUND') {
+          errorMessage = "The activity doesn't exist. Please refresh the page.";
+        } else if (responseData.code === 'PROFILE_NOT_FOUND') {
+          errorMessage = "User profile not found. Please complete your profile first.";
+        }
+
+        throw new Error(errorMessage);
       }
 
       toast({
         title: "Success!",
         description: "Your review has been submitted for approval",
+        duration: 3000,
       });
 
+      // Reset form
       setRating(0);
       setTitle('');
       setContent('');
@@ -95,10 +105,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     } catch (error: any) {
       console.error('Review submission error:', error);
+      
       toast({
         variant: "destructive",
         title: "Submission Failed",
-        description: error.message || "Please try again later",
+        description: error.message || "An unexpected error occurred. Please try again.",
+        duration: 5000,
       });
     } finally {
       setLoading(false);
@@ -106,28 +118,29 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   };
 
   return (
-    <Card>
+    <Card className="max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle>Share Your Experience</CardTitle>
+        <CardTitle className="text-xl font-semibold">Share Your Experience</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Rating Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Rating *</label>
+            <label className="text-sm font-medium leading-none">Rating *</label>
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((index) => (
                 <button
                   key={index}
                   type="button"
-                  className="focus:outline-none"
+                  className="focus:outline-none transition-transform hover:scale-110"
                   onMouseEnter={() => setHoverRating(index)}
                   onMouseLeave={() => setHoverRating(0)}
                   onClick={() => setRating(index)}
                   disabled={loading}
+                  aria-label={`Rate ${index} star${index !== 1 ? 's' : ''}`}
                 >
                   <Star
-                    className={`h-6 w-6 ${
+                    className={`h-8 w-8 ${
                       index <= (hoverRating || rating)
                         ? 'text-yellow-400 fill-current'
                         : 'text-gray-300'
@@ -143,7 +156,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
           {/* Title Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="title">
+            <label className="text-sm font-medium leading-none" htmlFor="title">
               Title *
             </label>
             <Input
@@ -155,6 +168,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               minLength={5}
               maxLength={100}
               disabled={loading}
+              className="text-base"
             />
             {title.trim().length < 5 && title.length > 0 && (
               <p className="text-sm text-red-500">Title must be at least 5 characters</p>
@@ -163,7 +177,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
           {/* Content Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="content">
+            <label className="text-sm font-medium leading-none" htmlFor="content">
               Review *
             </label>
             <Textarea
@@ -171,30 +185,42 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="Tell us about your experience..."
-              rows={4}
+              rows={5}
               required
               minLength={20}
               maxLength={1000}
               disabled={loading}
+              className="text-base min-h-[120px]"
             />
-            <div className="flex justify-between">
+            <div className="flex justify-between items-center">
               {content.trim().length < 20 && content.length > 0 && (
                 <p className="text-sm text-red-500">Review must be at least 20 characters</p>
               )}
-              <p className={`text-xs ml-auto ${
+              <span className={`text-xs ml-auto ${
                 content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
               }`}>
-                {content.trim().length}/20 characters
-              </p>
+                {content.trim().length}/1000 characters
+              </span>
             </div>
           </div>
 
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-3 px-4 rounded-lg transition-all"
             disabled={loading || !formValid}
+            aria-disabled={loading || !formValid}
           >
-            {loading ? 'Submitting...' : 'Submit Review'}
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </span>
+            ) : (
+              'Submit Review'
+            )}
           </Button>
         </form>
       </CardContent>

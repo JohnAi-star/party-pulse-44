@@ -13,60 +13,110 @@ export async function POST(req: Request) {
     // 1. Authentication check
     if (!userId) {
       return NextResponse.json(
-        { error: 'Authentication required', code: 'UNAUTHORIZED' },
+        { 
+          error: 'Authentication required', 
+          code: 'UNAUTHORIZED',
+          message: 'You must be signed in to submit a review'
+        },
         { status: 401 }
       );
     }
 
-    // 2. Parse request body
+    // 2. Parse and validate request body
     const body = await req.json();
     
-    // 3. Validate required fields
-    if (body.activityId === undefined || body.activityId === null) {
+    if (!body.activityId) {
       return NextResponse.json(
-        { error: 'Activity ID is required', code: 'MISSING_ACTIVITY_ID' },
+        { 
+          error: 'Activity ID is required', 
+          code: 'MISSING_ACTIVITY_ID',
+          message: 'No activity specified for this review'
+        },
         { status: 400 }
       );
     }
 
-    // Convert ID to string if it's a number
-    const activityId = typeof body.activityId === 'number' 
-      ? body.activityId.toString()
-      : body.activityId;
-
-    // 4. Validate other fields
     if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
       return NextResponse.json(
-        { error: 'Rating must be between 1 and 5', code: 'INVALID_RATING' },
+        { 
+          error: 'Invalid rating value', 
+          code: 'INVALID_RATING',
+          message: 'Rating must be between 1 and 5 stars'
+        },
         { status: 400 }
       );
     }
 
     if (!body.title || body.title.trim().length < 5) {
       return NextResponse.json(
-        { error: 'Title must be at least 5 characters', code: 'INVALID_TITLE' },
+        { 
+          error: 'Title too short', 
+          code: 'INVALID_TITLE',
+          message: 'Review title must be at least 5 characters'
+        },
         { status: 400 }
       );
     }
 
     if (!body.content || body.content.trim().length < 20) {
       return NextResponse.json(
-        { error: 'Review content must be at least 20 characters', code: 'INVALID_CONTENT' },
+        { 
+          error: 'Review content too short', 
+          code: 'INVALID_CONTENT',
+          message: 'Review must be at least 20 characters'
+        },
         { status: 400 }
       );
     }
 
-    // 5. Create review
+    // 3. Verify referenced entities exist
+    // Check user profile exists
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', userId)
+      .single();
+
+    if (profileError || !profile) {
+      return NextResponse.json(
+        { 
+          error: 'User profile not found', 
+          code: 'PROFILE_NOT_FOUND',
+          message: 'Please complete your profile before submitting reviews'
+        },
+        { status: 404 }
+      );
+    }
+
+    // Check activity exists
+    const { data: activity, error: activityError } = await supabase
+      .from('activities')
+      .select('id')
+      .eq('id', body.activityId)
+      .single();
+
+    if (activityError || !activity) {
+      return NextResponse.json(
+        { 
+          error: 'Activity not found', 
+          code: 'ACTIVITY_NOT_FOUND',
+          message: 'The activity you\'re reviewing doesn\'t exist'
+        },
+        { status: 404 }
+      );
+    }
+
+    // 4. Create the review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
-      .insert({
-        activity_id: activityId,
+      .insert([{
+        activity_id: body.activityId,
         user_id: userId,
         rating: body.rating,
         title: body.title.trim(),
         comment: body.content.trim(),
         status: 'pending'
-      })
+      }])
       .select(`
         id,
         activity_id,
@@ -79,32 +129,37 @@ export async function POST(req: Request) {
       `)
       .single();
 
-    // 6. Handle database errors
     if (reviewError) {
-      console.error('Database Error:', {
+      console.error('Database Insert Error:', {
         code: reviewError.code,
         message: reviewError.message,
-        details: reviewError.details
+        details: reviewError.details,
+        hint: reviewError.hint
       });
-
-      if (reviewError.code === '23503') {
-        return NextResponse.json(
-          { error: 'Activity not found', code: 'ACTIVITY_NOT_FOUND' },
-          { status: 404 }
-        );
-      }
 
       return NextResponse.json(
         {
           error: 'Database operation failed',
           code: 'DATABASE_ERROR',
-          message: reviewError.message
+          message: 'Failed to save your review',
+          details: process.env.NODE_ENV === 'development' ? reviewError.details : undefined
         },
         { status: 500 }
       );
     }
 
-    // 7. Success response
+    if (!review) {
+      return NextResponse.json(
+        {
+          error: 'Review not created',
+          code: 'REVIEW_NOT_CREATED',
+          message: 'Your review couldn\'t be created'
+        },
+        { status: 500 }
+      );
+    }
+
+    // 5. Success response
     return NextResponse.json({
       success: true,
       data: {
@@ -117,7 +172,7 @@ export async function POST(req: Request) {
         status: review.status,
         createdAt: review.created_at
       }
-    });
+    }, { status: 201 });
 
   } catch (error: any) {
     console.error('API Route Error:', {
@@ -129,10 +184,7 @@ export async function POST(req: Request) {
       {
         error: 'Internal Server Error',
         code: 'SERVER_ERROR',
-        message: error.message,
-        ...(process.env.NODE_ENV === 'development' && {
-          stack: error.stack
-        })
+        message: 'An unexpected error occurred'
       },
       { status: 500 }
     );
@@ -148,6 +200,7 @@ export async function GET(req: Request) {
     const status = searchParams.get('status') || 'approved';
     const limit = parseInt(searchParams.get('limit') || '10');
 
+    // Base query
     let query = supabase
       .from('reviews')
       .select(`
@@ -167,13 +220,18 @@ export async function GET(req: Request) {
       `)
       .order('created_at', { ascending: false });
 
+    // Apply filters
     if (activityId) query = query.eq('activity_id', activityId);
     if (status) query = query.eq('status', status);
     if (limit) query = query.limit(limit);
 
+    // Execute query
     const { data: reviews, error } = await query;
 
-    if (error) throw error;
+    if (error) {
+      console.error('Database Query Error:', error);
+      throw error;
+    }
 
     return NextResponse.json({
       success: true,
@@ -191,9 +249,13 @@ export async function GET(req: Request) {
     });
 
   } catch (error: any) {
-    console.error('Fetch Error:', error);
+    console.error('Fetch Reviews Error:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch reviews', code: 'FETCH_ERROR' },
+      { 
+        error: 'Failed to fetch reviews', 
+        code: 'FETCH_ERROR',
+        message: 'Could not retrieve reviews'
+      },
       { status: 500 }
     );
   }
