@@ -11,7 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 interface ReviewFormProps {
-  activityId: string; // Changed to strictly string (UUID)
+  activityId: string | number;
   onSubmitSuccess?: () => void;
 }
 
@@ -27,26 +27,15 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const [loading, setLoading] = useState(false);
   const [formValid, setFormValid] = useState(false);
 
-  // Validate activityId is a UUID when component mounts
   useEffect(() => {
-    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    if (!uuidRegex.test(activityId)) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Activity",
-        description: "The activity ID format is invalid",
-      });
-      router.back();
-    }
-  }, [activityId]);
-
-  useEffect(() => {
+    const idValid = activityId !== undefined && activityId !== null && activityId !== '';
     setFormValid(
+      idValid &&
       rating > 0 &&
       title.trim().length >= 5 &&
       content.trim().length >= 20
     );
-  }, [rating, title, content]);
+  }, [activityId, rating, title, content]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +70,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          activityId, // UUID string
+          activityId,
           rating,
           title: title.trim(),
           content: content.trim(),
@@ -91,12 +80,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       const responseData = await response.json();
 
       if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error(responseData.error || 'Activity not found');
-        } else if (response.status === 400) {
-          throw new Error(responseData.error || 'Invalid request data');
+        if (responseData.code === 'ACTIVITY_NOT_FOUND') {
+          throw new Error('The activity you\'re reviewing doesn\'t exist');
+        } else if (responseData.code === 'USER_PROFILE_NOT_FOUND') {
+          throw new Error('Please complete your profile before submitting a review');
         } else {
-          throw new Error(responseData.error || 'Failed to submit review');
+          throw new Error(responseData.error || 'Failed to submit review. Please try again.');
         }
       }
 
@@ -105,7 +94,6 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         description: "Your review has been submitted for approval",
       });
 
-      // Reset form
       setRating(0);
       setTitle('');
       setContent('');
@@ -117,7 +105,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
       toast({
         variant: "destructive",
         title: "Submission Failed",
-        description: error.message || "An error occurred. Please try again.",
+        description: error.message || "An unexpected error occurred. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -146,10 +134,11 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
                   disabled={loading}
                 >
                   <Star
-                    className={`h-6 w-6 ${index <= (hoverRating || rating)
+                    className={`h-6 w-6 ${
+                      index <= (hoverRating || rating)
                         ? 'text-yellow-400 fill-current'
                         : 'text-gray-300'
-                      }`}
+                    }`}
                   />
                 </button>
               ))}
@@ -199,8 +188,9 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               {content.trim().length < 20 && content.length > 0 && (
                 <p className="text-sm text-red-500">Review must be at least 20 characters</p>
               )}
-              <p className={`text-xs ml-auto ${content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
-                }`}>
+              <p className={`text-xs ml-auto ${
+                content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
+              }`}>
                 {content.trim().length}/1000 characters
               </p>
             </div>
