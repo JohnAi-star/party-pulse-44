@@ -4,30 +4,33 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Webhook } from 'svix';
 
+// Enable dynamic behavior for webhook endpoint
+export const dynamic = 'force-dynamic';
+export const preferredRegion = 'home';
+export const runtime = 'nodejs';
+
 export async function POST(req: Request) {
-  // Get the headers
+  // Get headers for verification
   const headerPayload = headers();
   const svix_id = headerPayload.get("svix-id");
   const svix_timestamp = headerPayload.get("svix-timestamp");
   const svix_signature = headerPayload.get("svix-signature");
 
-  // If there are no headers, error out
   if (!svix_id || !svix_timestamp || !svix_signature) {
-    return new Response('Error occurred -- no svix headers', {
-      status: 400
-    });
+    return new Response('Missing Svix headers', { status: 400 });
   }
 
-  // Get the body
+  // Get and stringify the request body
   const payload = await req.json();
   const body = JSON.stringify(payload);
 
-  // Create a new Svix instance with your webhook secret
-  const wh = new Webhook(process.env.CLERK_WEBHOOK_SECRET || '');
+  // Create Svix instance
+  const webhookSecret = process.env.CLERK_WEBHOOK_SECRET || '';
+  const wh = new Webhook(webhookSecret);
 
   let evt: WebhookEvent;
 
-  // Verify the webhook
+  // Verify webhook
   try {
     evt = wh.verify(body, {
       "svix-id": svix_id,
@@ -35,13 +38,14 @@ export async function POST(req: Request) {
       "svix-signature": svix_signature,
     }) as WebhookEvent;
   } catch (err) {
-    console.error('Error verifying webhook:', err);
-    return new Response('Error occurred', {
-      status: 400
-    });
+    console.error('Webhook verification failed:', err);
+    return new Response('Invalid signature', { status: 400 });
   }
 
+  // Initialize Supabase client
   const supabase = createRouteHandlerClient({ cookies });
+
+  // Handle specific event types
   const eventType = evt.type;
 
   if (eventType === 'user.created' || eventType === 'user.updated') {
@@ -49,12 +53,11 @@ export async function POST(req: Request) {
     const email = email_addresses[0]?.email_address;
 
     if (!email) {
-      console.error('No email found for user');
-      return new Response('No email found for user', { status: 400 });
+      return new Response('Missing email in event data', { status: 400 });
     }
 
     try {
-      // First check if profile exists
+      // Check if user already exists
       const { data: existingProfile } = await supabase
         .from('profiles')
         .select('id')
@@ -62,7 +65,7 @@ export async function POST(req: Request) {
         .single();
 
       if (!existingProfile) {
-        // Create new profile if it doesn't exist
+        // Insert new profile
         const { data, error } = await supabase
           .from('profiles')
           .upsert({
@@ -77,22 +80,17 @@ export async function POST(req: Request) {
           .single();
 
         if (error) throw error;
-
         return new Response(JSON.stringify(data), { status: 200 });
       }
 
       return new Response(JSON.stringify(existingProfile), { status: 200 });
     } catch (error) {
-      console.error('Error upserting user profile:', error);
-      return new Response('Error creating user profile', { status: 500 });
+      console.error('Error upserting profile:', error);
+      return new Response('Error creating/updating user', { status: 500 });
     }
   }
 
   return new Response('Webhook received', { status: 200 });
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const dynamicParams = false;
+export const revalidate = 0; // Disable caching for webhook responses
