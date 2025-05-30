@@ -36,39 +36,6 @@ export async function POST(req: Request) {
       );
     }
 
-    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-      return NextResponse.json(
-        { 
-          error: 'Invalid rating value', 
-          code: 'INVALID_RATING',
-          message: 'Rating must be between 1 and 5 stars'
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!body.title || body.title.trim().length < 5) {
-      return NextResponse.json(
-        { 
-          error: 'Title too short', 
-          code: 'INVALID_TITLE',
-          message: 'Review title must be at least 5 characters'
-        },
-        { status: 400 }
-      );
-    }
-
-    if (!body.content || body.content.trim().length < 20) {
-      return NextResponse.json(
-        { 
-          error: 'Review content too short', 
-          code: 'INVALID_CONTENT',
-          message: 'Review must be at least 20 characters'
-        },
-        { status: 400 }
-      );
-    }
-
     // 3. Check if user profile exists, create if not
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
@@ -80,12 +47,12 @@ export async function POST(req: Request) {
       // Create basic profile if doesn't exist
       const { error: createProfileError } = await supabase
         .from('profiles')
-        .insert([{
+        .upsert({
           id: userId,
           name: 'Anonymous User',
           avatar_url: null,
           created_at: new Date().toISOString()
-        }]);
+        });
 
       if (createProfileError) {
         console.error('Profile creation error:', createProfileError);
@@ -100,35 +67,17 @@ export async function POST(req: Request) {
       }
     }
 
-    // 4. Check activity exists
-    const { data: activity, error: activityError } = await supabase
-      .from('activities')
-      .select('id')
-      .eq('id', body.activityId)
-      .single();
-
-    if (!activity) {
-      return NextResponse.json(
-        { 
-          error: 'Activity not found', 
-          code: 'ACTIVITY_NOT_FOUND',
-          message: 'The activity you\'re reviewing doesn\'t exist'
-        },
-        { status: 404 }
-      );
-    }
-
-    // 5. Create the review
+    // 4. Create the review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
-      .insert([{
+      .insert({
         activity_id: body.activityId,
         user_id: userId,
         rating: body.rating,
-        title: body.title.trim(),
-        comment: body.content.trim(),
+        title: body.title?.trim(),
+        comment: body.content?.trim(),
         status: 'pending'
-      }])
+      })
       .select()
       .single();
 
@@ -145,18 +94,14 @@ export async function POST(req: Request) {
       );
     }
 
-    // 6. Success response
+    // 5. Success response
     return NextResponse.json({
       success: true,
       data: review
     }, { status: 201 });
 
   } catch (error: any) {
-    console.error('API Route Error:', {
-      message: error.message,
-      stack: error.stack
-    });
-
+    console.error('API Route Error:', error);
     return NextResponse.json(
       {
         error: 'Internal Server Error',
@@ -177,7 +122,6 @@ export async function GET(req: Request) {
     const status = searchParams.get('status') || 'approved';
     const limit = parseInt(searchParams.get('limit') || '10');
 
-    // Base query
     let query = supabase
       .from('reviews')
       .select(`
@@ -197,18 +141,13 @@ export async function GET(req: Request) {
       `)
       .order('created_at', { ascending: false });
 
-    // Apply filters
     if (activityId) query = query.eq('activity_id', activityId);
     if (status) query = query.eq('status', status);
     if (limit) query = query.limit(limit);
 
-    // Execute query
     const { data: reviews, error } = await query;
 
-    if (error) {
-      console.error('Database Query Error:', error);
-      throw error;
-    }
+    if (error) throw error;
 
     return NextResponse.json({
       success: true,

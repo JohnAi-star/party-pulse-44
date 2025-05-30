@@ -62,7 +62,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     try {
       const token = await getToken();
-      const response = await fetch('/api/reviews', {
+      const response = await fetch('/api/reviews', {  // Updated endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,16 +76,12 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         }),
       });
 
-      const responseData = await response.json();
-
       if (!response.ok) {
-        if (responseData.code === 'PROFILE_NOT_FOUND') {
-          // Redirect to profile completion if profile doesn't exist
-          router.push('/complete-profile');
-          throw new Error('Please complete your profile first');
-        }
-        throw new Error(responseData.message || 'Failed to submit review');
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit review');
       }
+
+      const responseData = await response.json();
 
       toast({
         title: "Success!",
@@ -93,7 +89,6 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         duration: 3000,
       });
 
-      // Reset form
       setRating(0);
       setTitle('');
       setContent('');
@@ -102,7 +97,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     } catch (error: any) {
       console.error('Review submission error:', error);
-      
+
       toast({
         variant: "destructive",
         title: "Submission Failed",
@@ -137,11 +132,10 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
                   aria-label={`Rate ${index} star${index !== 1 ? 's' : ''}`}
                 >
                   <Star
-                    className={`h-8 w-8 ${
-                      index <= (hoverRating || rating)
+                    className={`h-8 w-8 ${index <= (hoverRating || rating)
                         ? 'text-yellow-400 fill-current'
                         : 'text-gray-300'
-                    }`}
+                      }`}
                   />
                 </button>
               ))}
@@ -193,9 +187,8 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               {content.trim().length < 20 && content.length > 0 && (
                 <p className="text-sm text-red-500">Review must be at least 20 characters</p>
               )}
-              <span className={`text-xs ml-auto ${
-                content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
-              }`}>
+              <span className={`text-xs ml-auto ${content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
+                }`}>
                 {content.trim().length}/1000 characters
               </span>
             </div>
