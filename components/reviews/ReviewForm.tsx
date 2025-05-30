@@ -62,7 +62,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     try {
       const token = await getToken();
-      const response = await fetch('/api/reviews', {  // Updated endpoint
+      const response = await fetch('/api/admin/reviews', {  // Updated endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
