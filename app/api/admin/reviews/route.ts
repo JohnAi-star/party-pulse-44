@@ -1,4 +1,4 @@
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   const { userId } = auth();
 
   try {
-    // Authentication check
+    // 1. Authentication check
     if (!userId) {
       return NextResponse.json(
         { error: 'Authentication required' },
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Parse and validate request body
+    // 2. Parse and validate request body
     const body = await req.json();
     
     if (!body.activityId) {
@@ -28,44 +28,57 @@ export async function POST(req: Request) {
       );
     }
 
-    // Get or create user profile with Clerk data
-    const clerkUser = await clerkClient.users.getUser(userId);
-    
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .upsert({
-        id: userId,
-        email: clerkUser.emailAddresses[0]?.emailAddress || '',
-        name: [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(' ') || 'Anonymous',
-        avatar_url: clerkUser.imageUrl,
-        role: 'user',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'id'
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      return NextResponse.json(
+        { error: 'Rating must be between 1 and 5' },
+        { status: 400 }
+      );
+    }
+
+    // 3. Create the review (no profile check)
+    const { data: review, error } = await supabase
+      .from('reviews')
+      .insert({
+        activity_id: body.activityId,
+        user_id: userId, // Store Clerk user ID directly
+        rating: body.rating,
+        title: body.title?.trim() || '',
+        content: body.content?.trim() || '',
+        status: 'pending'
       })
       .select()
       .single();
 
-    if (profileError) {
-      console.error('Profile error:', profileError);
+    if (error) {
+      console.error('Review creation error:', error);
       return NextResponse.json(
-        { error: 'Profile setup failed' },
+        { error: 'Failed to create review' },
         { status: 500 }
       );
     }
 
-    // Create the review
-    const { data: review, error: reviewError } = await supabase
+    return NextResponse.json({ review }, { status: 201 });
+
+  } catch (error) {
+    console.error('API Error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  const supabase = createRouteHandlerClient({ cookies });
+  const { searchParams } = new URL(req.url);
+
+  try {
+    const activityId = searchParams.get('activityId');
+    const status = searchParams.get('status') || 'approved';
+    const limit = parseInt(searchParams.get('limit') || '10');
+
+    let query = supabase
       .from('reviews')
-      .insert({
-        activity_id: body.activityId,
-        user_id: userId,
-        rating: body.rating,
-        title: body.title?.trim(),
-        content: body.content?.trim(),
-        status: 'pending'
-      })
       .select(`
         id,
         activity_id,
@@ -75,34 +88,26 @@ export async function POST(req: Request) {
         content,
         status,
         created_at,
-        profiles:user_id(
-          id,
-          name,
-          avatar_url
+        activities:activity_id(
+          title
         )
       `)
-      .single();
+      .order('created_at', { ascending: false });
 
-    if (reviewError) {
-      console.error('Review creation error:', reviewError);
-      return NextResponse.json(
-        { error: 'Failed to create review' },
-        { status: 500 }
-      );
-    }
+    if (activityId) query = query.eq('activity_id', activityId);
+    if (status) query = query.eq('status', status);
+    if (limit) query = query.limit(limit);
 
-    return NextResponse.json({ 
-      success: true,
-      data: {
-        ...review,
-        user: review.profiles
-      }
-    }, { status: 201 });
+    const { data: reviews, error } = await query;
+
+    if (error) throw error;
+
+    return NextResponse.json({ reviews });
 
   } catch (error) {
-    console.error('API Route Error:', error);
+    console.error('Fetch Error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to fetch reviews' },
       { status: 500 }
     );
   }

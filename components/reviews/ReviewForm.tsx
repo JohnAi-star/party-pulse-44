@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useAuth, useUser } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,6 @@ export default function ReviewForm({
   onSubmitSuccess?: () => void;
 }) {
   const { getToken, isSignedIn } = useAuth();
-  const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -42,21 +41,8 @@ export default function ReviewForm({
     e.preventDefault();
 
     if (!isSignedIn) {
-      toast({
-        variant: "destructive",
-        title: "Sign In Required",
-        description: "Please sign in to submit a review",
-      });
+      toast({ title: "Please sign in first" });
       router.push('/sign-in');
-      return;
-    }
-
-    if (!formValid) {
-      toast({
-        variant: "destructive",
-        title: "Validation Error",
-        description: "Please fill out all fields correctly",
-      });
       return;
     }
 
@@ -81,31 +67,20 @@ export default function ReviewForm({
       const data = await response.json();
 
       if (!response.ok) {
-        if (data.error === 'Profile setup failed') {
-          router.push('/profile');
-          throw new Error('Please complete your profile first');
-        }
-        throw new Error(data.error || 'Failed to submit review');
+        throw new Error(data.error || 'Submission failed');
       }
 
-      toast({
-        title: "Success!",
-        description: "Your review has been submitted",
-      });
-
-      // Reset form
+      toast({ title: "Review submitted!" });
       setRating(0);
       setTitle('');
       setContent('');
-      
       if (onSubmitSuccess) onSubmitSuccess();
 
     } catch (error: any) {
-      console.error('Review submission error:', error);
       toast({
         variant: "destructive",
-        title: "Submission Failed",
-        description: error.message || "An error occurred",
+        title: "Error",
+        description: error.message
       });
     } finally {
       setLoading(false);
@@ -113,75 +88,51 @@ export default function ReviewForm({
   };
 
   return (
-    <Card className="max-w-2xl mx-auto">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-xl font-semibold">
-          Share Your Experience
-          {user && (
-            <span className="text-sm font-normal block mt-1">
-              Posting as {user.firstName || 'User'}
-            </span>
-          )}
-        </CardTitle>
+        <CardTitle>Leave a Review</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-2">
-            <label className="text-sm font-medium leading-none">Rating *</label>
-            <div className="flex gap-1">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className="focus:outline-none transition-transform hover:scale-110"
-                  onMouseEnter={() => setHoverRating(index)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  onClick={() => setRating(index)}
-                  disabled={loading}
-                >
-                  <Star
-                    className={`h-8 w-8 ${
-                      index <= (hoverRating || rating)
-                        ? 'text-yellow-400 fill-current'
-                        : 'text-gray-300'
-                    }`}
-                  />
-                </button>
-              ))}
-            </div>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <button
+                key={star}
+                type="button"
+                onClick={() => setRating(star)}
+              >
+                <Star
+                  className={`h-6 w-6 ${
+                    star <= rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                  }`}
+                />
+              </button>
+            ))}
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium leading-none">Title *</label>
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Title of your review"
-              required
-              minLength={5}
-              disabled={loading}
-            />
-          </div>
+          <Input
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            minLength={5}
+          />
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium leading-none">Review *</label>
-            <Textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="Share your experience..."
-              rows={5}
-              required
-              minLength={20}
-              disabled={loading}
-            />
-          </div>
+          <Textarea
+            placeholder="Your review"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+            minLength={20}
+            rows={4}
+          />
 
-          <Button
-            type="submit"
-            className="w-full"
+          <Button 
+            type="submit" 
             disabled={loading || !formValid}
+            className="w-full"
           >
-            {loading ? "Submitting..." : "Submit Review"}
+            {loading ? 'Submitting...' : 'Submit Review'}
           </Button>
         </form>
       </CardContent>
