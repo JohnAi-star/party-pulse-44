@@ -19,10 +19,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Parse request
+    // Parse and validate request
     const body = await req.json();
     
-    // Validate required fields
     if (!body.activityId) {
       return NextResponse.json(
         { error: 'Activity ID is required' },
@@ -37,7 +36,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Create review
+    // Create review with explicit error handling
     const { data, error } = await supabase
       .from('reviews')
       .insert({
@@ -52,9 +51,14 @@ export async function POST(req: Request) {
       .single();
 
     if (error) {
-      console.error('Database error:', error);
+      console.error('Supabase error details:', {
+        code: error.code,
+        message: error.message,
+        details: error.details
+      });
+      
       return NextResponse.json(
-        { error: 'Database operation failed' },
+        { error: 'Failed to create review' },
         { status: 500 }
       );
     }
@@ -62,7 +66,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ review: data }, { status: 201 });
 
   } catch (error) {
-    console.error('Server error:', error);
+    console.error('Unexpected server error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
