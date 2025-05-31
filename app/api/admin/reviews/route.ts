@@ -6,66 +6,70 @@ import { cookies } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  const supabase = createRouteHandlerClient({ cookies });
+  // Initialize Supabase client
+  const cookieStore = cookies();
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+  
+  // Get authenticated user
   const { userId } = auth();
-
-  // Enhanced error logging
-  console.log('Review submission started for user:', userId);
+  
+  console.log('Starting review submission for user:', userId);
 
   try {
-    // 1. Authentication check
+    // Validate authentication
     if (!userId) {
-      console.log('Unauthorized request - no userId');
+      console.error('Unauthorized request - no user ID');
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
 
-    // 2. Parse request body with validation
-    let body;
+    // Parse and validate request body
+    let requestBody;
     try {
-      body = await req.json();
-      console.log('Received request body:', body);
+      requestBody = await req.json();
+      console.log('Received request body:', requestBody);
       
-      if (!body.activityId) {
-        throw new Error('Activity ID is required');
+      if (!requestBody.activityId) {
+        throw new Error('Missing activityId');
       }
-      if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-        throw new Error('Rating must be between 1 and 5');
+      if (typeof requestBody.rating !== 'number' || requestBody.rating < 1 || requestBody.rating > 5) {
+        throw new Error('Invalid rating value');
       }
     } catch (parseError) {
       console.error('Request parsing error:', parseError);
       return NextResponse.json(
-        { error: parseError instanceof Error ? parseError.message : 'Invalid request body' },
+        { error: 'Invalid request format' },
         { status: 400 }
       );
     }
 
-    // 3. Create review (simplified - no profile check)
-    console.log('Creating review for activity:', body.activityId);
-    const { data: review, error: reviewError } = await supabase
+    // Create review in database
+    console.log('Attempting to create review...');
+    const { data: review, error: dbError } = await supabase
       .from('reviews')
       .insert({
-        activity_id: body.activityId,
+        activity_id: requestBody.activityId,
         user_id: userId,
-        rating: body.rating,
-        title: body.title?.trim() || '',
-        content: body.content?.trim() || '',
+        rating: requestBody.rating,
+        title: requestBody.title?.trim() || '',
+        content: requestBody.content?.trim() || '',
         status: 'pending'
       })
       .select()
       .single();
 
-    if (reviewError) {
-      console.error('Supabase review creation error:', {
-        code: reviewError.code,
-        message: reviewError.message,
-        details: reviewError.details
+    // Handle database errors
+    if (dbError) {
+      console.error('Database error:', {
+        code: dbError.code,
+        message: dbError.message,
+        details: dbError.details
       });
       
-      // Handle specific Supabase errors
-      if (reviewError.code === '23503') { // Foreign key violation
+      // Specific error for missing activity
+      if (dbError.code === '23503') {
         return NextResponse.json(
           { error: 'Activity not found' },
           { status: 404 }
@@ -73,16 +77,19 @@ export async function POST(req: Request) {
       }
       
       return NextResponse.json(
-        { error: 'Failed to create review' },
+        { 
+          error: 'Database operation failed',
+          details: process.env.NODE_ENV === 'development' ? dbError.details : undefined
+        },
         { status: 500 }
       );
     }
 
-    console.log('Review created successfully:', review.id);
+    console.log('Successfully created review:', review.id);
     return NextResponse.json({ review }, { status: 201 });
 
   } catch (error) {
-    console.error('Unexpected API error:', error);
+    console.error('Unexpected error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
