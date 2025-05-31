@@ -13,7 +13,6 @@ export async function POST(req: Request) {
   try {
     // Validate authentication
     if (!userId) {
-      console.log('Authentication failed - no userId');
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -22,85 +21,66 @@ export async function POST(req: Request) {
 
     // Parse and validate request
     const body = await req.json();
-    console.log('Received review submission:', JSON.stringify(body, null, 2));
     
-    // Validate required fields
-    const validationErrors = [];
-    if (!body.activityId) validationErrors.push('Activity ID is required');
-    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-      validationErrors.push('Rating must be between 1 and 5');
-    }
-    if (!body.title?.trim()) validationErrors.push('Title is required');
-    if (!body.content?.trim()) validationErrors.push('Content is required');
-
-    if (validationErrors.length > 0) {
-      console.log('Validation failed:', validationErrors);
+    if (!body.activityId) {
       return NextResponse.json(
-        { 
-          error: 'Validation failed',
-          details: validationErrors 
-        },
+        { error: 'Activity ID is required' },
         { status: 400 }
       );
     }
 
-    // Prepare review data
-    const reviewData = {
-      activity_id: body.activityId,
-      user_id: userId,
-      rating: body.rating,
-      title: body.title.trim(),
-      content: body.content.trim(),
-      status: 'pending'
-    };
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      return NextResponse.json(
+        { error: 'Rating must be between 1 and 5' },
+        { status: 400 }
+      );
+    }
 
-    console.log('Creating review with data:', reviewData);
+    if (!body.title?.trim()) {
+      return NextResponse.json(
+        { error: 'Title is required' },
+        { status: 400 }
+      );
+    }
 
-    // Create review with explicit error handling
+    if (!body.content?.trim()) {
+      return NextResponse.json(
+        { error: 'Review content is required' },
+        { status: 400 }
+      );
+    }
+
+    // Create review with corrected column name
     const { data, error } = await supabase
       .from('reviews')
-      .insert(reviewData)
+      .insert({
+        activity_id: body.activityId,
+        user_id: userId,
+        rating: body.rating,
+        title: body.title.trim(),
+        comment: body.content.trim(), // Changed to match your schema
+        status: 'pending'
+      })
       .select()
       .single();
 
     if (error) {
-      console.error('Supabase error:', {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        hint: error.hint
-      });
-      
+      console.error('Database error:', error);
       return NextResponse.json(
         { 
-          error: 'Database operation failed',
-          details: error.message,
-          code: error.code,
-          ...(process.env.NODE_ENV === 'development' && {
-            hint: error.hint,
-            details: error.details
-          })
+          error: 'Failed to create review',
+          details: error.message
         },
         { status: 500 }
       );
     }
 
-    console.log('Review created successfully:', data);
-    return NextResponse.json({ 
-      success: true,
-      review: data 
-    }, { status: 201 });
+    return NextResponse.json({ review: data }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Unexpected server error:', error);
     return NextResponse.json(
-      { 
-        error: 'Internal server error',
-        ...(process.env.NODE_ENV === 'development' && {
-          message: error.message,
-          stack: error.stack
-        })
-      },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
