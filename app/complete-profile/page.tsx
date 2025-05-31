@@ -1,60 +1,47 @@
 "use client";
 
-import { useAuth } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { useUser } from '@clerk/nextjs';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-export default function CompleteProfilePage() {
-  const { userId, getToken } = useAuth();
+export default function ProfileCompletionPage() {
+  const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [name, setName] = useState(user?.fullName || '');
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    // Redirect if no user ID
-    if (!userId) {
-      router.push("/sign-in");
-    }
-  }, [userId, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const token = await getToken();
-      const response = await fetch("/api/profiles", {
-        method: "POST",
+      const response = await fetch('/api/profile', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          name: name.trim(),
-        }),
+        body: JSON.stringify({ name }),
       });
 
       if (!response.ok) {
-        throw new Error("Failed to create profile");
+        throw new Error('Failed to update profile');
       }
 
       toast({
-        title: "Profile created!",
-        description: "You can now submit reviews and participate",
+        title: "Profile Updated",
+        description: "You can now submit reviews",
       });
-
-      router.push("/");
+      router.back();
     } catch (error) {
-      console.error("Profile creation error:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to create profile. Please try again.",
+        description: "Failed to update profile",
       });
     } finally {
       setLoading(false);
@@ -65,31 +52,23 @@ export default function CompleteProfilePage() {
     <div className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-center">Complete Your Profile</CardTitle>
+          <CardTitle>Complete Your Profile</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-1">
+              <label className="block text-sm font-medium mb-1">
                 Display Name
               </label>
               <Input
-                id="name"
-                type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
                 required
                 minLength={2}
-                maxLength={50}
               />
             </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={loading || name.trim().length < 2}
-            >
-              {loading ? "Creating Profile..." : "Complete Profile"}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Saving..." : "Complete Profile"}
             </Button>
           </form>
         </CardContent>
