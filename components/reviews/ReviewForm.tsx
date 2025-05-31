@@ -34,6 +34,7 @@ export default function ReviewForm({
           content: ''
         };
       } catch (e) {
+        console.warn('Failed to parse saved review data', e);
         return {
           rating: 0,
           title: '',
@@ -51,46 +52,85 @@ export default function ReviewForm({
   // Save to localStorage when form data changes
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        ...formData,
-        activityId
-      }));
+      try {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          ...formData,
+          activityId
+        }));
+      } catch (e) {
+        console.warn('Failed to save review data to localStorage', e);
+      }
     }
   }, [formData, activityId]);
 
   // Validate form
   useEffect(() => {
-    setFormValid(
+    const isValid = (
       !!activityId &&
       formData.rating > 0 &&
       formData.title.trim().length >= 5 &&
       formData.content.trim().length >= 20
     );
+    setFormValid(isValid);
   }, [activityId, formData]);
 
   const submitReview = async (reviewData: any) => {
-    const token = await getToken();
-    const response = await fetch('/api/admin/reviews', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(reviewData),
-    });
+    try {
+      console.log('Submitting review:', reviewData);
+      const token = await getToken();
+      
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Submission failed');
+      const response = await fetch('/api/admin/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(reviewData),
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        console.error('API Error Response:', {
+          status: response.status,
+          data: responseData
+        });
+        
+        throw new Error(
+          responseData.error || 
+          responseData.details || 
+          `Submission failed with status ${response.status}`
+        );
+      }
+
+      console.log('Review submitted successfully:', responseData);
+      return responseData;
+
+    } catch (error) {
+      console.error('Submission error details:', error);
+      throw error;
     }
-
-    return response.json();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submission initiated', {
+      formData,
+      isSignedIn,
+      formValid,
+      activityId
+    });
 
     if (!isSignedIn) {
+      toast({
+        title: "Sign-in Required",
+        description: "Please sign in to submit a review",
+        variant: "default"
+      });
       router.push('/sign-in');
       return;
     }
@@ -98,7 +138,7 @@ export default function ReviewForm({
     if (!formValid) {
       toast({
         title: "Validation Error",
-        description: "Please fill out all fields correctly",
+        description: "Please fill out all fields correctly (Title: min 5 chars, Review: min 20 chars)",
         variant: "destructive"
       });
       return;
@@ -114,21 +154,31 @@ export default function ReviewForm({
         content: formData.content.trim()
       };
 
-      await submitReview(reviewData);
+      const result = await submitReview(reviewData);
 
       // Success case
-      toast({ title: "Review submitted successfully!" });
+      toast({ 
+        title: "Review Submitted!", 
+        description: "Thank you for your feedback. Your review is pending approval.",
+        duration: 5000
+      });
+      
+      // Clear form and storage
       window.localStorage.removeItem(STORAGE_KEY);
       setFormData({ rating: 0, title: '', content: '' });
-      if (onSubmitSuccess) onSubmitSuccess();
+      
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      }
 
     } catch (error: any) {
-      console.error('Submission error:', error);
+      console.error('Final submission error:', error);
       
       toast({
         title: "Submission Failed",
-        description: error.message || "Couldn't submit your review",
-        variant: "destructive"
+        description: error.message || "Couldn't submit your review. Please try again.",
+        variant: "destructive",
+        duration: 5000
       });
     } finally {
       setLoading(false);
@@ -136,7 +186,7 @@ export default function ReviewForm({
   };
 
   const handleChange = (field: string, value: any) => {
-    setFormData((prev: { rating: number; title: string; content: string }) => ({ ...prev, [field]: value }));
+    setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -154,12 +204,17 @@ export default function ReviewForm({
                   key={star}
                   type="button"
                   onClick={() => handleChange('rating', star)}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
                   className="focus:outline-none"
                   disabled={loading}
+                  aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
                 >
                   <Star
                     className={`h-6 w-6 ${
-                      star <= formData.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                      star <= (hoverRating || formData.rating) 
+                        ? 'text-yellow-400 fill-current' 
+                        : 'text-gray-300'
                     }`}
                   />
                 </button>
@@ -168,7 +223,7 @@ export default function ReviewForm({
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Title</label>
+            <label className="block text-sm font-medium">Title (min 5 characters)</label>
             <Input
               value={formData.title}
               onChange={(e) => handleChange('title', e.target.value)}
@@ -177,11 +232,15 @@ export default function ReviewForm({
               minLength={5}
               disabled={loading}
               className="text-base"
+              aria-describedby="title-help"
             />
+            <p id="title-help" className="text-xs text-muted-foreground">
+              Minimum 5 characters required
+            </p>
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Review</label>
+            <label className="block text-sm font-medium">Review (min 20 characters)</label>
             <Textarea
               value={formData.content}
               onChange={(e) => handleChange('content', e.target.value)}
@@ -191,7 +250,11 @@ export default function ReviewForm({
               rows={4}
               disabled={loading}
               className="text-base min-h-[120px]"
+              aria-describedby="content-help"
             />
+            <p id="content-help" className="text-xs text-muted-foreground">
+              Minimum 20 characters required
+            </p>
           </div>
 
           <Button

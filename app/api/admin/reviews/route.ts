@@ -13,6 +13,7 @@ export async function POST(req: Request) {
   try {
     // Validate authentication
     if (!userId) {
+      console.log('Authentication failed - no userId');
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
@@ -21,57 +22,85 @@ export async function POST(req: Request) {
 
     // Parse and validate request
     const body = await req.json();
+    console.log('Received review submission:', JSON.stringify(body, null, 2));
     
-    if (!body.activityId) {
+    // Validate required fields
+    const validationErrors = [];
+    if (!body.activityId) validationErrors.push('Activity ID is required');
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      validationErrors.push('Rating must be between 1 and 5');
+    }
+    if (!body.title?.trim()) validationErrors.push('Title is required');
+    if (!body.content?.trim()) validationErrors.push('Content is required');
+
+    if (validationErrors.length > 0) {
+      console.log('Validation failed:', validationErrors);
       return NextResponse.json(
-        { error: 'Activity ID is required' },
+        { 
+          error: 'Validation failed',
+          details: validationErrors 
+        },
         { status: 400 }
       );
     }
 
-    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-      return NextResponse.json(
-        { error: 'Rating must be between 1 and 5' },
-        { status: 400 }
-      );
-    }
+    // Prepare review data
+    const reviewData = {
+      activity_id: body.activityId,
+      user_id: userId,
+      rating: body.rating,
+      title: body.title.trim(),
+      content: body.content.trim(),
+      status: 'pending'
+    };
+
+    console.log('Creating review with data:', reviewData);
 
     // Create review with explicit error handling
     const { data, error } = await supabase
       .from('reviews')
-      .insert({
-        activity_id: body.activityId,
-        user_id: userId,
-        rating: body.rating,
-        title: body.title?.trim() || '',
-        content: body.content?.trim() || '',
-        status: 'pending'
-      })
+      .insert(reviewData)
       .select()
       .single();
 
     if (error) {
-      console.error('Database error:', {
+      console.error('Supabase error:', {
         code: error.code,
         message: error.message,
-        details: error.details
+        details: error.details,
+        hint: error.hint
       });
       
       return NextResponse.json(
         { 
-          error: 'Failed to create review',
-          details: process.env.NODE_ENV === 'development' ? error.details : undefined
+          error: 'Database operation failed',
+          details: error.message,
+          code: error.code,
+          ...(process.env.NODE_ENV === 'development' && {
+            hint: error.hint,
+            details: error.details
+          })
         },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ review: data }, { status: 201 });
+    console.log('Review created successfully:', data);
+    return NextResponse.json({ 
+      success: true,
+      review: data 
+    }, { status: 201 });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Unexpected server error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: 'Internal server error',
+        ...(process.env.NODE_ENV === 'development' && {
+          message: error.message,
+          stack: error.stack
+        })
+      },
       { status: 500 }
     );
   }
