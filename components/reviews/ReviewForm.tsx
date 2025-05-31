@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useAuth, useUser } from '@clerk/nextjs';
+import { useAuth } from '@clerk/nextjs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 interface ReviewFormProps {
   activityId: string;
@@ -17,11 +16,9 @@ interface ReviewFormProps {
 }
 
 export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormProps) {
-  const { isSignedIn, userId } = useAuth();
-  const { user } = useUser();
+  const { getToken, isSignedIn, userId } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
-  const supabase = createClientComponentClient();
 
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -42,7 +39,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!isSignedIn || !userId) {
+    if (!isSignedIn) {
       toast({
         variant: "destructive",
         title: "Sign In Required",
@@ -64,43 +61,33 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
     setLoading(true);
 
     try {
-      // First, ensure user profile exists in Supabase
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single();
-
-      if (!profile) {
-        // Create profile if it doesn't exist
-        const { error: createError } = await supabase
-          .from('profiles')
-          .insert({
-            id: userId,
-            email: user?.emailAddresses[0].emailAddress,
-            name: user?.fullName || 'Anonymous',
-            role: 'user',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          });
-
-        if (createError) throw new Error('Failed to create user profile');
-      }
-
-      // Now create the review
-      const { error: reviewError } = await supabase
-        .from('reviews')
-        .insert({
-          activity_id: activityId,
-          user_id: userId,
+      const token = await getToken();
+      const response = await fetch('/api/admin/reviews', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          activityId,
           rating,
           title: title.trim(),
           content: content.trim(),
-          status: 'pending',
-          created_at: new Date().toISOString()
-        });
+        }),
+      });
 
-      if (reviewError) throw reviewError;
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        // Handle specific error cases
+        if (responseData.code === 'PROFILE_ERROR') {
+          throw new Error('Please complete your profile setup first');
+        }
+        if (responseData.code === 'ACTIVITY_NOT_FOUND') {
+          throw new Error('This activity no longer exists');
+        }
+        throw new Error(responseData.message || 'Failed to submit review');
+      }
 
       toast({
         title: "Success!",
@@ -108,6 +95,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
         duration: 3000,
       });
 
+      // Reset form
       setRating(0);
       setTitle('');
       setContent('');
@@ -116,7 +104,7 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
 
     } catch (error: any) {
       console.error('Review submission error:', error);
-
+      
       toast({
         variant: "destructive",
         title: "Submission Failed",
@@ -151,10 +139,11 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
                   aria-label={`Rate ${index} star${index !== 1 ? 's' : ''}`}
                 >
                   <Star
-                    className={`h-8 w-8 ${index <= (hoverRating || rating)
+                    className={`h-8 w-8 ${
+                      index <= (hoverRating || rating)
                         ? 'text-yellow-400 fill-current'
                         : 'text-gray-300'
-                      }`}
+                    }`}
                   />
                 </button>
               ))}
@@ -206,8 +195,9 @@ export default function ReviewForm({ activityId, onSubmitSuccess }: ReviewFormPr
               {content.trim().length < 20 && content.length > 0 && (
                 <p className="text-sm text-red-500">Review must be at least 20 characters</p>
               )}
-              <span className={`text-xs ml-auto ${content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
-                }`}>
+              <span className={`text-xs ml-auto ${
+                content.trim().length < 20 ? 'text-red-500' : 'text-muted-foreground'
+              }`}>
                 {content.trim().length}/1000 characters
               </span>
             </div>

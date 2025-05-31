@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -36,68 +36,130 @@ export async function POST(req: Request) {
       );
     }
 
-    // 3. Check if user profile exists, create if not
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('id', userId)
-      .single();
-
-    if (!profile) {
-      // Create basic profile if doesn't exist
-      const { error: createProfileError } = await supabase
-        .from('profiles')
-        .upsert({
-          id: userId,
-          name: 'Anonymous User',
-          avatar_url: null,
-          created_at: new Date().toISOString()
-        });
-
-      if (createProfileError) {
-        console.error('Profile creation error:', createProfileError);
-        return NextResponse.json(
-          { 
-            error: 'Profile creation failed', 
-            code: 'PROFILE_CREATION_FAILED',
-            message: 'Failed to create user profile'
-          },
-          { status: 500 }
-        );
-      }
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      return NextResponse.json(
+        { 
+          error: 'Invalid rating', 
+          code: 'INVALID_RATING',
+          message: 'Rating must be between 1 and 5'
+        },
+        { status: 400 }
+      );
     }
 
-    // 4. Create the review
+    // 3. Get or create user profile
+    let profile;
+    try {
+      // First try to get the user from Clerk
+      const clerkUser = await clerkClient.users.getUser(userId);
+      
+      // Check if profile exists in Supabase
+      const { data: existingProfile, error: profileError } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('id', userId)
+        .maybeSingle();
+
+      if (!existingProfile) {
+        // Create new profile with data from Clerk
+        const { data: newProfile, error: createError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: userId,
+            email: clerkUser.emailAddresses[0]?.emailAddress || '',
+            name: clerkUser.firstName || clerkUser.username || 'Anonymous User',
+            avatar_url: clerkUser.imageUrl,
+            role: 'user',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (createError) throw createError;
+        profile = newProfile;
+      } else {
+        profile = existingProfile;
+      }
+    } catch (profileError) {
+      console.error('Profile error:', profileError);
+      return NextResponse.json(
+        { 
+          error: 'Profile setup failed', 
+          code: 'PROFILE_ERROR',
+          message: 'Failed to setup user profile',
+          details: process.env.NODE_ENV === 'development' ? profileError : undefined
+        },
+        { status: 500 }
+      );
+    }
+
+    // 4. Verify activity exists
+    const { data: activity, error: activityError } = await supabase
+      .from('activities')
+      .select('id')
+      .eq('id', body.activityId)
+      .single();
+
+    if (activityError || !activity) {
+      return NextResponse.json(
+        { 
+          error: 'Activity not found', 
+          code: 'ACTIVITY_NOT_FOUND',
+          message: 'The activity you\'re reviewing doesn\'t exist'
+        },
+        { status: 404 }
+      );
+    }
+
+    // 5. Create the review
     const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
         user_id: userId,
         rating: body.rating,
-        title: body.title?.trim(),
-        content: body.content?.trim(),
+        title: body.title?.trim() || '',
+        content: body.content?.trim() || '',
         status: 'pending'
       })
-      .select()
+      .select(`
+        id,
+        activity_id,
+        user_id,
+        rating,
+        title,
+        content,
+        status,
+        created_at,
+        profiles:user_id(
+          id,
+          name,
+          avatar_url
+        )
+      `)
       .single();
 
     if (reviewError) {
-      console.error('Review creation error:', reviewError);
+      console.error('Review creation failed:', reviewError);
       return NextResponse.json(
         {
-          error: 'Database operation failed',
-          code: 'DATABASE_ERROR',
-          message: 'Failed to save your review',
+          error: 'Failed to create review',
+          code: 'REVIEW_CREATION_FAILED',
+          message: 'Could not save your review',
           details: process.env.NODE_ENV === 'development' ? reviewError.details : undefined
         },
         { status: 500 }
       );
     }
 
-    // 5. Success response
+    // 6. Success response
     return NextResponse.json({
       success: true,
-      data: review
+      data: {
+        ...review,
+        user: review.profiles // Flatten the profile data
+      }
     }, { status: 201 });
 
   } catch (error: any) {
@@ -137,6 +199,10 @@ export async function GET(req: Request) {
           id,
           name,
           avatar_url
+        ),
+        activities:activity_id(
+          id,
+          title
         )
       `)
       .order('created_at', { ascending: false });
@@ -154,6 +220,7 @@ export async function GET(req: Request) {
       data: reviews?.map(review => ({
         id: review.id,
         activityId: review.activity_id,
+        activity: review.activities,
         userId: review.user_id,
         rating: review.rating,
         title: review.title,
