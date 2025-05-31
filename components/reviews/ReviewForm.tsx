@@ -10,7 +10,7 @@ import { Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
-const STORAGE_KEY = 'pending_reviews';
+const STORAGE_KEY = 'pending_review';
 
 export default function ReviewForm({ 
   activityId,
@@ -27,17 +27,26 @@ export default function ReviewForm({
   const [formData, setFormData] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = window.localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : {
-        rating: 0,
-        title: '',
-        content: ''
-      };
+      try {
+        return saved ? JSON.parse(saved) : {
+          rating: 0,
+          title: '',
+          content: ''
+        };
+      } catch (e) {
+        return {
+          rating: 0,
+          title: '',
+          content: ''
+        };
+      }
     }
     return { rating: 0, title: '', content: '' };
   });
 
   const [loading, setLoading] = useState(false);
   const [formValid, setFormValid] = useState(false);
+  const [hoverRating, setHoverRating] = useState(0);
 
   // Save to localStorage when form data changes
   useEffect(() => {
@@ -59,34 +68,8 @@ export default function ReviewForm({
     );
   }, [activityId, formData]);
 
-  // Retry pending submissions when user logs in
-  useEffect(() => {
-    if (isSignedIn) {
-      retryPendingSubmissions();
-    }
-  }, [isSignedIn]);
-
-  const retryPendingSubmissions = async () => {
-    try {
-      const pending = JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '{}');
-      if (pending.activityId && pending.rating > 0) {
-        const token = await getToken();
-        if (!token) {
-          throw new Error('Authentication token not found. Please sign in again.');
-        }
-        await submitReview(pending, token);
-        window.localStorage.removeItem(STORAGE_KEY);
-        toast({
-          title: "Saved review submitted!",
-          description: "Your pending review has been successfully submitted."
-        });
-      }
-    } catch (error) {
-      console.error('Failed to submit pending review:', error);
-    }
-  };
-
-  const submitReview = async (reviewData: any, token: string) => {
+  const submitReview = async (reviewData: any) => {
+    const token = await getToken();
     const response = await fetch('/api/admin/reviews', {
       method: 'POST',
       headers: {
@@ -124,10 +107,6 @@ export default function ReviewForm({
     setLoading(true);
 
     try {
-      const token = await getToken();
-      if (!token) {
-        throw new Error('Authentication token not found. Please sign in again.');
-      }
       const reviewData = {
         activityId,
         rating: formData.rating,
@@ -135,7 +114,7 @@ export default function ReviewForm({
         content: formData.content.trim()
       };
 
-      await submitReview(reviewData, token);
+      await submitReview(reviewData);
 
       // Success case
       toast({ title: "Review submitted successfully!" });
@@ -143,23 +122,13 @@ export default function ReviewForm({
       setFormData({ rating: 0, title: '', content: '' });
       if (onSubmitSuccess) onSubmitSuccess();
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Submission error:', error);
       
-      // Save to localStorage as fallback
-      const pending = {
-        activityId,
-        rating: formData.rating,
-        title: formData.title,
-        content: formData.content,
-        timestamp: new Date().toISOString()
-      };
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(pending));
-
       toast({
-        title: "Review saved offline",
-        description: "We'll submit it automatically when you're back online.",
-        variant: "default"
+        title: "Submission Failed",
+        description: error.message || "Couldn't submit your review",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -167,7 +136,7 @@ export default function ReviewForm({
   };
 
   const handleChange = (field: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [field]: value }));
+    setFormData((prev: { rating: number; title: string; content: string }) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -207,6 +176,7 @@ export default function ReviewForm({
               required
               minLength={5}
               disabled={loading}
+              className="text-base"
             />
           </div>
 
@@ -220,6 +190,7 @@ export default function ReviewForm({
               minLength={20}
               rows={4}
               disabled={loading}
+              className="text-base min-h-[120px]"
             />
           </div>
 

@@ -51,14 +51,17 @@ export async function POST(req: Request) {
       .single();
 
     if (error) {
-      console.error('Supabase error details:', {
+      console.error('Database error:', {
         code: error.code,
         message: error.message,
         details: error.details
       });
       
       return NextResponse.json(
-        { error: 'Failed to create review' },
+        { 
+          error: 'Failed to create review',
+          details: process.env.NODE_ENV === 'development' ? error.details : undefined
+        },
         { status: 500 }
       );
     }
