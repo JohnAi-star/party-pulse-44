@@ -22,7 +22,6 @@ export default function ReviewForm({
   const router = useRouter();
 
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
@@ -39,10 +38,18 @@ export default function ReviewForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!isSignedIn) {
-      toast({ title: "Please sign in first" });
       router.push('/sign-in');
+      return;
+    }
+
+    if (!formValid) {
+      toast({
+        title: "Validation Error",
+        description: "Please fill out all fields correctly",
+        variant: "destructive"
+      });
       return;
     }
 
@@ -67,20 +74,27 @@ export default function ReviewForm({
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Submission failed');
+        throw new Error(data.error || 'Failed to submit review');
       }
 
-      toast({ title: "Review submitted!" });
+      toast({ title: "Review submitted successfully!" });
       setRating(0);
       setTitle('');
       setContent('');
       if (onSubmitSuccess) onSubmitSuccess();
 
     } catch (error: any) {
+      console.error('Review submission error:', error);
+      
+      let errorMessage = error.message;
+      if (error.message.includes('Activity not found')) {
+        errorMessage = "The activity you're reviewing no longer exists";
+      }
+
       toast({
-        variant: "destructive",
-        title: "Error",
-        description: error.message
+        title: "Submission Failed",
+        description: errorMessage,
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -100,6 +114,7 @@ export default function ReviewForm({
                 key={star}
                 type="button"
                 onClick={() => setRating(star)}
+                className="focus:outline-none"
               >
                 <Star
                   className={`h-6 w-6 ${
@@ -116,6 +131,7 @@ export default function ReviewForm({
             onChange={(e) => setTitle(e.target.value)}
             required
             minLength={5}
+            disabled={loading}
           />
 
           <Textarea
@@ -125,6 +141,7 @@ export default function ReviewForm({
             required
             minLength={20}
             rows={4}
+            disabled={loading}
           />
 
           <Button 
@@ -132,7 +149,15 @@ export default function ReviewForm({
             disabled={loading || !formValid}
             className="w-full"
           >
-            {loading ? 'Submitting...' : 'Submit Review'}
+            {loading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-2 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Submitting...
+              </>
+            ) : 'Submit Review'}
           </Button>
         </form>
       </CardContent>

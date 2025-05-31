@@ -9,38 +9,46 @@ export async function POST(req: Request) {
   const supabase = createRouteHandlerClient({ cookies });
   const { userId } = auth();
 
+  // Enhanced error logging
+  console.log('Review submission started for user:', userId);
+
   try {
     // 1. Authentication check
     if (!userId) {
+      console.log('Unauthorized request - no userId');
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
 
-    // 2. Parse and validate request body
-    const body = await req.json();
-    
-    if (!body.activityId) {
+    // 2. Parse request body with validation
+    let body;
+    try {
+      body = await req.json();
+      console.log('Received request body:', body);
+      
+      if (!body.activityId) {
+        throw new Error('Activity ID is required');
+      }
+      if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+        throw new Error('Rating must be between 1 and 5');
+      }
+    } catch (parseError) {
+      console.error('Request parsing error:', parseError);
       return NextResponse.json(
-        { error: 'Activity ID is required' },
+        { error: parseError instanceof Error ? parseError.message : 'Invalid request body' },
         { status: 400 }
       );
     }
 
-    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
-      return NextResponse.json(
-        { error: 'Rating must be between 1 and 5' },
-        { status: 400 }
-      );
-    }
-
-    // 3. Create the review (no profile check)
-    const { data: review, error } = await supabase
+    // 3. Create review (simplified - no profile check)
+    console.log('Creating review for activity:', body.activityId);
+    const { data: review, error: reviewError } = await supabase
       .from('reviews')
       .insert({
         activity_id: body.activityId,
-        user_id: userId, // Store Clerk user ID directly
+        user_id: userId,
         rating: body.rating,
         title: body.title?.trim() || '',
         content: body.content?.trim() || '',
@@ -49,65 +57,34 @@ export async function POST(req: Request) {
       .select()
       .single();
 
-    if (error) {
-      console.error('Review creation error:', error);
+    if (reviewError) {
+      console.error('Supabase review creation error:', {
+        code: reviewError.code,
+        message: reviewError.message,
+        details: reviewError.details
+      });
+      
+      // Handle specific Supabase errors
+      if (reviewError.code === '23503') { // Foreign key violation
+        return NextResponse.json(
+          { error: 'Activity not found' },
+          { status: 404 }
+        );
+      }
+      
       return NextResponse.json(
         { error: 'Failed to create review' },
         { status: 500 }
       );
     }
 
+    console.log('Review created successfully:', review.id);
     return NextResponse.json({ review }, { status: 201 });
 
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('Unexpected API error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(req: Request) {
-  const supabase = createRouteHandlerClient({ cookies });
-  const { searchParams } = new URL(req.url);
-
-  try {
-    const activityId = searchParams.get('activityId');
-    const status = searchParams.get('status') || 'approved';
-    const limit = parseInt(searchParams.get('limit') || '10');
-
-    let query = supabase
-      .from('reviews')
-      .select(`
-        id,
-        activity_id,
-        user_id,
-        rating,
-        title,
-        content,
-        status,
-        created_at,
-        activities:activity_id(
-          title
-        )
-      `)
-      .order('created_at', { ascending: false });
-
-    if (activityId) query = query.eq('activity_id', activityId);
-    if (status) query = query.eq('status', status);
-    if (limit) query = query.limit(limit);
-
-    const { data: reviews, error } = await query;
-
-    if (error) throw error;
-
-    return NextResponse.json({ reviews });
-
-  } catch (error) {
-    console.error('Fetch Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch reviews' },
       { status: 500 }
     );
   }
