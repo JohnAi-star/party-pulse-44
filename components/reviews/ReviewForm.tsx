@@ -10,6 +10,8 @@ import { Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
+const STORAGE_KEY = 'pending_reviews';
+
 export default function ReviewForm({ 
   activityId,
   onSubmitSuccess 
@@ -17,18 +19,52 @@ export default function ReviewForm({
   activityId: string;
   onSubmitSuccess?: () => void;
 }) {
-  const { getToken, isSignedIn } = useAuth();
+  const { getToken, isSignedIn, userId } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
 
-  const [rating, setRating] = useState(0);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  // Load saved review from localStorage if exists
+  const [rating, setRating] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved).rating : 0;
+    }
+    return 0;
+  });
+
+  const [title, setTitle] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved).title : '';
+    }
+    return '';
+  });
+
+  const [content, setContent] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved).content : '';
+    }
+    return '';
+  });
+
   const [loading, setLoading] = useState(false);
   const [formValid, setFormValid] = useState(false);
   const [hoverRating, setHoverRating] = useState(0);
 
-  // Validate form inputs
+  // Save to localStorage on change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        activityId,
+        rating,
+        title,
+        content
+      }));
+    }
+  }, [activityId, rating, title, content]);
+
+  // Validate form
   useEffect(() => {
     setFormValid(
       !!activityId &&
@@ -38,9 +74,60 @@ export default function ReviewForm({
     );
   }, [activityId, rating, title, content]);
 
+  // Check for pending reviews on mount
+  useEffect(() => {
+    if (isSignedIn) {
+      retryPendingSubmissions();
+    }
+  }, [isSignedIn]);
+
+  const retryPendingSubmissions = async () => {
+    const pending = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (pending.length > 0) {
+      try {
+        const token = await getToken();
+        if (!token) {
+          toast({
+            title: "Authentication Error",
+            description: "Could not authenticate. Please sign in again.",
+            variant: "destructive"
+          });
+          return;
+        }
+        for (const review of pending) {
+          await submitReview(review, token);
+        }
+        localStorage.removeItem(STORAGE_KEY);
+        toast({
+          title: "Pending reviews submitted!",
+          description: "Your saved reviews have been successfully submitted."
+        });
+      } catch (error) {
+        console.error('Failed to submit pending reviews:', error);
+      }
+    }
+  };
+
+  const submitReview = async (reviewData: any, token: string) => {
+    const response = await fetch('/api/admin/reviews', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(reviewData),
+    });
+
+    if (!response.ok) {
+      throw new Error('Submission failed');
+    }
+
+    return response.json();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!isSignedIn) {
       router.push('/sign-in');
       return;
@@ -59,47 +146,51 @@ export default function ReviewForm({
 
     try {
       const token = await getToken();
-      const response = await fetch('/api/admin/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          activityId,
-          rating,
-          title: title.trim(),
-          content: content.trim()
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        // Handle specific error cases
-        let errorMessage = 'Failed to submit review';
-        if (data.error === 'Activity not found') {
-          errorMessage = "The activity you're reviewing no longer exists";
-        } else if (data.error === 'Database operation failed') {
-          errorMessage = "Couldn't save your review. Please try again.";
-        }
-        
-        throw new Error(errorMessage);
+      if (!token) {
+        toast({
+          title: "Authentication Error",
+          description: "Could not authenticate. Please sign in again.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
       }
+      const reviewData = {
+        activityId,
+        rating,
+        title: title.trim(),
+        content: content.trim()
+      };
+
+      // Try to submit normally first
+      await submitReview(reviewData, token);
 
       // Success case
       toast({ title: "Review submitted successfully!" });
+      localStorage.removeItem(STORAGE_KEY);
       setRating(0);
       setTitle('');
       setContent('');
       if (onSubmitSuccess) onSubmitSuccess();
 
-    } catch (error: any) {
+    } catch (error) {
       console.error('Submission error:', error);
+      
+      // Fallback to localStorage
+      const pending = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      pending.push({
+        activityId,
+        rating,
+        title,
+        content,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(pending));
+
       toast({
-        title: "Submission Failed",
-        description: error.message || "An unexpected error occurred",
-        variant: "destructive"
+        title: "Review saved offline",
+        description: "We'll submit it automatically when you're back online.",
+        variant: "default"
       });
     } finally {
       setLoading(false);

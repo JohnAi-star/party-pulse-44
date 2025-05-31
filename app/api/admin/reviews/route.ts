@@ -6,90 +6,63 @@ import { cookies } from 'next/headers';
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  // Initialize Supabase client
   const cookieStore = cookies();
   const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-  
-  // Get authenticated user
   const { userId } = auth();
-  
-  console.log('Starting review submission for user:', userId);
 
   try {
     // Validate authentication
     if (!userId) {
-      console.error('Unauthorized request - no user ID');
       return NextResponse.json(
         { error: 'Authentication required' },
         { status: 401 }
       );
     }
 
-    // Parse and validate request body
-    let requestBody;
-    try {
-      requestBody = await req.json();
-      console.log('Received request body:', requestBody);
-      
-      if (!requestBody.activityId) {
-        throw new Error('Missing activityId');
-      }
-      if (typeof requestBody.rating !== 'number' || requestBody.rating < 1 || requestBody.rating > 5) {
-        throw new Error('Invalid rating value');
-      }
-    } catch (parseError) {
-      console.error('Request parsing error:', parseError);
+    // Parse request
+    const body = await req.json();
+    
+    // Validate required fields
+    if (!body.activityId) {
       return NextResponse.json(
-        { error: 'Invalid request format' },
+        { error: 'Activity ID is required' },
         { status: 400 }
       );
     }
 
-    // Create review in database
-    console.log('Attempting to create review...');
-    const { data: review, error: dbError } = await supabase
+    if (typeof body.rating !== 'number' || body.rating < 1 || body.rating > 5) {
+      return NextResponse.json(
+        { error: 'Rating must be between 1 and 5' },
+        { status: 400 }
+      );
+    }
+
+    // Create review
+    const { data, error } = await supabase
       .from('reviews')
       .insert({
-        activity_id: requestBody.activityId,
+        activity_id: body.activityId,
         user_id: userId,
-        rating: requestBody.rating,
-        title: requestBody.title?.trim() || '',
-        content: requestBody.content?.trim() || '',
+        rating: body.rating,
+        title: body.title?.trim() || '',
+        content: body.content?.trim() || '',
         status: 'pending'
       })
       .select()
       .single();
 
-    // Handle database errors
-    if (dbError) {
-      console.error('Database error:', {
-        code: dbError.code,
-        message: dbError.message,
-        details: dbError.details
-      });
-      
-      // Specific error for missing activity
-      if (dbError.code === '23503') {
-        return NextResponse.json(
-          { error: 'Activity not found' },
-          { status: 404 }
-        );
-      }
-      
+    if (error) {
+      console.error('Database error:', error);
       return NextResponse.json(
-        { 
-          error: 'Database operation failed',
-          details: process.env.NODE_ENV === 'development' ? dbError.details : undefined
-        },
+        { error: 'Database operation failed' },
         { status: 500 }
       );
     }
 
-    console.log('Successfully created review:', review.id);
-    return NextResponse.json({ review }, { status: 201 });
+    return NextResponse.json({ review: data }, { status: 201 });
 
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('Server error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
