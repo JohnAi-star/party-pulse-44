@@ -2443,6 +2443,166 @@ export const CITIES = [
     image: 'https://images.pexels.com/photos/7234219/pexels-photo-7234219.jpeg',
     description: 'Historic Dutch city with canals and Delftware pottery'
 },
+{
+    id: 'new-york',
+    name: 'New York',
+    activities: 150,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/290386/pexels-photo-290386.jpeg',
+    description: 'The city that never sleeps'
+  },
+  {
+    id: 'los-angeles',
+    name: 'Los Angeles',
+    activities: 110,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/532826/pexels-photo-532826.jpeg',
+    description: 'Sun, beaches, and Hollywood glamour'
+  },
+  {
+    id: 'chicago',
+    name: 'Chicago',
+    activities: 90,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/161963/chicago-illinois-skyline-skyscrapers-161963.jpeg',
+    description: 'Windy City with iconic architecture'
+  },
+  {
+    id: 'houston',
+    name: 'Houston',
+    activities: 70,
+    region: 'usa',
+    image: 'https://images.unsplash.com/photo-1605540436563-5bca919ae766?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG91c3RvbiUyMHNreWxpbmV8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60',
+    description: 'Space City with southern charm'
+  },
+  {
+    id: 'miami',
+    name: 'Miami',
+    activities: 80,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg',
+    description: 'Tropical vibes and vibrant nightlife'
+  },
+  {
+    id: 'atlanta',
+    name: 'Atlanta',
+    activities: 65,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/1578126/pexels-photo-1578126.jpeg',
+    description: 'Southern hub for culture and business'
+  },
+  {
+    id: 'dallas',
+    name: 'Dallas',
+    activities: 60,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/280222/pexels-photo-280222.jpeg',
+    description: 'Texan metropolis with modern energy'
+  },
+  {
+    id: 'washington-dc',
+    name: 'Washington, D.C.',
+    activities: 75,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/208702/pexels-photo-208702.jpeg',
+    description: 'Historic capital of the United States'
+  },
+  {
+    id: 'philadelphia',
+    name: 'Philadelphia',
+    activities: 55,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/3254729/pexels-photo-3254729.jpeg',
+    description: 'Birthplace of American democracy'
+  },
+  {
+    id: 'boston',
+    name: 'Boston',
+    activities: 70,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/167200/pexels-photo-167200.jpeg',
+    description: 'Historic city with academic prestige'
+  },
+  {
+    id: 'san-francisco',
+    name: 'San Francisco',
+    activities: 85,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/208745/pexels-photo-208745.jpeg',
+    description: 'Golden Gate and tech innovation'
+  },
+  {
+    id: 'seattle',
+    name: 'Seattle',
+    activities: 65,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/373290/pexels-photo-373290.jpeg',
+    description: 'Coffee culture and scenic waterfronts'
+  },
+  {
+    id: 'denver',
+    name: 'Denver',
+    activities: 50,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/1257100/pexels-photo-1257100.jpeg',
+    description: 'Mile-high city with outdoor adventures'
+  },
+  {
+    id: 'las-vegas',
+    name: 'Las Vegas',
+    activities: 95,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/1458457/pexels-photo-1458457.jpeg',
+    description: 'Entertainment capital of the world'
+  },
+  {
+    id: 'phoenix',
+    name: 'Phoenix',
+    activities: 45,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/534220/pexels-photo-534220.jpeg',
+    description: 'Desert city with year-round sunshine'
+  },
+  {
+    id: 'san-diego',
+    name: 'San Diego',
+    activities: 60,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/457882/pexels-photo-457882.jpeg',
+    description: 'Beaches and laid-back California vibe'
+  },
+  {
+    id: 'orlando',
+    name: 'Orlando',
+    activities: 75,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/1450082/pexels-photo-1450082.jpeg',
+    description: 'Theme park capital of the world'
+  },
+  {
+    id: 'austin',
+    name: 'Austin',
+    activities: 55,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/273204/pexels-photo-273204.jpeg',
+    description: 'Live music and Texan creativity'
+  },
+  {
+    id: 'nashville',
+    name: 'Nashville',
+    activities: 50,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/618079/pexels-photo-618079.jpeg',
+    description: 'Country music and southern hospitality'
+  },
+  {
+    id: 'new-orleans',
+    name: 'New Orleans',
+    activities: 65,
+    region: 'usa',
+    image: 'https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg',
+    description: 'Jazz, Creole culture, and Mardi Gras'
+  }
 ];
 
 export const REGIONS = [
