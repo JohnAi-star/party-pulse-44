@@ -35,6 +35,7 @@ export default function CategorySection() {
                     alt={category.title}
                     fill
                     className="object-cover"
+                    loading='lazy'
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                   

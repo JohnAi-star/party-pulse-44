@@ -24,6 +24,7 @@ export default function CitySection() {
                   alt={city.name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  loading='lazy'
                 />
                 <div className="absolute inset-0 bg-black opacity-30 group-hover:opacity-20 transition-opacity" />
               </div>

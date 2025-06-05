@@ -35,6 +35,7 @@ export default function ActivityCard({ activity, onFavoriteToggle }: ActivityCar
             alt={activity.title}
             fill
             className="object-cover"
+            loading='lazy'
           />
           <div className="absolute top-3 left-3 flex gap-2">
             <Badge className="bg-gradient-to-r from-purple-600 to-pink-600">

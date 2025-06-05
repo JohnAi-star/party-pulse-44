@@ -31,6 +31,7 @@ export default function Hero() {
           fill
           priority
           className="object-cover brightness-[0.65]"
+          loading='lazy'
         />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">

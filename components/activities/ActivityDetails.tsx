@@ -74,6 +74,7 @@ export default function ActivityDetails({
             alt={activity.title}
             fill
             className="object-cover"
+            loading='lazy'
           />
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
             {activity.images.map((_, index) => (

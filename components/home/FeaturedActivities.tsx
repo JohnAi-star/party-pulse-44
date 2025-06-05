@@ -32,6 +32,7 @@ export default function FeaturedActivities() {
                   alt={activity.title}
                   fill
                   className="object-cover"
+                  loading='lazy'
                 />
                 <Badge className="absolute top-3 left-3 bg-gradient-to-r from-purple-600 to-pink-600">
                   {activity.category}

@@ -30,6 +30,7 @@ export default function VenueCard({ venue }: VenueCardProps) {
                         alt={venue.name}
                         fill
                         className="object-cover"
+                        loading='lazy'
                     />
                     <div className="absolute top-4 left-4 flex gap-2">
                         <Badge className="bg-white/90 text-black">

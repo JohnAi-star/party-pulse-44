@@ -25,6 +25,7 @@ export default function BlogPage() {
                 alt={post.title}
                 fill
                 className="object-cover"
+                loading='lazy'
               />
               <div className="absolute top-4 left-4">
                 <span className="bg-white/90 backdrop-blur-sm text-sm font-medium px-3 py-1 rounded-full">

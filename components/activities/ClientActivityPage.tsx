@@ -136,6 +136,7 @@ export default function ClientActivityPage({ activity, images }: ClientActivityP
               className="object-cover"
               fill
               priority
+              loading='lazy'
             />
             {images.length > 1 && (
               <>

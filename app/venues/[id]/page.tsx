@@ -701,6 +701,7 @@ export default function VenueDetailsPage({ params }: { params: { id: string } })
                   alt={venue.name}
                   fill
                   className="object-cover"
+                  loading='lazy'
                 />
               </div>
             </div>
@@ -711,6 +712,7 @@ export default function VenueDetailsPage({ params }: { params: { id: string } })
                   alt={`${venue.name} ${index + 2}`}
                   fill
                   className="object-cover"
+                  loading='lazy'
                 />
               </div>
             ))}
@@ -825,6 +827,7 @@ export default function VenueDetailsPage({ params }: { params: { id: string } })
                   alt="Floor Plan"
                   fill
                   className="object-cover"
+                  loading='lazy'
                 />
               </div>
             </TabsContent>

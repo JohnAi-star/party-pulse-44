@@ -103,6 +103,7 @@ export default function Navbar() {
                                       src={activity.image}
                                       alt={activity.title}
                                       className="object-cover w-full h-full"
+                                      loading="lazy"
                                     />
                                   </div>
                                   <div className="flex-1 min-w-0">
